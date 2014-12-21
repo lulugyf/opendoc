@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="WSndCmdDay">
+	<typeAlias alias="WSndCmdDay" type="com.sitech.rom.common.dto.WSndCmdDay" />
+	
+	<!-- 工单汇总查询 -->
+	<select id="select-total-inquiry" parameterClass="WSndCmdDay" resultClass="WSndCmdDay">
+		<![CDATA[ WITH x AS
+		 (SELECT *
+		    FROM $tableName$
+		   WHERE send_status = '1'
+		]]>
+				<isPropertyAvailable property="hlrCode" prepend="and">
+					<isNotNull property="hlrCode">
+						<isNotEmpty property="hlrCode">
+							HLR_CODE = #hlrCode#
+						</isNotEmpty>
+					</isNotNull>
+				</isPropertyAvailable>
+				<isPropertyAvailable property="fromId" prepend="and">
+					<isNotNull property="fromId">
+						<isNotEmpty property="fromId">
+							FROM_ID = #fromId#
+						</isNotEmpty>
+					</isNotNull>
+				</isPropertyAvailable>
+				<isPropertyAvailable property="opTimeStart" prepend="and">
+				<isNotNull property="opTimeStart">
+					<isNotEmpty property="opTimeStart">
+						<![CDATA[ OP_TIME >= #opTimeStart# ]]>
+					</isNotEmpty>
+				</isNotNull>
+				</isPropertyAvailable>
+				<isPropertyAvailable property="opTimeEnd" prepend="and">
+					<isNotNull property="opTimeEnd">
+						<isNotEmpty property="opTimeEnd">
+							<![CDATA[ OP_TIME <= #opTimeEnd# ]]>
+						</isNotEmpty>
+					</isNotNull>
+				</isPropertyAvailable>
+		    <![CDATA[ )
+		SELECT a.hlr_code as hlrCode,
+		       a.from_id as fromId,
+		       a.totalnum as totalNum,
+		       b.sucessnum as succNum,
+		       c.failnum as failNum,
+		       ROUND(b.sucessnum / a.totalnum, 4) * 100 AS suceccPerc,
+               ROUND(c.failnum / a.totalnum, 4) * 100 AS failPerc               
+		  FROM (SELECT t.hlr_code, t.from_id, COUNT(1) AS totalnum
+		          FROM x t
+		         GROUP BY t.hlr_code, t.from_id) a,
+		       (SELECT t.hlr_code, t.from_id, COUNT(1) AS sucessnum
+		          FROM x t
+		         WHERE to_number(ack_code) = '0'
+		         GROUP BY t.hlr_code, t.from_id) b,
+		       (SELECT t.hlr_code, t.from_id, COUNT(1) AS failnum
+		          FROM x t
+		         WHERE to_number(nvl(ack_code, 1)) <> 0
+		         GROUP BY t.hlr_code, t.from_id) c
+		   ]]>    
+	</select>
+	
+	<!-- 工单明细查询 -->
+	<select id="select-detail-inquiry" parameterClass="WSndCmdDay" resultClass="WSndCmdDay">
+	   <![CDATA[  SELECT hlr_code as hlrCode,
+		        trim(imsi_no) as imsiNo,
+		        trim(id_no)   as idNo,
+		        login_accept as loginAccept,
+		        op_code as opCode,
+		        other_char as otherChar,
+		        trim(ack_code) as ackCode,
+		        to_char(send_time,'yyyy-mm-dd hh24:mi:ss') as sendTime
+			  FROM $tableName$ 
+			 WHERE send_status = '1'
+	    ]]>
+	         <isPropertyAvailable property="hlrCode" prepend="and">
+					<isNotNull property="hlrCode">
+						<isNotEmpty property="hlrCode">
+							HLR_CODE = #hlrCode#
+						</isNotEmpty>
+					</isNotNull>
+			 </isPropertyAvailable>
+             <isPropertyAvailable property="imsiNo" prepend="and">
+					<isNotNull property="imsiNo">
+						<isNotEmpty property="imsiNo">
+							TRIM(IMSI_NO) = #imsiNo#
+						</isNotEmpty>
+					</isNotNull>
+				</isPropertyAvailable>
+				 <isPropertyAvailable property="idNo" prepend="and">
+					<isNotNull property="idNo">
+						<isNotEmpty property="idNo">
+							TRIM(ID_NO) = #idNo#
+						</isNotEmpty>
+					</isNotNull>
+				</isPropertyAvailable>
+				<isPropertyAvailable property="opTimeStart" prepend="and">
+				<isNotNull property="opTimeStart">
+					<isNotEmpty property="opTimeStart">
+						<![CDATA[ OP_TIME >= #opTimeStart# ]]>
+					</isNotEmpty>
+				</isNotNull>
+				</isPropertyAvailable>
+				<isPropertyAvailable property="opTimeEnd" prepend="and">
+					<isNotNull property="opTimeEnd">
+						<isNotEmpty property="opTimeEnd">
+							<![CDATA[ OP_TIME <= #opTimeEnd# ]]>
+						</isNotEmpty>
+					</isNotNull>
+				</isPropertyAvailable>				
+				<isPropertyAvailable property="flag" prepend="and">
+				<isNotNull property="flag">
+					<isNotEmpty property="flag">
+					     <isEqual property="flag" compareValue="0">
+							 to_number(nvl(ack_code,'1')) = 0
+						  </isEqual>
+						  <isEqual property="flag" compareValue="1">
+							<![CDATA[ to_number(nvl(ack_code,'1')) <> 0 ]]>
+						  </isEqual>		               
+					</isNotEmpty>
+				</isNotNull>
+				</isPropertyAvailable>
+	   <![CDATA[  ORDER By 	login_accept asc		  ]]>  
+	</select>
+	
+	<!-- 工单汇总失败工单查询 -->
+	<select id="select-total-inquiry-fail" parameterClass="WSndCmdDay" resultClass="WSndCmdDay">
+	     <![CDATA[  SELECT hlr_code as hlrCode,
+	            from_id as fromId,
+		        trim(imsi_no) as imsiNo,
+		        trim(id_no)   as idNo,
+		        login_accept as loginAccept,
+		        op_code as opCode,
+		        command_code as commandCode,
+		        other_char as otherChar,
+		        trim(ack_code) as ackCode,
+		        ack_info as ackInfo,
+		        to_char(send_time,'yyyy-mm-dd hh24:mi:ss') as sendTime
+			  FROM $tableName$ 
+			 WHERE send_status = '1'
+			  And  to_number(nvl(ack_code,'1')) <> 0 
+	    ]]>
+	         <isPropertyAvailable property="hlrCode" prepend="and">
+					<isNotNull property="hlrCode">
+						<isNotEmpty property="hlrCode">
+							HLR_CODE = #hlrCode#
+						</isNotEmpty>
+					</isNotNull>
+			 </isPropertyAvailable>
+			 <isPropertyAvailable property="fromId" prepend="and">
+					<isNotNull property="fromId">
+						<isNotEmpty property="fromId">
+							FROM_ID = #fromId#
+						</isNotEmpty>
+					</isNotNull>
+				</isPropertyAvailable>
+			 <isPropertyAvailable property="opTimeStart" prepend="and">
+				<isNotNull property="opTimeStart">
+					<isNotEmpty property="opTimeStart">
+						<![CDATA[ OP_TIME >= #opTimeStart# ]]>
+					</isNotEmpty>
+				</isNotNull>
+				</isPropertyAvailable>
+				<isPropertyAvailable property="opTimeEnd" prepend="and">
+					<isNotNull property="opTimeEnd">
+						<isNotEmpty property="opTimeEnd">
+							<![CDATA[ OP_TIME <= #opTimeEnd# ]]>
+						</isNotEmpty>
+					</isNotNull>
+				</isPropertyAvailable>		
+			<![CDATA[ order by 	login_accept asc	]]>
+	</select>
+
+	<sql id="select-all-column">
+		SELECT
+		nvl(ACK_CODE,'') AS ackCode ,
+		nvl(ACK_INFO,'') AS ackInfo ,
+		nvl(to_char(ACK_TIME,'YYYYMMDD hh24:mi:ss'),'') AS ackTime ,
+		nvl(BELONG_CODE,'') AS belongCode ,
+		nvl(BUSINESS_STATUS,'') AS businessStatus ,
+		nvl(COMMAND_CODE,'') AS commandCode ,
+		nvl(COMMAND_ID,0) AS commandId ,
+		nvl(COMMAND_ORDER,0) AS commandOrder ,
+		nvl(CRM_ORDER_ID,'') AS crmOrderId ,
+		nvl(FROM_ID,'') AS fromId ,
+		nvl(GROUP_ID,'') AS groupId ,
+		nvl(HLR_CODE,'') AS hlrCode ,
+		nvl(ID_NO,0) AS idNo ,
+		nvl(IMSI_NO,'') AS imsiNo ,
+		nvl(LOGIN_ACCEPT,'') AS loginAccept ,
+		nvl(LOGIN_NO,'') AS loginNo ,
+		nvl(NEW_IMSI,'') AS newImsi ,
+		nvl(NEW_PHONE,'') AS newPhone ,
+		nvl(OP_CODE,'') AS opCode ,
+		nvl(to_char(OP_TIME,'YYYYMMDD hh24:mi:ss'),'')  AS opTime ,
+		nvl(ORG_CODE,'') AS orgCode ,
+		nvl(ORG_ID,'') AS orgId ,
+		nvl(OTHER_CHAR,'') AS otherChar ,
+		nvl(PHONE_NO,'') AS phoneNo ,
+		nvl(to_char(REQUEST_TIME,'YYYYMMDD hh24:mi:ss'),'')  AS requestTime ,
+		nvl(SEND_STATUS,'') AS sendStatus ,
+		nvl(to_char(SEND_TIME,'YYYYMMDD hh24:mi:ss'),'') AS sendTime ,
+		nvl(SM_CODE,'') AS smCode ,
+		nvl(TOTAL_DATE,0) AS totalDate  
+	</sql>
+
+	<!-- 查询指令明细 -->
+	<select id="selectCmdDetail" parameterClass="hashMap" resultClass="WSndCmdDay">
+		<include refid="select-all-column" />
+		<isEqual property="type" compareValue="delayed">
+			<isEqual property="ipPort" compareValue="10.212.8.153|8000">
+				FROM wsndcmdday_nds WHERE hlr_code = 'C' and from_id = '0001' and send_status = '0'
+					<![CDATA[ and send_time < sysdate ]]>
+			</isEqual>
+			<isEqual property="ipPort" compareValue="172.21.1.36|8000">
+				FROM wsndcmdday_nds WHERE hlr_code = 'C' and from_id = '0001' and send_status = '0'
+					<![CDATA[ and send_time < sysdate ]]>
+			</isEqual>
+		</isEqual>
+		
+		<isEqual property="type" compareValue="error">
+			<isEqual property="ipPort" compareValue="10.212.8.153|8000">
+				FROM wsndcmdday_nds WHERE hlr_code = 'C' and from_id = '0001' and send_status = '1' and ack_code != '0000'
+					<![CDATA[ and send_time < sysdate ]]>
+			</isEqual>
+			<isEqual property="ipPort" compareValue="172.21.1.36|8001">
+				FROM wsndcmdday_nds WHERE hlr_code = 'C' and from_id = '0001' and send_status = '1' and ack_code != '0000'
+					<![CDATA[ and send_time < sysdate ]]>
+			</isEqual>
+		</isEqual>
+	</select>
+
+
+
+
+</sqlMap>

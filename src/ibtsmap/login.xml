@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="login">
+	<typeAlias alias="RomProCode" type="com.sitech.rom.common.dto.RomProCode"/>
+	<typeAlias alias="RomSysFunction" type="com.sitech.rom.common.dto.RomSysFunction"/>
+	<typeAlias alias="LoginProBo" type="com.sitech.rom.common.bo.LoginProBo"/>
+	
+	<select id="selectRomProCode" resultClass="RomProCode">
+	SELECT
+		PRO_CODE AS proCode,
+		PRO_NAME AS proName,
+		PRO_VERSION AS proVersion,
+		REMARKS AS remarks	
+	FROM ROM_PRO_CODE
+order by proName
+	</select>
+	
+	<!-- 通过工号查询工号对应的所有功能列表 -->
+	<select id="qryFunctionByLoginPro" parameterClass="LoginProBo" resultClass="RomSysFunction">
+		SELECT distinct
+              e.FUNCTION_CODE AS functionCode,
+              e.FUNCTION_NAME AS functionName,
+              e.ACTION_NAME AS actionName,
+              e.NODE_TYPE AS nodeType,
+              e.PARENT_CODE AS parentCode,
+              e.OPERATION_CODE AS operationCode,
+              e.NOTE_SEQ,
+              e.REMARKS AS remarks,
+              e.OPEN_TYPE as openType    
+         FROM rom_login_role_relation b, rom_sys_role c, rom_sys_role_function d, 
+              rom_sys_function e, rom_sys_pro_function f
+        WHERE b.role_id = c.role_id
+          AND c.role_id = d.role_id
+          AND d.function_code = e.function_code
+          AND e.function_code = f.function_code
+          AND e.NODE_TYPE ='0'
+          AND f.pro_code = c.pro_code
+          AND b.login_no=#loginNo#
+          AND f.pro_code=#proCode#
+        ORDER BY e.PARENT_CODE,e.FUNCTION_CODE  
+	</select> 
+</sqlMap>

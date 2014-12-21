@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="RomOperaCode">
+	<typeAlias alias="RomOperaCode" type="com.sitech.rom.common.dto.RomOperaCode"/>
+	
+	<resultMap id="RomOperaCodeResult" class="RomOperaCode">
+		<result property="operaCode" column="OPERA_CODE"/>
+		<result property="operaName" column="OPERA_NAME"/>
+		<result property="remarks" column="REMARKS"/>
+  	</resultMap>
+
+	<sql id="select-all-column">
+	SELECT
+		OPERA_CODE AS operaCode,
+		OPERA_NAME AS operaName,
+		REMARKS AS remarks	
+	FROM ROM_OPERA_CODE
+	</sql>
+	
+	<sql id="where-all-condition">
+	<dynamic prepend=" WHERE ">
+		<isPropertyAvailable property="operaCode" prepend="and">
+			<isNotNull property="operaCode">
+				<isNotEmpty property="operaCode">
+					OPERA_CODE = #operaCode#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="operaName" prepend="and">
+			<isNotNull property="operaName">
+				<isNotEmpty property="operaName">
+					OPERA_NAME = #operaName#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="remarks" prepend="and">
+			<isNotNull property="remarks">
+				<isNotEmpty property="remarks">
+					REMARKS = #remarks#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+	</dynamic>
+	</sql>
+
+	<select id="selectRomOperaCode" parameterClass="RomOperaCode" resultClass="RomOperaCode">
+		<include refid="select-all-column"/>
+		<include refid="where-all-condition"/>
+	</select>
+	
+	<insert id="insertRomOperaCode" parameterClass="RomOperaCode">
+	INSERT INTO ROM_OPERA_CODE (
+		OPERA_CODE,
+		OPERA_NAME,
+		REMARKS
+	) VALUES (
+		#operaCode# ,
+		#operaName# ,
+		#remarks#     
+	)
+	</insert>
+	
+	<update id="updateRomOperaCode" parameterClass="java.util.Map">
+	UPDATE ROM_OPERA_CODE
+	<dynamic prepend=" SET ">
+		<isNotNull property="_operaCode" prepend=",">
+			OPERA_CODE = #_operaCode#
+		</isNotNull>
+		<isNotNull property="_operaName" prepend=",">
+			OPERA_NAME = #_operaName#
+		</isNotNull>
+		<isNotNull property="_remarks" prepend=",">
+			REMARKS = #_remarks#
+		</isNotNull>
+	</dynamic>
+
+	<include refid="where-all-condition"/>
+	</update>
+	
+
+	<delete id="deleteRomOperaCode" parameterClass="RomOperaCode">
+	DELETE FROM ROM_OPERA_CODE
+	<include refid="where-all-condition"/>
+	</delete>
+	
+	<select id="selectRomOperaCodeParam" parameterClass="java.util.Map" resultClass="RomOperaCode">
+		<isEmpty property="S">
+			SELECT
+			OPERA_CODE AS operaCode,
+			OPERA_NAME AS operaName,
+			REMARKS AS remarks
+		</isEmpty>
+		<isNotEmpty property="S">
+			SELECT $S$
+		</isNotEmpty>
+		 	FROM ROM_OPERA_CODE $W$
+	</select>
+</sqlMap>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="spopedom">
+<typeAlias alias="RomSysFunction" type="com.sitech.rom.common.dto.RomSysFunction"/>
+<typeAlias alias="PopedomBo" type="com.sitech.rom.common.bo.PopedomBo"/>
+<typeAlias alias="LoginProBo" type="com.sitech.rom.common.bo.LoginProBo"/>
+
+	<!-- 通过工号查询工号对应的所有功能列表 -->
+	<select id="qryFunctionByLoginPro" parameterClass="LoginProBo" resultClass="RomSysFunction">
+		SELECT distinct
+              e.FUNCTION_CODE AS functionCode,
+              e.FUNCTION_NAME AS functionName,
+              e.ACTION_NAME AS actionName,
+              e.NODE_TYPE AS nodeType,
+              e.PARENT_CODE AS parentCode,
+              e.OPERATION_CODE AS operationCode,
+              e.NOTE_SEQ,
+              e.REMARKS AS remarks,
+              e.OPEN_TYPE as openType    
+         FROM rom_login_role_relation b, rom_sys_role c, rom_sys_role_function d, 
+              rom_sys_function e, rom_sys_pro_function f
+        WHERE b.role_id = c.role_id
+          AND c.role_id = d.role_id
+          AND d.function_code = e.function_code
+          AND e.function_code = f.function_code
+          AND e.NODE_TYPE ='0'
+          AND f.pro_code = c.pro_code
+          AND b.login_no=#loginNo#
+          AND f.pro_code=#proCode#
+        ORDER BY e.NOTE_SEQ,e.FUNCTION_CODE  
+	</select> 
+	
+	<!-- 查询权限注册信息 -->
+	<select id="qryPopedomInfo" parameterClass="PopedomBo" resultClass="PopedomBo">
+		SELECT   
+              a.FUNCTION_CODE AS functionCode,
+              a.ACTION_NAME AS actionName,
+              a.OPERATION_CODE AS oper,
+              b.OPERATION_CODE AS operArr,
+              f.PRO_CODE AS proCode,
+              f.PROVINCE_CODE AS provinceCode,
+              f.TELL_TYPE AS tellType
+         FROM ROM_SYS_POPEDOM a,
+              ROM_SYS_ROLE_FUNCTION b,
+              ROM_SYS_LOGIN c, 
+              ROM_LOGIN_ROLE_RELATION d,
+              ROM_SYS_PRO_FUNCTION e, 
+              ROM_SYS_ROLE f
+        WHERE a.FUNCTION_CODE = b.FUNCTION_CODE
+          AND b.ROLE_ID = d.ROLE_ID
+          AND c.LOGIN_NO = d.LOGIN_NO
+          AND e.FUNCTION_CODE=b.FUNCTION_CODE
+          AND f.PRO_CODE = e.PRO_CODE
+          AND b.ROLE_ID = f.ROLE_ID
+          AND d.LOGIN_NO=#loginNo#
+          AND a.ACTION_NAME=#actionName#
+          AND f.PRO_CODE=#proCode#
+          AND a.FUNCTION_CODE=#opCode#
+          <isPropertyAvailable property="provinceCode" prepend="and">
+			<isNotNull property="provinceCode">
+				<isNotEmpty property="provinceCode">
+					f.PROVINCE_CODE=#provinceCode#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="tellType" prepend="and">
+			<isNotNull property="tellType">
+				<isNotEmpty property="tellType">
+					f.TELL_TYPE=#tellType#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+	</select> 
+</sqlMap>

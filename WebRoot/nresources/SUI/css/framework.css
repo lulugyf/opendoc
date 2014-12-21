@@ -1,0 +1,1497 @@
+﻿@import url('mztree.css');
+@import url('tabcss/tabStyle.css');
+@import url('common.css');
+@import url('block.css');
+body, h1, table, div, li, ul, img, span {
+	margin: 0;
+	padding: 0;
+	position: relative;
+}
+li {
+	list-style-type: none;
+}
+img {
+	border: 0;
+}
+html {
+	position: static;
+	height: 100%;
+	overflow: hidden;
+	border: none;
+}
+body {
+	font-family: Verdana,宋体;
+	height: 100%;
+	border: none;
+	background: #fff;
+	overflow: hidden;
+	font-size: 12px;
+	min-width: 800px;
+}
+/* TOP */
+#topPanel {
+	z-index: 101;
+	height: 32px;
+	background: #e8f0f6 url('../images/framework.png') repeat-x 0 -40px;
+}
+#topPanel #menuPanel {
+	height: 32px;
+	z-index: 100000;
+}
+#topPanel #menuPanel .head-logo {
+	width: 200px;
+	height: 32px;
+	overflow: hidden;
+	background: url(../images/framework.png) no-repeat 0px 0px;
+	float: left;
+}
+#topPanel #menuPanel .esop-logo {
+	width: 185px;
+	height: 32px;
+	overflow: hidden;
+	background: url('../images/esop_logo.png') no-repeat 0px 0px;
+	float: left;
+}
+#topPanel #menuPanel .menu_set {
+	background: url('../images/framework.png') no-repeat scroll 0 -256px;
+	width: 45px;
+	height: 19px;
+	float: left;
+	margin: 8px 5px 0px 8px;
+	text-align: left;
+	color: #4575a5;
+	font-size: 12px;
+	position: relative;
+	cursor: pointer;
+}
+
+#topPanel #menuPanel .menu_set .more_panel {
+	position: absolute;
+	top: 20px;
+	right: -6px;
+	display: none;
+	background: silver;
+	float: left;
+	width: 120px;
+	z-index: 102000;
+	line-height: 1em;
+}
+#topPanel #menuPanel .menu_set .more_panel ul {
+	position: relative;
+	background: #fdfeff;
+	left: -2px;
+	top: -2px;
+	border: 1px #257ABB solid;
+	border-bottom: 0;
+	display: block;
+	float: none;
+	z-index: 102001;
+}
+#topPanel #menuPanel .menu_set .more_panel li {
+	height: 22px;
+	border-bottom: 1px #257ABB solid;
+	display: block;
+	padding: 5px 5px 0 6px;
+	margin: 0;
+	float: none;
+	white-space: nowrap;
+	z-index: 102002;
+}
+#topPanel #menuPanel .menu_set .more_panel li.ico_set {
+	background: #fff url('../images/framework.png') no-repeat scroll 0 -707px;
+	display:none; /* 简化版中去除一级菜单中的主菜单定制 by qidp @ 2010-09-26 */
+}
+#topPanel #menuPanel .menu_set .more_panel li.ico_set a {
+	color: #f58017;
+	text-indent: 5px;
+}
+#topPanel #menuPanel .menu {
+	height: 32px;
+	padding: 0;
+	margin: 0 0 0 5px;
+	float: left;
+	overflow: hidden;
+}
+#topPanel #menuPanel .menu ul {
+	margin: 0px;
+	padding: 0px;
+}
+#topPanel #menuPanel .menu li {
+	margin: 0px 2px;
+	float: left;
+	height: 32px;
+	position: relative;
+	text-align: center;
+	padding: 1px 1px 0px 1px;
+	white-space: nowrap;
+}
+#topPanel #menuPanel .menu li .text {
+	text-align: center;
+	float: left;
+	height: 30px;
+	position: relative;
+	color: #056db7;
+	cursor: pointer;
+	padding: 8px 10px 0 10px;
+	margin-top: 3px;
+	line-height: 14px;
+	overflow: hidden;
+}
+#topPanel #menuPanel .menu li a {
+	color: #000;
+	text-decoration: none;
+}
+#topPanel #menuPanel .menu li a:hover {
+	border: 1px solid #e7f0ff;
+	color: #FFFFFF;
+	text-decoration: underline;
+	background: #9ab3d2;
+	opacity: 0.7;
+	padding: 7px 9px 0px 9px;
+	height: 26px;
+}
+#topPanel #menuPanel .menu li.on {
+	float: left;
+	position: relative;
+	text-align: center;
+	padding: 1px 0px 0px 1px;
+	background: url('../images/framework.png') no-repeat scroll right -170px;
+	overflow: hidden;
+}
+#topPanel #menuPanel .menu li.on .text {
+	background: #8ab5e9;
+	border: #056db7 1px solid;
+	margin-left: -1px;
+	padding: 7px 10px 0 10px;
+	color: #fff;
+	overflow: hidden;
+}
+#topPanel #menuPanel .menu li.on a {
+	color: #0152a1;
+}
+#topPanel #menuPanel .menu li.on a:hover {
+	border: 0px;
+	color: #dd6b05;
+	text-decoration: underline;
+	padding: 7px 10px 0 10px;
+	height: 32px;
+	filter: alpha(opacity=100);
+	opacity: 1;
+	background: #d1ecfc;
+	border: #fcfeff 1px solid;
+}
+#topPanel #menuPanel .rightexit {
+	height: 20px;
+	padding: 0px 0px 0px 20px;
+	float: right;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	margin-right: 5px;
+	margin-top: 7px;
+	overflow: hidden;
+	width: 90px;
+}
+#topPanel #menuPanel .rightexit .exit {
+	background: url('../images/framework.png') no-repeat scroll right -109px;
+	width: 50px;
+	height: 31px;
+	float: right;
+	cursor: pointer;
+}
+
+#topPanel #menuPanel .right {
+	height: 32px;
+	padding: 0px 0px 0px 20px;
+	float: right;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	padding: 0 0 0 0;
+	overflow: hidden;
+}
+#topPanel #menuPanel .right .exit {
+	background: url('../images/framework.png') no-repeat scroll right -808px;
+	background: url('../images/framework.png') no-repeat scroll right -109px;
+	width: 42px;
+	height: 31px;
+	float: left;
+	cursor: pointer;
+	margin: 5px 5px 0 0;
+}
+
+#topPanel #menuPanel .right .playerBar {
+	background: url(../images/framework.png) no-repeat right -841px;
+	width: 190px;
+	height: 32px;
+	padding: 3px 3px 0px 5px;
+	position: relative;
+	float: left;
+}
+#topPanel #menuPanel .right .playerBar p {
+	line-height: 20px;
+	margin: 6px 0 0 5px;
+}
+#topPanel #menuPanel .right .playerBar ul {
+	padding: 0;
+	margin: 0;
+}
+#topPanel #menuPanel .right .playerBar li {
+	padding: 0;
+	margin: 0;
+	float: left;
+}
+#topPanel #menuPanel .right .playerBar button {
+	border: 0px;
+	width: 28px;
+	height: 25px;
+	margin: 1px 0px 0px 5px;
+	padding: 0px;
+	cursor: pointer;
+}
+#topPanel #menuPanel .right .playerBar button.btnBackFast {
+	background: url('../images/services_bg.png') no-repeat scroll 0 -35px;
+}
+#topPanel #menuPanel .right .playerBar button.btnForeFast {
+	background: url('../images/services_bg.png') no-repeat scroll 0 -63px;
+}
+#topPanel #menuPanel .right .playerBar button.btnPause {
+	background: url('../images/services_bg.png') no-repeat scroll 0 -119px;
+}
+#topPanel #menuPanel .right .playerBar button.btnStop {
+	background: url('../images/services_bg.png') no-repeat scroll 0 -175px;
+}
+#topPanel #menuPanel .right .playerBar button.btnPlay {
+	background: url('../images/services_bg.png') no-repeat scroll 0 -91px;
+}
+#topPanel #menuPanel .right .playerBar button.btnRecording {
+	background: url('../images/services_bg.png') no-repeat scroll 0 -147px;
+}
+#topPanel #menuPanel .right .playerBar .on button.btnBackFast {
+	background: url('../images/services_bg.png') no-repeat scroll -32px -35px;
+}
+#topPanel #menuPanel .right .playerBar .on button.btnForeFast {
+	background: url('../images/services_bg.png') no-repeat scroll -32px -63px;
+}
+#topPanel #menuPanel .right .playerBar .on button.btnPause {
+	background: url('../images/services_bg.png') no-repeat scroll -32px -119px;
+}
+#topPanel #menuPanel .right .playerBar .on button.btnStop {
+	background: url('../images/services_bg.png') no-repeat scroll -32px -175px;
+}
+#topPanel #menuPanel .right .playerBar .on button.btnPlay {
+	background: url('../images/services_bg.png') no-repeat scroll -32px -91px;
+}
+#topPanel #menuPanel .right .playerBar .on button.btnRecording {
+	background: url('../images/services_bg.png') no-repeat scroll -32px -147px;
+}
+#topPanel #menuPanel .right .lights {
+	background: no-repeat url('../images/framework.png') no-repeat -84px -874px;
+	background: url(../images/framework.png) no-repeat right -841px;
+	width: 100px;
+	padding: 4px 0px 0px 0px;
+	height: 32px;
+	position: relative;
+	float: left;
+}
+#topPanel #menuPanel .right .lights button {
+	border: 0px;
+	width: 20px;
+	height: 20px;
+	margin: 2px 5px 0 5px;
+	padding: 0px;
+	cursor: pointer;
+}
+#topPanel #menuPanel .right .lights button.btnRed {
+	background: url('../images/services_bg.png') no-repeat scroll 0 -200px;
+}
+#topPanel #menuPanel .right .lights button.btnGreen {
+	background: url('../images/services_bg.png') no-repeat scroll 0 -225px;
+}
+#topPanel #menuPanel .right .lights button.btnBusy {
+	background: url('../images/busy.gif') no-repeat scroll 0 0;
+}
+#topPanel #menuPanel .right .lights button.btnRinging {
+	background: url('../images/services_bg.png') no-repeat scroll -0px -482px;
+}
+#topPanel #menuPanel .right .lights button.btnPlayback {
+	background: url('../images/services_bg.png') no-repeat scroll -73px -482px;
+}
+/* SEARCH */
+#searchPanel {
+	height: 31px;
+	background: #8ab5e9;
+	border: #066eb7 1px solid;
+	border-top: none;
+	margin: 0 5px;
+	z-index: 100;
+	clear: both;
+}
+#searchPanel input {
+	border: 0;
+	background: none;
+	margin: 0px 0 0 0px;
+	color: #5f8ab3;
+	height: 18px;
+	line-height: 18px;
+	padding:1px 0 0 5px;
+}
+#searchPanel .serverCase {
+	width: 83px;
+	float: left;
+	height: 31px;
+	margin: 0px;
+	padding: 5px 0 0 10px;
+}
+#searchPanel .serverCase .select {
+	border: #056db7 1px solid;
+	background: #fff url("../images/framework.png") no-repeat scroll 0 -437px;
+	width: 88px;
+	height: 22px;
+	top: 0px;
+}
+#searchPanel .serverCase input {
+	width: 55px;
+}
+#searchPanel .select_panel {
+	position: absolute;
+	width: 100%;
+	background: #fff;
+	top: 22px;
+	left: 0;
+	display: none;
+	margin-top: 0px;
+	border-top: 1px solid #FF4E00;
+	filter: progid:DXImageTransform.Microsoft.Shadow(Color=#dddddd,Direction=120,strength=4);
+}
+#searchPanel .select_panel p {
+	border: 1px solid #FF4E00;
+	padding: 0 4px 0 10px;
+	border-top: 0;
+	margin: 0;
+	height: 20px;
+	cursor: pointer;
+	background: white url('../images/framework.png') no-repeat scroll -189px -494px;
+}
+#searchPanel .serverCase select {
+	opacity: 0;
+	width: 86px;
+	filter: alpha(opacity=1);
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+#searchPanel .serverCase select option {
+	margin: 0px 3px;
+}
+#searchPanel .serverNum {
+	width: auto;
+	height: 24px;
+	float: left;
+	padding: 5px 0 0 0;
+}
+#searchPanel .serverNum .input {
+	height: 21px;
+	width: 189px;
+	background: #fff;
+	border: #056db7 1px solid;
+	border-right: 0;
+	float: left;
+	margin-left: 5px;
+}
+#searchPanel .serverNum input {
+	width: 184px;
+}
+#searchPanel .serverNum button {
+	border: 0;
+	background: url("../images/framework.png") no-repeat scroll 0 -497px transparent;
+	height: 22px;
+	width: 23px;
+	color: #1684d2;
+	cursor: pointer;
+	float: left;
+}
+#searchPanel input.ico_id {
+	width: 24px;
+	height: 22px;
+	cursor: pointer;
+	background: url('../images/framework.png') no-repeat -151px -497px;
+	margin: 0 5px 0 0;
+}
+#searchPanel .quickGo {
+	float: left;
+	height: 24px;
+	background: url('../images/framework.png') no-repeat -198px -518px;
+	width: 240px;
+	padding: 5px 0 0 0;
+}
+#searchPanel .quickGo .input {
+
+	width: 181px;
+	border: 0;
+	background: #fff;
+	border: #056db7 1px solid;
+	border-right: 0;
+	position: absolute;
+	left: 10px;
+}
+#searchPanel .quickGo input {
+	width: 176px;
+}
+#searchPanel .panel {
+	width: 203px;
+	height: 140px;
+	background: white;
+	border: 1px gray solid;
+	position: absolute;
+	top: 27px;
+	left: 0;
+	overflow: auto;
+	z-index: 100;
+	display: none;
+}
+#searchPanel .panel ul {
+	margin: 0px;
+	background: white;
+}
+#searchPanel .panel li {
+	line-height: 22px;
+	background: white;
+}
+#searchPanel .quickGo button {
+	border: 0;
+	width: 23px;
+	height: 22px;
+	position: absolute;
+	left: 191px;
+	cursor: pointer;
+}
+#searchPanel .quickGo button.key {
+	background: url("../images/framework.png") no-repeat scroll -76px -497px transparent;
+}
+#searchPanel .quickGo button.keyOn {
+	background: url('../images/framework.png') no-repeat scroll -38px -497px;
+}
+#searchPanel .layerout {
+	position: absolute;
+	width: auto;
+	height: 31px;
+	right: 0px;
+	padding: 0 0 0 10px;
+	border-left:1px #056db7 solid;
+}
+#searchPanel .layerout li {
+	width: 20px;
+	height: 18px;
+	float: left;
+	margin: 7px 5px 0 5px;
+	cursor: pointer;
+}
+#searchPanel .layerout .aSpace {
+	background: transparent url('../images/framework.png') no-repeat scroll 0 -556px;
+}
+#searchPanel .layerout .aSpaceOn {
+	background: transparent url('../images/framework.png') no-repeat scroll 0 -529px;
+}
+#searchPanel .layerout .bSpace {
+	background: transparent url('../images/framework.png') no-repeat scroll -38px -556px;
+}
+#searchPanel .layerout .bSpaceOn {
+	background: transparent url('../images/framework.png') no-repeat scroll -38px -529px;
+}
+#searchPanel .layerout .cSpace {
+	background: transparent url('../images/framework.png') no-repeat scroll -76px -556px;
+}
+#searchPanel .layerout .cSpaceOn {
+	background: transparent url('../images/framework.png') no-repeat scroll -76px -529px;
+}
+#searchPanel .layerout .dSpace {
+	background: transparent url('../images/framework.png') no-repeat scroll -114px -556px;
+}
+#searchPanel .layerout .dSpaceOn {
+	background: transparent url('../images/framework.png') no-repeat scroll -114px -529px;
+}
+#searchPanel .layerout li.more_set {
+	width: 120px;
+	height: 31px;
+	float: left;
+	margin: 0 0 0 5px;
+	padding:7px 15px 0 15px;
+	cursor: pointer;
+	position: relative;
+	background: url('../images/framework.png') no-repeat right -399px;
+	color:#fff;
+	border-left:1px #056db7 solid;
+	display:none;
+}
+
+#searchPanel .layerout li.more_set .more_panel {
+	position: absolute;
+	top: 28px;
+	right: 5px;
+	display: none;
+	background: silver;
+	text-decoration: none;
+}
+#searchPanel .layerout li.more_set .more_panel ul {
+	position: relative;
+	background: #fff;
+	left: -2px;
+	top: -2px;
+	border: 1px #257ABB solid;
+	border-bottom: 0;
+	display: block;
+	float: none;
+}
+#searchPanel .layerout li.more_set .more_panel li {
+	height: 24px;
+	border-bottom: 1px #257ABB solid;
+	display: block;
+	padding: 3px 5px 2px 15px;
+	margin: 0;
+	float: none;
+	white-space: nowrap;
+	width: 120px;
+	overflow: hidden;
+}
+#searchPanel .layerout li.more_set .more_panel li.theme {
+	background: url('../images/framework.png') no-repeat scroll -175px -644px;
+	text-indent: 12px;
+}
+#searchPanel .layerout li.more_set .more_panel li.menu {
+	background: url('../images/framework.png') no-repeat scroll -175px -669px;
+	text-indent: 12px;
+}
+#searchPanel .layerout li.more_set .more_panel li.work {
+	background: url('../images/framework.png') no-repeat scroll -175px -719px;
+	text-indent: 12px;
+}
+/*----service start----*/
+#shortcutPanel {
+	height: 1%;
+	clear: both;
+	z-index: 1;
+}
+#shortcutPanel .leftBg {
+	width: 5px;
+	background: #fff;
+	border-right: #066eb7 1px solid;
+	padding: 0;
+	margin: 0;
+	height: 31px;
+	float: left;
+	white-space: nowrap;
+}
+#shortcutPanel .left_menu {
+	width: auto;
+	background: #8ab5e9;
+	border-right: 1px solid #066eb7;
+	border-bottom: 1px solid #066eb7;
+	padding: 6px 10px 2px 10px;
+	height: 31px;
+	float: left;
+	white-space: nowrap;
+}
+#shortcutPanel .left_menu a {
+	float: left;
+	margin: 0 10px 0 2px;
+	color:#fff;
+}
+#shortcutPanel .shortcutMenu {
+	border-bottom: 1px solid #066eb7;
+	border-right: 1px solid #066eb7;
+	background: #8ab5e9;
+	width: auto;
+	padding: 0px 10px 0 10px;
+	margin: 0 5px 0 0;
+	height: 31px;
+	float: right;
+	z-index: 1;
+}
+#shortcutPanel .shortcutMenu ul {
+	padding: 0 0 0 0px;
+	margin: 0;
+	float: right;
+	height: 30px;
+	white-space: nowrap;
+	z-index: 1;
+}
+#shortcutPanel .shortcutMenu li {
+	margin: 2px 0 0 8px;
+	padding: 0;
+	float: left;
+	text-align: left;
+	position: relative;
+	line-height: 20px;
+	overflow: hidden;
+	z-index: 1;
+}
+#shortcutPanel .shortcutMenu li a {
+	color: #000;
+	text-decoration: none;
+	padding: 0px 5px;
+	margin: 0;
+	width: 30px;
+	height: 28px;
+	overflow: hidden;
+}
+#shortcutPanel .shortcutMenu li a:hover {
+	border-top: 1px solid #92a6c9;
+	border-left: 1px solid #92a6c9;
+	border-right: 1px solid #fffeff;
+	border-bottom: 1px solid #fffeff;
+	padding: 5px 5px 0 25px;
+	margin: 0;
+	height: 26px;
+	width: 30px;
+}
+#shortcutPanel .shortcutMenu li.off a:hover {
+	border: 0px solid #92a6c9;
+	padding: 5px 5px 0 25px;
+	margin: 0;
+	height: 26px;
+	width: 30px;
+	text-decoration: none;
+}
+#shortcutPanel .shortcutMenu li .ccs {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -823px;
+	padding: 3px 1px 0 25px;
+	margin: 1px 0 0 5px;
+	height: 24px;
+}
+#shortcutPanel .shortcutMenu li .ylkz {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -723px;
+	padding: 3px 1px 0 25px;
+	margin: 1px 0 0 5px;
+	height: 24px;
+}
+#shortcutPanel .shortcutMenu li .xx {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -925px;
+	padding: 3px 1px 0 25px;
+	margin: 1px 0 0 5px;
+	height: 24px;
+}
+#shortcutPanel .shortcutMenu li .zhjx {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -774px;
+	padding: 3px 1px 0 25px;
+	margin: 1px 0 0 5px;
+	height: 24px;
+}
+#shortcutPanel .shortcutMenu li .ybqd {
+	background: url('../images/services_menu.gif') no-repeat 0px -1225px;
+	padding: 3px 1px 0 25px;
+	margin: 1px 0 0 5px;
+	height: 24px;
+}
+#shortcutPanel .shortcutMenu li .qj {
+	background: url('../images/services_menu.gif') no-repeat 0px -1076px;
+	padding: 3px 1px 0 25px;
+	margin: 1px 0 0 5px;
+	height: 24px;
+}
+#shortcutPanel .shortcutMenu li .sr {
+	background: url('../images/services_menu.gif') no-repeat 0px 0px;
+	padding: 3px 1px 0 25px;
+	margin: 1px 0 0 5px;
+	height: 24px;
+}
+#shortcutPanel .shortcutMenu li .heart {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -574px;
+	padding: 3px 1px 0 25px;
+	height: 24px;
+}
+#shortcutPanel .shortcutMenu li .jtsf {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -674px;
+	padding: 3px 1px 0 25px;
+	height: 24px;
+}
+#shortcutPanel .shortcutMenu li .lhyd {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -624px;
+	padding: 3px 1px 0 25px;
+	height: 24px;
+}
+#shortcutPanel .shortcutMenu li .zltys {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -1174px;
+	padding: 3px 1px 0 25px;
+	height: 24px;
+}
+#shortcutPanel .shortcutMenu li .zslk {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -974px;
+	padding: 3px 1px 0 25px;
+	height: 24px;
+}
+#shortcutPanel .shortcutMenu li .qqlh {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -1275px;
+	padding: 3px 1px 0 25px;
+	height: 24px;
+}
+#shortcutPanel .shortcutMenu li .ksxx {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -1476px;
+	padding: 3px 1px 0 25px;
+	margin: 1px 0 0 5px;
+	height: 24px;
+}
+#shortcutPanel .shortcutMenu li .jsxx {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -1525px;
+	padding: 3px 1px 0 25px;
+	margin: 1px 0 0 5px;
+	height: 24px;
+}
+#shortcutPanel .shortcutMenu li .xj {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -1575px;
+	padding: 3px 1px 0 25px;
+	margin: 1px 0 0 5px;
+	height: 24px;
+}
+#shortcutPanel .shortcutMenu li .xxjs {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -1626px;
+	padding: 3px 1px 0 25px;
+	margin: 1px 0 0 5px;
+	height: 24px;
+}
+#shortcutPanel .shortcutMenu li .jy {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -1675px;
+	padding: 3px 1px 0 25px;
+	margin: 1px 0 0 5px;
+	height: 24px;
+}
+#shortcutPanel .shortcutMenu li .qxjy {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -1723px;
+	padding: 3px 1px 0 25px;
+	margin: 1px 0 0 5px;
+	height: 24px;
+}
+#shortcutPanel .shortcutMenu li .fstz {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -1772px;
+	padding: 3px 1px 0 25px;
+	margin: 1px 0 0 5px;
+	height: 24px;
+}
+#shortcutPanel .shortcutMenu li.off {
+	filter: alpha(opacity=40);
+}
+#shortcutPanel .shortcutMenu li.off .sr {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -25px;
+	padding: 3px 1px 0 25px;
+	height: 24px;
+}
+#shortcutPanel .shortcutMenu li.off .heart {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -600px;
+	padding: 3px 1px 0 25px;
+	height: 24px;
+}
+#shortcutPanel .shortcutMenu li.off .zltys {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -1200px;
+	padding: 3px 1px 0 25px;
+	height: 24px;
+}
+#shortcutPanel .shortcutMenu li.off .ccs {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -798px;
+	padding: 3px 1px 0 25px;
+	height: 24px;
+}
+#shortcutPanel .shortcutMenu li.off .ylkz {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -698px;
+	padding: 3px 1px 0 25px;
+	height: 24px;
+}
+#shortcutPanel .shortcutMenu li.off .xx {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -900px;
+	padding: 3px 1px 0 25px;
+	height: 24px;
+}
+#shortcutPanel .shortcutMenu li.off .zhjx {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -749px;
+	padding: 3px 1px 0 25px;
+	height: 24px;
+}
+#shortcutPanel .shortcutMenu li.off .ybqd {
+	background: url('../images/services_menu.gif') no-repeat 0px -1200px;
+	padding: 3px 1px 0 25px;
+	height: 24px;
+}
+#shortcutPanel .shortcutMenu li.off .qj {
+	background: url('../images/services_menu.gif') no-repeat 0px -1051px;
+	padding: 3px 1px 0 25px;
+	height: 24px;
+}
+#shortcutPanel .shortcutMenu li.off .jtsf {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -649px;
+	padding: 3px 1px 0 25px;
+	height: 24px;
+}
+#shortcutPanel .shortcutMenu li.off .lhyd {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -599px;
+	padding: 3px 1px 0 25px;
+	height: 24px;
+}
+#shortcutPanel .shortcutMenu li.off .zslk {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -949px;
+	padding: 3px 1px 0 25px;
+	height: 24px;
+}
+#shortcutPanel .shortcutMenu li.off .qqlh {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -1250px;
+	padding: 3px 1px 0 25px;
+	height: 24px;
+}
+#shortcutPanel .shortcutMenu li.off .ksxx {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -1501px;
+	padding: 3px 1px 0 25px;
+	margin: 1px 0 0 0px;
+	height: 24px;
+}
+#shortcutPanel .shortcutMenu li.off .jsxx {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -1550px;
+	padding: 3px 1px 0 25px;
+	margin: 1px 0 0 0px;
+	height: 24px;
+}
+#shortcutPanel .shortcutMenu li.off .xj {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -1600px;
+	padding: 3px 1px 0 25px;
+	margin: 1px 0 0 0px;
+	height: 24px;
+}
+#shortcutPanel .shortcutMenu li.off .xxjs {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -1651px;
+	padding: 3px 1px 0 25px;
+	margin: 1px 0 0 0px;
+	height: 24px;
+}
+#shortcutPanel .shortcutMenu li.off .jy {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -1700px;
+	padding: 3px 1px 0 25px;
+	margin: 1px 0 0 0px;
+	height: 24px;
+}
+#shortcutPanel .shortcutMenu li.off .qxjy {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -1748px;
+	padding: 3px 1px 0 25px;
+	margin: 1px 0 0 0px;
+	height: 24px;
+}
+#shortcutPanel .shortcutMenu li.off .fstz {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -1797px;
+	padding: 3px 1px 0 25px;
+	margin: 1px 0 0 0px;
+	height: 24px;
+}
+#shortcutPanel .shortcutMenu button {
+	margin: 4px 5px 0 3px;
+	padding: 0px;
+	width: 28px;
+	height: 24px;
+	float: right;
+	border: 0;
+	cursor: pointer;
+}
+#shortcutPanel .shortcutMenu button.fwqq {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px 1px;
+}
+#shortcutPanel .shortcutMenu button.innerHelp {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -48px;
+}
+#shortcutPanel .shortcutMenu button.mmyz {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -98px;
+}
+#shortcutPanel .shortcutMenu button.sayBusy {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -149px;
+}
+#shortcutPanel .shortcutMenu button.thbc {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -198px;
+}
+#shortcutPanel .shortcutMenu button.hc {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -249px;
+}
+#shortcutPanel .shortcutMenu button.gjsf {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -299px;
+}
+#shortcutPanel .shortcutMenu button.yy {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -348px;
+}
+#shortcutPanel .shortcutMenu button.xx {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -424px;
+}
+#shortcutPanel .shortcutMenu button.ecbh {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -474px;
+}
+#shortcutPanel .shortcutMenu button.jrzlt {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -524px;
+}
+#shortcutPanel .shortcutMenu button.hjzy {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -874px;
+}
+#shortcutPanel .shortcutMenu button.qc {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -1026px;
+}
+#shortcutPanel .shortcutMenu button.sx {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -1125px;
+}
+#shortcutPanel .shortcutMenu button.qr {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -1327px;
+}
+#shortcutPanel .shortcutMenu button.zhjx {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -1377px;
+}
+#shortcutPanel .shortcutMenu button.ldyy {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -1427px;
+}
+#shortcutPanel .shortcutMenu button.qbc {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -1275px;
+}
+#shortcutPanel .shortcutMenu .theme_set {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -1836px;
+	width: 42px;
+	height: 20px;
+	float: right;
+	margin: 5px 5px 0px 8px;
+	position: relative;
+	cursor: pointer;
+}
+#shortcutPanel .shortcutMenu .theme_set .theme_panel {
+	position: absolute;
+	top: 20px;
+	right: -6px;
+	display: none;
+	background: silver;
+	float: left;
+	width: 100px;
+}
+#shortcutPanel .shortcutMenu .theme_set .theme_panel ul {
+	position: relative;
+	background: #fdfeff;
+	left: -2px;
+	top: -1px;
+	border: 1px #257ABB solid;
+	border-bottom: 0;
+	display: block;
+	float: none;
+}
+#shortcutPanel .shortcutMenu .theme_set .theme_panel li {
+	border-bottom: 1px #257ABB solid;
+	display: block;
+	margin: 0;
+	padding: 0 0 0 3px;
+	float: none;
+	white-space: nowrap;
+	width: 100px;
+	z-index: 1;
+}
+#shortcutPanel .shortcutMenu .theme_set .theme_panel li a {
+	color: #000;
+	text-decoration: none;
+	padding: 3px 5px 0 25px;
+	margin: 0;
+	height: 24px;
+	width: 100px;
+}
+#shortcutPanel .shortcutMenu .theme_set .theme_panel li a:hover {
+	border: 0px solid #e7f0ff;
+	text-decoration: underline;
+	color: #4b7db3;
+	padding: 3px 5px 0 25px;
+	margin: 0;
+	height: 24px;
+	width: 100px;
+}
+#shortcutPanel .shortcutMenu .theme_set .theme_panel li.theme_blue {
+	background: url('../images/services_menu.gif') no-repeat 2px -1893px;
+}
+#shortcutPanel .shortcutMenu .theme_set .theme_panel li.theme_org {
+	background: url('../images/services_menu.gif') no-repeat 2px -1865px;
+}
+#shortcutPanel .shortcut_more {
+	background: url('../images/services_menu.gif') no-repeat scroll 0px -399px;
+	width: 42px;
+	height: 20px;
+	float: right;
+	margin: 5px 5px 0px 8px;
+	position: relative;
+	cursor: pointer;
+}
+#shortcutPanel .shortcut_more .shortcut_panel {
+	position: absolute;
+	top: 20px;
+	right: -6px;
+	display: none;
+	background: silver;
+	float: left;
+	width: 100px;
+}
+#shortcutPanel .shortcut_more .shortcut_panel ul {
+	position: relative;
+	background: #fdfeff;
+	left: -2px;
+	top: -2px;
+	border: 1px #257ABB solid;
+	border-bottom: 0;
+	display: block;
+	float: none;
+}
+#shortcutPanel .shortcut_more .shortcut_panel li {
+	border-bottom: 1px #257ABB solid;
+	display: block;
+	margin: 0;
+	padding: 0 0 0 3px;
+	float: none;
+	white-space: nowrap;
+	width: 100px;
+	z-index: 1;
+}
+#shortcutPanel .shortcut_more .shortcut_panel li a {
+	color: #000;
+	text-decoration: none;
+	padding: 3px 5px 0 25px;
+	margin: 0;
+	height: 24px;
+	width: 100px;
+}
+#shortcutPanel .shortcut_more .shortcut_panel li a:hover {
+	border: 0px solid #e7f0ff;
+	text-decoration: underline;
+	color: #4b7db3;
+	padding: 3px 5px 0 25px;
+	margin: 0;
+	height: 24px;
+	width: 100px;
+}
+#shortcutPanel .shortcut_more .shortcut_panel li.off a:hover {
+	border: 0px solid #e7f0ff;
+	text-decoration: none;
+	color: #000;
+	padding: 3px 5px 0 25px;
+	margin: 0;
+	height: 24px;
+	width: 100px;
+}
+/*----service end----*/
+/* CONTENT WORK*/
+#contentPanel {
+	overflow: hidden;
+	height: 530px;
+	margin: 4px;
+}
+#workPanel {
+	border: 1px #257ABB solid;
+	border-top: 0;
+	margin-top: -1px;
+	margin-left: 201px;
+}
+/* NAV */
+#navPanel {
+	display: inline;
+	float: left;
+	background: #f3f8f9;
+	overflow: hidden;
+	margin-right: 4px;
+	border: 1px #056db7 solid;
+	margin-top: -1px;
+	margin-right: 4px;
+}
+#navPanel .undis {
+	display: none;
+}
+#navPanel .dis {
+	height: 1%;
+	width: 100%;
+	display: block;
+	color: #333;
+	overflow: auto;
+	padding: 5px;
+}
+div.dis {
+	overflow-x: auto;
+	overflow-y: auto;
+	overflow: auto;
+}
+#navPanel a:link {
+	color: #333;
+}
+#navPanel a:visited {
+	color: #333;
+}
+#navPanel a:hover {
+	color: #ff6600;
+	text-decoration: none;
+}
+#navPanel a:active {
+	color: #ff6600;
+	text-decoration: none;
+}
+#wait {
+	height: 30px;
+	left: 50%;
+	margin-left: -15px;
+	margin-top: -15px;
+	position: absolute;
+	top: 50%;
+	display: none;
+}
+#wait .loading_gif {
+	background: url(../images/blue-loading.gif) no-repeat center center;
+	width: 32px;
+	height: 32px;
+}
+.custom_module {
+	margin: 0px;
+}
+.custom_module li {
+	padding: 2px 0 2px 12px;
+	border-bottom: 1px #B6C7D9 dotted;
+	background: url(../images/framework.png) no-repeat scroll -184px -785px;
+	height: 24px;
+	line-height: 22px;
+	overflow: hidden;
+}
+.search_result {
+	background: #F3F8F9;
+	width: 100%;
+	position: absolute;
+	left: 0;
+	top: 60px;
+	height: 100%;
+	padding-top: 0px;
+	display: none;
+	z-index: 100;
+}
+.search_result .close {
+	width: 11px;
+	height: 11px;
+	overflow: hidden;
+	position: absolute;
+	right: 6px;
+	top: 4px;
+	cursor: pointer;
+	z-index: 1;
+	background: url(../images/framework.png) no-repeat 0 -738px;
+}
+.search_result ul {
+	margin: 4px;
+}
+.search_result ul li {
+	line-height: 20px;
+}
+#system_search_result {
+	top: 30px;
+}
+#navPanel .search_bar {
+	background: url('../images/framework.png') repeat-x scroll 0 -584px;
+	height: 30px;
+	border-bottom: solid 1px #989898;
+	padding: 4px 0 0 10px;
+}
+#navPanel .search_bar .input {
+	background: #fff;
+	border: #abadb3 1px solid;
+	height: 22px;
+	width: 140px;
+	margin: 0px;
+	padding: 4px 0 0 8px;
+	float: left;
+}
+#navPanel .search_bar .input input {
+	border: 0;
+	height: 15px;
+	line-height: 1.2em;
+	overflow: hidden;
+	color: #5f8ab3;
+}
+#navPanel .search_bar button {
+	background:#d9e3ed url("../images/framework.png") no-repeat scroll 0 -654px;
+	width: 25px;
+	height: 23px;
+	border: #abadb3 1px solid;
+	border-left:0;
+	float: left;
+	margin: 0px;
+	cursor: pointer;
+}
+#navPanel .navMain {
+	float: left;
+	width: 100%;
+	height: 1%;
+	background: url('../images/framework.png') repeat-x scroll 0 -1040px;
+}
+#navPanel .title {
+	background-color: #c1d9f3;
+	border-bottom: solid 1px #056db7;
+	border-top: solid 1px #056db7;
+	height: 26px;
+}
+#navPanel .title li {
+	float: left;
+	padding: 0;
+	margin: 0 0 0 3px;
+}
+#navPanel .title li span {
+	display: none;
+}
+#navPanel .title li.on {
+	background: #ffffff;
+	width: 90px;
+	height: 22px;
+	border: #056db7 1px solid;
+	border-bottom: none;
+	margin-top: 2px;
+}
+#navPanel .title li.on span {
+	height: 24px;
+	padding: 4px 0 0 0;
+	line-height: 20px;
+	overflow: hidden;
+	display: block;
+	z-index: 50;
+}
+#navPanel .title li .ico_auth {
+	background: url('../images/framework.png') no-repeat -125px -683px;
+	width: 22px;
+	height: 18px;
+	float: left;
+	margin: 3px 3px 0 0;
+	left: 5px;
+	z-index: 100;
+	cursor: pointer;
+}
+#navPanel .title li .ico_user {
+	background: url('../images/framework.png') no-repeat 0px -683px;
+	width: 18px;
+	height: 18px;
+	float: left;
+	margin: 3px 3px 0 0;
+	left: 2px;
+	z-index: 100;
+	cursor: pointer;
+}
+#navPanel .title li .ico_tree {
+	background: url('../images/framework.png') no-repeat -94px -683px;
+	width: 22px;
+	height: 18px;
+	float: left;
+	margin: 3px 3px 0 0;
+	left: 5px;
+	z-index: 100;
+	cursor: pointer;
+}
+#navPanel .title li .ico_all {
+	background: url('../images/framework.png') no-repeat -31px -683px;
+	width: 22px;
+	height: 18px;
+	float: left;
+	margin: 3px 3px 0 0;
+	left: 5px;
+	z-index: 100;
+	cursor: pointer;
+}
+#navPanel .title li .ico_fav {
+	background: url('../images/framework.png') no-repeat -62px -683px;
+	width: 22px;
+	height: 18px;
+	float: left;
+	margin: 3px 3px 0 0;
+	left: 5px;
+	z-index: 100;
+	cursor: pointer;
+}
+#navPanel .userTable {
+	margin: 0px;
+	padding: 0px;
+}
+#navPanel .userTable table {
+	width: 100%;
+	table-layout: fixed;
+}
+#navPanel .userTable table th {
+	color: #3869a0;
+	border-bottom: solid 1px #91b3d1;
+	white-space: nowrap;
+	padding: 4px 0px 2px 0px;
+	width: 73px;
+	height: 25px;
+	text-align: right;
+	overflow: hidden;
+	font-weight : normal;
+}
+#navPanel .userTable table td {
+	border-bottom: solid 1px #91b3d1;
+	white-space: nowrap;
+	padding: 4px 0px 2px 0px;
+	text-align: left;
+	height: 25px;
+	font-weight : normal;
+}
+#navPanel .userTable table td.userID {
+	text-indent: 25px;
+	background: url('../images/services_bg.png') no-repeat -66px -450px;
+}
+#navPanel .userTable .blackList {
+	background: url('../images/services_bg.png') no-repeat -46px -228px;
+	height: 22px;
+	overflow: hidden;
+	text-align: left;
+	text-indent: 14px;
+	text-decoration: underline;
+	color: #f79700;
+	font-weight: bold;
+}
+#navPanel .userTable .ordinary {
+	background: url('../images/services_bg.png') no-repeat -46px -210px;
+	height: 22px;
+	overflow: hidden;
+	text-align: left;
+	text-indent: 14px;
+	color: #28d134;
+	font-weight: bold;
+}
+#navPanel .userTable input.normal {
+	width: 110px;
+	border: solid 0px #719ec8;
+	height: 19px;
+	background: transparent;
+	text-align: left;
+	text-indent: 0px;
+	color: #555555;
+	padding: 2px 0 0 0px;
+	margin: -1px 0 0 0;
+	float: left;
+	line-height: 14px;
+}
+#navPanel .userTable input.num {
+	width: 110px;
+	border: solid 1px #719ec8;
+	color: gray;
+	height: 19px;
+	background: #fff url('../images/services_bg.png') no-repeat 1px -434px;
+	text-align: left;
+	text-indent: 8px;
+	padding: 3px 0 0 12px;
+	margin: -1px 0 0 0;
+	float: left;
+	line-height: 14px;
+}
+#navPanel .tit_user {
+	padding: 3 0 0 23px;
+	margin: 0;
+	height: 25px;
+	border-bottom: solid 2px #adb9c2;
+	overflow: hidden;
+	background: url('../images/services_bg.png') no-repeat -40px -255px;
+	font-weight: bold;
+	color: #cc6633;
+}
+#navPanel .info {
+	padding: 8px 2px 5px 5px;
+	line-height: 1em;
+	color: #dc6b05;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	width: 196px;
+	border-top: solid 1px #2078b8;
+}
+.tree_action {
+	margin: 10px 5px 0px 5px;
+	padding: 0;
+	height: 22px;
+	border: 1px solid #C2C8CB;
+	color: #5B5B5B;
+	line-height: 1.2em;
+	background: white url('../images/framework.png') repeat-x 0 -907px;
+}
+.tree_action span {
+	cursor: pointer;
+	height: 12px;
+	padding: 4px 0 0 0;
+	text-align: left;
+	text-indent: 14px;
+}
+.tree_action .all_open {
+	background: url(../images/framework.png) no-repeat scroll 0 -780px;
+	margin: 0 10px 0 0;
+}
+.tree_action .all_close {
+	background: url(../images/framework.png) no-repeat scroll 0 -757px;
+}
+/* FOOT */
+#footPanel {
+	text-align: center;
+	vertical-align: middle;
+	height: 25px;
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	background: #c1d9f3;
+	left: 0;
+	padding: 0 10px;
+	border-top: #066eb7 1px solid;
+}
+#footPanel ul {
+	background: url('../images/framework.png') no-repeat -183px -556px;
+	height: 25px;
+	padding: 0 0 0 10px;
+}
+#footPanel li {
+	padding: 3px 0 0 0;
+	margin: 1px 15px;
+	float: left;
+}
+#tipsdiv {
+	width: 14px;
+	height: 14px;
+	right: 5px;
+	bottom: 5px;
+	position: absolute;
+	z-index: 100;
+	cursor: pointer;
+}
+#tipsdiv .ico_tips_on {
+	background: transparent url('../images/framework.png') no-repeat -41px -738px;
+	width: 13px;
+	height: 13px;
+}
+#tipsdiv .ico_tips_off {
+	background: transparent url('../images/framework.png') no-repeat -20px -738px;
+	width: 13px;
+	height: 13px;
+}
+#tipsViewDiv {
+	width: 200px;
+	height: 200px;
+	right: 20px;
+	bottom: 20px;
+	position: absolute;
+	z-index: 2;
+	border: 1px solid #5e89b3;
+	background: #e4eff1;
+	display: none;
+}
+#overdiv {
+	width: 14px;
+	height: 14px;
+	right: 5px;
+	bottom: 5px;
+	position: absolute;
+	z-index: 100;
+	cursor: pointer;
+}
+#hotKeyScript {
+	overflow: hidden;
+	height: 0px;
+	font-size: 0px;
+	line-height: 0px;
+	height: 0px;
+}
+/* tat_tablediv */
+#tat_tablediv {
+	border: 1px #FF4E00 solid;
+	border-bottom: 0;
+	border-left: 0;
+}
+#tat_tablediv td {
+	border: 1px #FF4E00 solid;
+	border-top: 0;
+	padding: 1px 4px 1px 10px;
+	line-height: 18px;
+	background: url('../images/framework.png') no-repeat -185px -788px;
+}
+/* tat_tablediv end */

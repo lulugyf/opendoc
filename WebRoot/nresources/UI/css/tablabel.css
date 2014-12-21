@@ -1,0 +1,55 @@
+﻿a.tabdisp { text-decoration: none; color: white; font-size: 13px; font-weight:bold; background-color: #2D69BC}
+a.tabnodisp { text-decoration: none; color: #999999; font-size: 13px; font-weight:bold; background-color: #eeeeee}
+td.tabcontent { border-style: solid; border-color: blue}
+table.tab { padding: 0px; margin: 0px}
+#Form ul.TabBarLevel1{
+	list-style:none;
+	margin:0px;
+	padding:0px;
+	height:29px;
+	background-image:url(/images/ah_tab_bg.gif);
+	background-position: right top;
+}
+#Form ul.TabBarLevel1 li{
+	float:left;
+	padding:0;
+	height:29px;
+	margin-right:1px;
+	background:url(/images/ah_tabbar_normal.gif) left top no-repeat;
+}
+#Form ul.TabBarLevel1 li a{
+	display:block;
+	line-height:29px;
+	padding:0 20px;
+	color:#333;
+	background:url(/images/ah_tabbar_normal_right.gif) no-repeat right top;
+	white-space: nowrap;
+}
+#Form ul.TabBarLevel1 li.Selected{
+	background:url(/images/ah_tabbar_over.gif) no-repeat left top;
+}
+#Form ul.TabBarLevel1 li.Selected a{
+	background:url(/images/ah_tabbar_over_right.gif) right top no-repeat;
+	text-decoration:none;
+}
+
+#Form ul.TabBarLevel1 li a:link,ul.TabBarLevel1 li a:visited{
+	color:#333;
+		text-decoration:none;
+}
+#Form ul.TabBarLevel1 li a:link,ul.TabBarLevel1 li a:hover{
+	color:#333;
+		text-decoration:none;
+}
+#Form ul.TabBarLevel1 li a:hover,ul.TabBarLevel1 li a:active{
+	color:#F30;
+    text-decoration:underline;
+}
+#Form ul.TabBarLevel1 li.Selected a:link,ul.TabBarLevel1 li.Selected a:visited{
+	color:#000;
+    text-decoration:none;
+}
+#Form ul.TabBarLevel1 li.Selected a:hover,ul.TabBarLevel1 li.Selected a:active{
+	color:#F30;
+		text-decoration:underline;	
+}

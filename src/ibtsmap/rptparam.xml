@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="rptparam">
+	<typeAlias alias="ParamType" type="com.sitech.rom.rpt.bo.ParamType" />
+	<typeAlias alias="ParamData" type="com.sitech.rom.rpt.bo.ParamData" />
+	<typeAlias alias="ParamUser" type="com.sitech.rom.rpt.bo.ParamUser" />
+
+	<select id="qryType" parameterClass="java.lang.Integer"
+		resultClass="ParamType">
+		select typeid, name, datatype, remarks from t_paramtype
+		<dynamic prepend=" where ">
+			<isPropertyAvailable property="value"> typeid=#value# </isPropertyAvailable>
+		</dynamic>
+		 order by typeid
+	</select>
+	
+	<select id="nextval" parameterClass="java.lang.String" resultClass="java.lang.Long">
+		select nextval(#value#) as value</select>
+	
+	<insert id="addType" parameterClass="ParamType">
+		insert into t_paramtype(typeid, name, datatype, remarks) values(#typeid#, #name#, #datatype#, #remarks#)
+	</insert>
+	
+	<delete id="delType" parameterClass="java.lang.Integer">
+		delete from t_paramtype where typeid=#value#
+	</delete>
+	
+	<update id="updateType" parameterClass="java.util.Map">
+		update t_paramtype
+		<dynamic prepend=" SET ">
+			<isNotNull property="name" prepend=",">
+				name = #name#
+			</isNotNull>
+			<isNotNull property="datatype" prepend=",">
+				datatype = #datatype#
+			</isNotNull>
+			<isNotNull property="remarks" prepend=",">
+				remarks = #remarks#
+			</isNotNull>
+		</dynamic>
+		WHERE typeid = #typeid#
+	</update>
+
+
+	<select id="qryData" parameterClass="java.lang.Integer" resultClass="ParamData">
+		select paramid, typeid, paramValue, paramName, parentid, remarks from t_paramdata
+		where typeid=#value#
+		order by parentid, paramid
+	</select>
+	
+	<select id="countDataByType" parameterClass="java.lang.Integer" resultClass="java.lang.Integer">
+		select count(*) from t_paramdata
+		where typeid=#value#
+	</select>
+	
+	<select id="countDataByParent" parameterClass="java.lang.Integer" resultClass="java.lang.Integer">
+		select count(*) from t_paramdata
+		where parentid=#value#
+	</select>
+	
+	<delete id="delData" parameterClass="java.lang.Integer">
+		delete from t_paramdata where paramid=#paramid#
+	</delete>
+	
+	<insert id="addData" parameterClass="ParamData">
+		insert into t_paramdata(paramid, typeid, paramValue, paramName, parentid, remarks)
+		values(#paramid#, #typeid#, #paramValue#, #paramName#, #parentid#, #remarks#)
+	</insert>
+	
+	<update id="updateData" parameterClass="java.util.Map">
+		update t_paramdata
+		<dynamic prepend=" SET ">
+			<isNotNull property="paramName" prepend=",">
+				paramName = #paramName#
+			</isNotNull>
+			<isNotNull property="paramValue" prepend=",">
+				paramValue = #paramValue#
+			</isNotNull>
+			<isNotNull property="remarks" prepend=",">
+				remarks = #remarks#
+			</isNotNull>
+		</dynamic>
+		WHERE paramid = #paramid#
+	</update>
+	
+	<select id="qryParamUser" parameterClass="ParamUser" resultClass="ParamUser">
+	select a.login_no as loginno, b.login_name as loginname, d.name as typename, c.typeid, c.paramName, c.paramValue
+ from t_paramuser_rel a, rom_sys_login b, t_paramdata c, t_paramtype d
+where a.login_no=b.login_no and a.paramid=c.paramid and c.typeid=d.typeid
+	<dynamic>
+	<isNotNull property="value">
+		<isNotNull property="loginno">
+			<isNotEmpty property="loginno"> and a.login_no=#loginno#</isNotEmpty>
+		</isNotNull>
+		<isGreaterThan property="paramid" compareValue="0"> and a.paramid=#paramid#</isGreaterThan>
+	</isNotNull>
+	</dynamic>
+	</select>
+	
+	<!-- for param_user relate -->
+	<select id="selUser" resultClass="java.lang.String">
+		select concat(login_no,'-',login_name) from rom_sys_login
+	</select>
+	
+	<select id="qryParamUserTree" parameterClass="ParamData" resultClass="ParamData">
+	select a.paramid, typeid, paramValue, paramName, parentid, remarks, b.login_no as loginno
+	from t_paramdata a 
+	left outer join t_paramuser_rel b on a.paramid=b.paramid and b.login_no=#loginno#
+		where typeid=#typeid#
+		order by parentid, paramid
+	</select>
+	
+	<delete id="delParamUser" parameterClass="ParamUser">
+		delete from t_paramuser_rel where paramid=#paramid# and login_no=#loginno#
+	</delete>
+	
+	<insert id="addParamUser" parameterClass="ParamUser">
+		insert into t_paramuser_rel(paramid, login_no) values(#paramid#, #loginno#)
+	</insert>
+	
+</sqlMap>

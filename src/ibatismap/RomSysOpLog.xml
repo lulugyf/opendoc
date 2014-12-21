@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="RomSysOpLog">
+	<typeAlias alias="RomSysOpLog" type="com.sitech.rom.common.dto.RomSysOpLog"/>
+	
+	<resultMap id="RomSysOpLogResult" class="RomSysOpLog">
+		<result property="opDate" column="OP_DATE"/>
+		<result property="opStaff" column="OP_STAFF"/>
+		<result property="staffName" column="STAFF_NAME"/>
+		<result property="proCode" column="PRO_CODE"/>
+		<result property="functionCode" column="FUNCTION_CODE"/>
+		<result property="opTime" column="OP_TIME"/>
+		<result property="opContent" column="OP_CONTENT"/>
+		<result property="remarks" column="REMARKS"/>
+  	</resultMap>
+
+	<sql id="select-all-column">
+	SELECT
+		OP_DATE AS opDate,
+		OP_STAFF AS opStaff,
+		STAFF_NAME AS staffName,
+		PRO_CODE AS proCode,
+		FUNCTION_CODE AS functionCode,
+		OP_TIME AS opTime,
+		OP_CONTENT AS opContent,
+		REMARKS AS remarks	
+	FROM ROM_SYS_OP_LOG
+	</sql>
+	
+	<sql id="where-all-condition">
+	<dynamic prepend=" WHERE ">
+		<isPropertyAvailable property="opDate" prepend="and">
+			<isNotNull property="opDate">
+				<isNotEmpty property="opDate">
+					OP_DATE = #opDate#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="opStaff" prepend="and">
+			<isNotNull property="opStaff">
+				<isNotEmpty property="opStaff">
+					OP_STAFF = #opStaff#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="staffName" prepend="and">
+			<isNotNull property="staffName">
+				<isNotEmpty property="staffName">
+					STAFF_NAME = #staffName#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="proCode" prepend="and">
+			<isNotNull property="proCode">
+				<isNotEmpty property="proCode">
+					PRO_CODE = #proCode#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="functionCode" prepend="and">
+			<isNotNull property="functionCode">
+				<isNotEmpty property="functionCode">
+					FUNCTION_CODE = #functionCode#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="opTimeStart" prepend="and">
+			<isNotNull property="opTimeStart">
+				<isNotEmpty property="opTimeStart">
+					<![CDATA[ OP_TIME >= #opTimeStart# ]]>
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="opTimeEnd" prepend="and">
+			<isNotNull property="opTimeEnd">
+				<isNotEmpty property="opTimeEnd">
+					<![CDATA[ OP_TIME <= #opTimeEnd# ]]>
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="opContent" prepend="and">
+			<isNotNull property="opContent">
+				<isNotEmpty property="opContent">
+					OP_CONTENT = #opContent#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="remarks" prepend="and">
+			<isNotNull property="remarks">
+				<isNotEmpty property="remarks">
+					REMARKS = #remarks#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+	</dynamic>
+	</sql>
+
+	<select id="selectRomSysOpLog" parameterClass="RomSysOpLog" resultClass="RomSysOpLog">
+		<include refid="select-all-column"/>
+		<include refid="where-all-condition"/>
+	</select>
+	
+	<insert id="insertRomSysOpLog" parameterClass="RomSysOpLog">
+	INSERT INTO ROM_SYS_OP_LOG (
+		OP_DATE,
+		OP_STAFF,
+		STAFF_NAME,
+		PRO_CODE,
+		FUNCTION_CODE,
+		OP_TIME,
+		OP_CONTENT,
+		REMARKS
+	) VALUES (
+		#opDate# ,
+		#opStaff# ,
+		#staffName# ,
+		#proCode# ,
+		#functionCode# ,
+		#opTime# ,
+		#opContent# ,
+		#remarks#     
+	)
+	</insert>
+	
+	<update id="updateRomSysOpLog" parameterClass="java.util.Map">
+	UPDATE ROM_SYS_OP_LOG
+	<dynamic prepend=" SET ">
+		<isNotNull property="_opDate" prepend=",">
+			OP_DATE = #_opDate#
+		</isNotNull>
+		<isNotNull property="_opStaff" prepend=",">
+			OP_STAFF = #_opStaff#
+		</isNotNull>
+		<isNotNull property="_staffName" prepend=",">
+			STAFF_NAME = #_staffName#
+		</isNotNull>
+		<isNotNull property="_proCode" prepend=",">
+			PRO_CODE = #_proCode#
+		</isNotNull>
+		<isNotNull property="_functionCode" prepend=",">
+			FUNCTION_CODE = #_functionCode#
+		</isNotNull>
+		<isNotNull property="_opTime" prepend=",">
+			OP_TIME = #_opTime#
+		</isNotNull>
+		<isNotNull property="_opContent" prepend=",">
+			OP_CONTENT = #_opContent#
+		</isNotNull>
+		<isNotNull property="_remarks" prepend=",">
+			REMARKS = #_remarks#
+		</isNotNull>
+	</dynamic>
+
+	<include refid="where-all-condition"/>
+	</update>
+	
+
+	<delete id="deleteRomSysOpLog" parameterClass="RomSysOpLog">
+	DELETE FROM ROM_SYS_OP_LOG
+	<include refid="where-all-condition"/>
+	</delete>
+	
+	<select id="selectRomSysOpLogParam" parameterClass="java.util.Map" resultClass="RomSysOpLog">
+		<isEmpty property="S">
+			SELECT
+			OP_DATE AS opDate,
+			OP_STAFF AS opStaff,
+			STAFF_NAME AS staffName,
+			PRO_CODE AS proCode,
+			FUNCTION_CODE AS functionCode,
+			OP_TIME AS opTime,
+			OP_CONTENT AS opContent,
+			REMARKS AS remarks
+		</isEmpty>
+		<isNotEmpty property="S">
+			SELECT $S$
+		</isNotEmpty>
+		 	FROM ROM_SYS_OP_LOG $W$
+	</select>
+</sqlMap>

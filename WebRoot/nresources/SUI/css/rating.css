@@ -1,0 +1,163 @@
+﻿body {
+	margin: 0;
+	padding: 0;
+	font: 12px Verdana, Arial, Helvetica, sans-serif,"宋体","黑体";
+	line-height: 1.8em;
+	text-align: left;
+	border: 0;
+}
+* {
+	padding: 0;
+	margin: 0;
+}
+#ratingBg {
+	width: 400px;
+	height: 190px;
+	border: 1px #c8dce3 solid;
+	background: #f0f9f8;
+}
+.rating {
+	height: 25px;
+	width: 400px;
+	overflow: hidden;
+	zoom: 1;
+	padding: 2px 0;
+	position: relative;
+	z-index: 999;
+	border-bottom: 0px #4c81cf solid;
+	font-size: 12px;
+}
+/*.rating_jg {
+	height: 25px;
+	width: 398px;
+	overflow: hidden;
+	zoom: 1;
+	padding: 0px 0;
+	position: relative;
+	z-index: 999;
+	border-bottom: 0px #4c81cf solid;
+	font-size: 12px;
+	background: url('../images/rating.png') repeat-x 0 -314px;
+}*/
+ul {
+	margin: 0;
+	padding: 0;
+	float: left;
+}
+span {
+	height: 23px;
+	display: block;
+	line-height: 23px;
+	float: left;
+}
+.title {
+	width: 100px;
+	text-align: right;
+	margin-right: 5px;
+	padding: 2px 0 0 0;
+	font-weight: bold;
+	color: #3f6d99;
+	float: left;
+}
+.rating-level, .rating-level a {
+	background: url('../images/rating.png') no-repeat scroll 1000px 1000px;
+	background-image: ;
+}
+.rating-text {
+	float: left;
+	width: 120px;
+	margin: 0 0 0 20px;
+	padding: 1px 0 0 0;
+	color: #ff7e00;
+}
+.rating-level {
+	background-position: 0 0;
+	float: left;
+	width: 120px;
+	height: 23px;
+	position: relative;
+	z-index: 1000;
+}
+.rating-level li {
+	display: inline;
+}
+.rating-level a {
+	line-height: 23px;
+	height: 23px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	text-indent: -999em;*;
+	zoom: 1;
+	outline: none;
+}
+.rating-level a.one-star {
+	width: 20%;
+	z-index: 6;
+}
+.rating-level a.two-stars {
+	width: 40%;
+	z-index: 5;
+}
+.rating-level a.three-stars {
+	width: 60%;
+	z-index: 4;
+}
+.rating-level a.four-stars {
+	width: 80%;
+	z-index: 3;
+}
+.rating-level a.five-stars {
+	width: 100%;
+	z-index: 2;
+}
+.rating-level .current-rating, .rating-level a:hover {
+	background-position: 0 -28px;
+}
+.rating-level a.one-star:hover, .rating-level a.two-stars:hover, .rating-level a.one-star.current-rating, .rating-level a.two-stars.current-rating {
+	background-position: 0 -116px;
+}
+.rating-level .three-stars .current-rating, .rating-level .four-stars .current-rating, .rating-level .five-stars .current-rating {
+	background-position: 0 -28px;
+}
+.result {
+	width: 400px;
+	background: #f0f9f8 url('../images/rating.png') repeat-x 0px -339px;
+	padding:5px 0 0 0;
+}
+.result table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+.result th {
+	width: 100px;
+}
+.result textarea {
+	margin-top: 10px;
+	border: 1px solid #80CCFF;
+	color: #999;
+	height: 75px;
+	width: 265px;
+}
+input.but {
+	padding: 1px 0 0 1px;
+	background: url('../images/rating.png') no-repeat scroll 0px -283px;
+	border: 0;
+	height: 17px;
+	cursor: pointer;
+	text-align: center;
+	width: 55px;
+	overflow: hidden;
+	line-height: 17px;
+	color: #363e6c;
+}
+.popup_tit {
+	background: transparent url('../images/rating.png') repeat-x 0px -314px;
+	width: 400px;
+	height: 22px;
+	border: 1px #c8dce3 solid;
+	border-bottom: 0;
+	text-align: left;
+	text-indent: 15px;
+	padding:3px 0 0 0;
+}

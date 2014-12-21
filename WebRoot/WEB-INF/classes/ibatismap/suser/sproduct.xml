@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="sproduct">
+ <typeAlias alias="RomProCode" type="com.sitech.rom.common.dto.RomProCode"/>
+ 
+ <select id="selectRomProCode" parameterClass="RomProCode" resultClass="RomProCode">
+	SELECT
+		PRO_CODE AS proCode,
+		PRO_NAME AS proName,
+		PRO_VERSION AS proVersion,
+		REMARKS AS remarks	
+	FROM ROM_PRO_CODE
+	<dynamic prepend=" WHERE ">
+		<isPropertyAvailable property="proCode" prepend="and">
+			<isNotNull property="proCode">
+				<isNotEmpty property="proCode">
+					PRO_CODE like '%'||#proCode#||'%'
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="proName" prepend="and">
+			<isNotNull property="proName">
+				<isNotEmpty property="proName">
+					PRO_NAME like '%'||#proName#||'%'
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="proVersion" prepend="and">
+			<isNotNull property="proVersion">
+				<isNotEmpty property="proVersion">
+					PRO_VERSION = #proVersion#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="remarks" prepend="and">
+			<isNotNull property="remarks">
+				<isNotEmpty property="remarks">
+					REMARKS = #remarks#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+	</dynamic>
+	order by proCode
+ </select>
+  
+</sqlMap>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="RomProvinceCode">
+	<typeAlias alias="RomProvinceCode" type="com.sitech.rom.common.dto.RomProvinceCode"/>
+	
+	<resultMap id="RomProvinceCodeResult" class="RomProvinceCode">
+		<result property="provinceCode" column="PROVINCE_CODE"/>
+		<result property="provinceName" column="PROVINCE_NAME"/>
+		<result property="remarks" column="REMARKS"/>
+  	</resultMap>
+
+	<sql id="select-all-column">
+	SELECT
+		PROVINCE_CODE AS provinceCode,
+		PROVINCE_NAME AS provinceName,
+		REMARKS AS remarks	
+	FROM ROM_PROVINCE_CODE
+	</sql>
+	
+	<sql id="where-all-condition">
+	<dynamic prepend=" WHERE ">
+		<isPropertyAvailable property="provinceCode" prepend="and">
+			<isNotNull property="provinceCode">
+				<isNotEmpty property="provinceCode">
+					PROVINCE_CODE = #provinceCode#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="provinceName" prepend="and">
+			<isNotNull property="provinceName">
+				<isNotEmpty property="provinceName">
+					PROVINCE_NAME = #provinceName#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="remarks" prepend="and">
+			<isNotNull property="remarks">
+				<isNotEmpty property="remarks">
+					REMARKS = #remarks#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+	</dynamic>
+	</sql>
+
+	<select id="selectRomProvinceCode" parameterClass="RomProvinceCode" resultClass="RomProvinceCode">
+		<include refid="select-all-column"/>
+		<include refid="where-all-condition"/>
+	</select>
+	
+	<insert id="insertRomProvinceCode" parameterClass="RomProvinceCode">
+	INSERT INTO ROM_PROVINCE_CODE (
+		PROVINCE_CODE,
+		PROVINCE_NAME,
+		REMARKS
+	) VALUES (
+		#provinceCode# ,
+		#provinceName# ,
+		#remarks#     
+	)
+	</insert>
+	
+	<update id="updateRomProvinceCode" parameterClass="java.util.Map">
+	UPDATE ROM_PROVINCE_CODE
+	<dynamic prepend=" SET ">
+		<isNotNull property="_provinceCode" prepend=",">
+			PROVINCE_CODE = #_provinceCode#
+		</isNotNull>
+		<isNotNull property="_provinceName" prepend=",">
+			PROVINCE_NAME = #_provinceName#
+		</isNotNull>
+		<isNotNull property="_remarks" prepend=",">
+			REMARKS = #_remarks#
+		</isNotNull>
+	</dynamic>
+
+	<include refid="where-all-condition"/>
+	</update>
+	
+
+	<delete id="deleteRomProvinceCode" parameterClass="RomProvinceCode">
+	DELETE FROM ROM_PROVINCE_CODE
+	<include refid="where-all-condition"/>
+	</delete>
+	
+</sqlMap>

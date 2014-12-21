@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="RomTellcorpCode">
+	<typeAlias alias="RomTellcorpCode" type="com.sitech.rom.common.dto.RomTellcorpCode"/>
+	
+	<resultMap id="RomTellcorpCodeResult" class="RomTellcorpCode">
+		<result property="tellcorpCode" column="TELLCORP_CODE"/>
+		<result property="tellcorpName" column="TELLCORP_NAME"/>
+		<result property="remarks" column="REMARKS"/>
+  	</resultMap>
+
+	<sql id="select-all-column">
+	SELECT
+		TELLCORP_CODE AS tellcorpCode,
+		TELLCORP_NAME AS tellcorpName,
+		REMARKS AS remarks	
+	FROM ROM_TELLCORP_CODE
+	</sql>
+	
+	<sql id="where-all-condition">
+	<dynamic prepend=" WHERE ">
+		<isPropertyAvailable property="tellcorpCode" prepend="and">
+			<isNotNull property="tellcorpCode">
+				<isNotEmpty property="tellcorpCode">
+					TELLCORP_CODE = #tellcorpCode#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="tellcorpName" prepend="and">
+			<isNotNull property="tellcorpName">
+				<isNotEmpty property="tellcorpName">
+					TELLCORP_NAME = #tellcorpName#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="remarks" prepend="and">
+			<isNotNull property="remarks">
+				<isNotEmpty property="remarks">
+					REMARKS = #remarks#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+	</dynamic>
+	</sql>
+
+	<select id="selectRomTellcorpCode" parameterClass="RomTellcorpCode" resultClass="RomTellcorpCode">
+		<include refid="select-all-column"/>
+		<include refid="where-all-condition"/>
+	</select>
+	
+	<insert id="insertRomTellcorpCode" parameterClass="RomTellcorpCode">
+	INSERT INTO ROM_TELLCORP_CODE (
+		TELLCORP_CODE,
+		TELLCORP_NAME,
+		REMARKS
+	) VALUES (
+		#tellcorpCode# ,
+		#tellcorpName# ,
+		#remarks#     
+	)
+	</insert>
+	
+	<update id="updateRomTellcorpCode" parameterClass="java.util.Map">
+	UPDATE ROM_TELLCORP_CODE
+	<dynamic prepend=" SET ">
+		<isNotNull property="_tellcorpCode" prepend=",">
+			TELLCORP_CODE = #_tellcorpCode#
+		</isNotNull>
+		<isNotNull property="_tellcorpName" prepend=",">
+			TELLCORP_NAME = #_tellcorpName#
+		</isNotNull>
+		<isNotNull property="_remarks" prepend=",">
+			REMARKS = #_remarks#
+		</isNotNull>
+	</dynamic>
+
+	<include refid="where-all-condition"/>
+	</update>
+	
+
+	<delete id="deleteRomTellcorpCode" parameterClass="RomTellcorpCode">
+	DELETE FROM ROM_TELLCORP_CODE
+	<include refid="where-all-condition"/>
+	</delete>
+	
+	<select id="selectRomTellcorpCodeParam" parameterClass="java.util.Map" resultClass="RomTellcorpCode">
+		<isEmpty property="S">
+			SELECT
+			TELLCORP_CODE AS tellcorpCode,
+			TELLCORP_NAME AS tellcorpName,
+			REMARKS AS remarks
+		</isEmpty>
+		<isNotEmpty property="S">
+			SELECT $S$
+		</isNotEmpty>
+		 	FROM ROM_TELLCORP_CODE $W$
+	</select>
+</sqlMap>

@@ -1,0 +1,33 @@
+<!DOCTYPE weblogic-web-app PUBLIC "-//BEA Systems, Inc.//DTD Web Application 8.1//EN" "http://www.bea.com/servers/wls810/dtd/weblogic810-web-jar.dtd">
+
+<weblogic-web-app>
+
+  <session-descriptor>
+    <session-param>
+      <param-name>InvalidationIntervalSecs</param-name>
+      <param-value>10</param-value>
+    </session-param>
+    <session-param>
+      <param-name>TimeoutSecs</param-name>
+      <param-value>7200</param-value>
+    </session-param>
+    <session-param>
+      <param-name>CookieName</param-name>
+      <param-value>TestSessionID</param-value>
+    </session-param>
+  </session-descriptor>
+
+  <jsp-descriptor>
+    <jsp-param>
+      <param-name>workingDir</param-name>
+      <param-value>_jsp_compiled</param-value>
+    </jsp-param>
+    <jsp-param>
+      <param-name>keepgenerated</param-name>
+      <param-value>TRUE</param-value>
+    </jsp-param>
+  </jsp-descriptor>
+  
+  <context-root>/rom</context-root>
+</weblogic-web-app>
+

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="rptconf">
+	<typeAlias alias="ConfParameter" type="com.sitech.rom.rpt.bo.ConfParameter"/>
+	<typeAlias alias="Doc" type="com.sitech.rom.rpt.bo.Doc"/>
+	<typeAlias alias="DocParam" type="com.sitech.rom.rpt.bo.DocParam"/>
+	<typeAlias alias="DocGroup" type="com.sitech.rom.rpt.bo.DocGroup"/>
+	<typeAlias alias="DocFunc" type="com.sitech.rom.rpt.bo.DocFunc"/>
+	
+	<select id="qryParam" parameterClass="java.lang.String" resultClass="ConfParameter">
+		SELECT pname, pvalue, remarks from t_parameters
+		<isNotNull property="value"> 
+			where pname=#value#
+		</isNotNull>
+	</select>
+	
+	<!--  查询报表文档数据 -->
+	<select id="qryDoc" parameterClass="Doc" resultClass="Doc">
+		SELECT docid, group_func, a.function_code, docname, baseurl, remarks
+		from t_doc a
+		<dynamic>
+		<isParameterPresent prepend="where ">
+			<isGreaterThan property="docid" compareValue="0">
+			docid=#docid#
+			</isGreaterThan>
+			<isNotNull property="group_func">
+			<isGreaterThan property="docid" compareValue="0">
+			   and
+			</isGreaterThan>
+			group_func=#group_func#
+			</isNotNull>
+		</isParameterPresent>
+		</dynamic>
+		order by group_func, function_code
+	</select>
+	
+	<insert id="addDoc" parameterClass="Doc">
+	insert into t_doc(docid, group_func, function_code, docname, baseurl, remarks)
+		values(#docid#, #group_func#, #function_code#, #docname#, #baseurl#, #remarks#)
+	</insert>
+	
+	<delete id="delDoc" parameterClass="java.lang.Integer">
+		delete from t_doc where docid=#value#
+	</delete>
+	
+	<update id="modDoc" parameterClass="Doc">
+		update t_doc set
+			docname=#docname#, baseurl=#baseurl#, remarks=#remarks#
+			where docid=#docid#
+	</update>
+	
+	<!-- rpt group's function_code must begin with DOCG -->
+	<select id="qryDocGroup" parameterClass="java.lang.String" resultClass="DocGroup">
+		select function_code as group_func, function_name as group_name, parent_code as parent_group
+		 from rom_sys_function where function_code like #value#
+	</select>
+	
+	<!--  添加功能树需要添加的几个表 -->
+	<insert id="addFunc" parameterClass="DocFunc">
+		insert into rom_sys_function(function_code, function_name, action_name, node_type, parent_code, operation_code, remarks, note_seq, open_type)
+		values(#function_code#, #function_name#, #action_name#, '0', #parent_code#, '1;', #remarks#, null, '1')
+	</insert>
+	<insert id="addFuncPro" parameterClass="DocFunc">
+		insert into rom_sys_pro_function(pro_code, function_code, remarks)
+		values(#pro_code#, #function_code#, ' ');
+	</insert>
+	<insert id="addFuncRole" parameterClass="DocFunc">
+		insert into rom_sys_role_function(role_id, function_code, operation_code)
+		values(#role_id#, #function_code#, '1;');
+	</insert>
+	<insert id="addPopedom" parameterClass="DocFunc">
+		insert into rom_sys_popedom(function_code, action_name, operation_code)
+			values(#function_code#, #action_name#, '1')
+	</insert>
+
+	<select id="getRolePro" parameterClass="java.lang.String" resultClass="DocFunc">
+		select role_id, pro_code from rom_sys_role where role_name=#value#
+	</select>
+	
+	<!-- 删除功能树需要删除的几个表 -->
+	<delete id="delFunc" parameterClass="DocFunc">
+		delete from rom_sys_function where function_code=#function_code#
+	</delete>
+	<delete id="delFuncPro" parameterClass="DocFunc">
+		delete from rom_sys_pro_function where pro_code=#pro_code# and function_code=#function_code#
+	</delete>
+	<delete id="delFuncRole" parameterClass="DocFunc">
+		delete from rom_sys_role_function where role_id=#role_id# and function_code=#function_code#
+	</delete>
+	<delete id="delPopedom" parameterClass="DocFunc">
+		delete from rom_sys_popedom where function_code=#function_code# and action_name=#action_name#
+	</delete>
+	
+	<update id="modFunc" parameterClass="DocFunc">
+		update rom_sys_function set function_name=#function_name#
+		<isNotNull property="remarks">
+			, remarks=#remarks#
+		</isNotNull>
+		<isNotNull property="action_name">
+			,action_name=#action_name#
+		</isNotNull>
+		where function_code=#function_code#
+	</update>
+	
+	<insert id="addDocParam" parameterClass="DocParam">
+		insert into t_docparam(docid, param, default_value, typeid, filterflag, allowchange, remarks)
+			values(#docid#, #param#, #default_value#, #typeid#, #filterflag#, #allowchange#, #remarks#)
+	</insert>
+	<delete id="delDocParam" parameterClass="DocParam">
+		delete from t_docparam where docid=#docid# and param=#param#
+	</delete>
+	<update id="modDocParam" parameterClass="DocParam">
+		update t_docparam set default_value=#default_value#,
+			typeid=#typeid#, filterflag=#filterflag#, allowchange=#allowchange#, remarks=#remarks#
+			where docid=#docid# and param=#param#
+	</update>
+	<select id="qryDocParam" parameterClass="java.lang.Integer" resultClass="DocParam">
+		select docid, param, default_value, a.typeid, filterflag, allowchange, a.remarks, b.name as typename
+		from t_docparam a left outer join t_paramtype b on a.typeid=b.typeid
+		where docid=#value#
+	</select>
+	
+	<select id="qryDocByFunc" parameterClass="java.lang.String" resultClass="Doc">
+		SELECT docid, group_func, function_code, docname, baseurl, remarks
+		from t_doc
+		where function_code=#value#
+	</select>
+
+</sqlMap>

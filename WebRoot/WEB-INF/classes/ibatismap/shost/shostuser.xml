@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="shostuser">
+ <typeAlias alias="HostUserBo" type="com.sitech.rom.common.bo.HostUserBo"/>
+ 
+ <!-- 查询主机用户信息 -->
+ <select id="qryRomHostUserInfo" parameterClass="HostUserBo" resultClass="HostUserBo">
+
+	select 
+		a.USER_ID AS userId,
+		a.HOST_ID AS hostId,
+		a.USER_NAME AS userName,
+		a.PASSWD AS passwd,
+		a.HOME_DIR AS homeDir,
+		a.REMARK AS remark,
+		b.PROVINCE_CODE AS provinceCode,
+		b.HOST_ENV AS hostEnv,
+		b.HOST_IP AS hostIp,
+		b.HOST_OS AS hostOs,  
+        c.province_name AS provinceName,
+        d.tellcorp_name AS tellName,
+        f.pro_name AS proName	
+	from rom_user_info a,
+	rom_host_info b,
+	rom_province_code c,
+	rom_tellcorp_code d,
+    rom_pro_host_relation e,
+    rom_pro_code f	
+	where a.host_id=b.host_id
+	and b.province_code=c.province_code
+	and b.tell_type=d.tellcorp_code
+	and b.host_id=e.host_id
+    and e.pro_code=f.pro_code
+    	and e.pro_code =#proCode#
+		and b.province_code =#provinceCode#
+		and b.tell_type =#tellType#
+ 		
+		<isPropertyAvailable property="hostEnv" prepend="and">
+			<isNotNull property="hostEnv">
+				<isNotEmpty property="hostEnv">
+					b.HOST_ENV = #hostEnv#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="hostOs" prepend="and">
+			<isNotNull property="hostOs">
+				<isNotEmpty property="hostOs">
+					b.HOST_OS = #hostOs#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable> 
+		<isPropertyAvailable property="hostIp" prepend="and">
+			<isNotNull property="hostIp">
+				<isNotEmpty property="hostIp">
+					b.HOST_IP = #hostIp#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+					
+ </select> 
+
+
+</sqlMap>

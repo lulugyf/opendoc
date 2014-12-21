@@ -1,0 +1,34 @@
+#treeRoot {
+    background-position : top left;
+    background-repeat : repeat-y;
+    margin-left: 19px;
+    zoom: 1;
+}
+
+img.treeImg {
+	border-style: none;
+}
+
+ul.treeUl {
+    background-position : top left;
+    background-repeat : repeat-y;
+    margin-left: 19px;
+    zoom: 1;
+}
+
+li.treeLi {
+	display: none;
+	list-style: none;
+    background-position : top left;
+    background-repeat : repeat-y;
+	margin-left: 19px;
+    zoom: 1;
+}
+
+a.treeA {
+	color: #666;
+	margin-left: 4px;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	text-decoration: none;
+}

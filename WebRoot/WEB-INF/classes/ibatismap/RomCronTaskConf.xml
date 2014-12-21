@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="RomCronTaskConf">
+	<typeAlias alias="RomCronTaskConf" type="com.sitech.rom.common.dto.RomCronTaskConf"/>
+	
+	<resultMap id="RomCronTaskConfResult" class="RomCronTaskConf">
+		<result property="taskId" column="TASK_ID"/>
+		<result property="proCode" column="PRO_CODE"/>
+		<result property="funcCode" column="FUNC_CODE"/>
+		<result property="scriptsId" column="SCRIPTS_ID"/>
+		<result property="beginTime" column="BEGIN_TIME"/>
+		<result property="endTime" column="END_TIME"/>
+		<result property="intervalTime" column="INTERVAL_TIME"/>
+		<result property="nextRunTime" column="NEXT_RUN_TIME"/>
+		<result property="taskState" column="TASK_STATE"/>
+		<result property="userFlag" column="USER_FLAG"/>
+		<result property="remark" column="REMARK"/>
+  	</resultMap>
+
+	<sql id="select-all-column">
+	SELECT
+		TASK_ID AS taskId,
+		PRO_CODE AS proCode,
+		FUNC_CODE AS funcCode,
+		SCRIPTS_ID AS scriptsId,
+		BEGIN_TIME AS beginTime,
+		END_TIME AS endTime,
+		INTERVAL_TIME AS intervalTime,
+		NEXT_RUN_TIME AS nextRunTime,
+		TASK_STATE AS taskState,
+		USER_FLAG AS userFlag,
+		REMARK AS remark	
+	FROM ROM_CRON_TASK_CONF
+	</sql>
+	
+	<sql id="where-all-condition">
+	<dynamic prepend=" WHERE ">
+		<isPropertyAvailable property="taskId" prepend="and">
+			<isNotNull property="taskId">
+				<isNotEmpty property="taskId">
+					TASK_ID = #taskId#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="proCode" prepend="and">
+			<isNotNull property="proCode">
+				<isNotEmpty property="proCode">
+					PRO_CODE = #proCode#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="funcCode" prepend="and">
+			<isNotNull property="funcCode">
+				<isNotEmpty property="funcCode">
+					FUNC_CODE = #funcCode#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="scriptsId" prepend="and">
+			<isNotNull property="scriptsId">
+				<isNotEmpty property="scriptsId">
+					SCRIPTS_ID = #scriptsId#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="beginTimeStart" prepend="and">
+			<isNotNull property="beginTimeStart">
+				<isNotEmpty property="beginTimeStart">
+					<![CDATA[ BEGIN_TIME >= #beginTimeStart# ]]>
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="beginTimeEnd" prepend="and">
+			<isNotNull property="beginTimeEnd">
+				<isNotEmpty property="beginTimeEnd">
+					<![CDATA[ BEGIN_TIME <= #beginTimeEnd# ]]>
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="endTimeStart" prepend="and">
+			<isNotNull property="endTimeStart">
+				<isNotEmpty property="endTimeStart">
+					<![CDATA[ END_TIME >= #endTimeStart# ]]>
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="endTimeEnd" prepend="and">
+			<isNotNull property="endTimeEnd">
+				<isNotEmpty property="endTimeEnd">
+					<![CDATA[ END_TIME <= #endTimeEnd# ]]>
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="intervalTime" prepend="and">
+			<isNotNull property="intervalTime">
+				<isNotEmpty property="intervalTime">
+					INTERVAL_TIME = #intervalTime#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="nextRunTimeStart" prepend="and">
+			<isNotNull property="nextRunTimeStart">
+				<isNotEmpty property="nextRunTimeStart">
+					<![CDATA[ NEXT_RUN_TIME >= #nextRunTimeStart# ]]>
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="nextRunTimeEnd" prepend="and">
+			<isNotNull property="nextRunTimeEnd">
+				<isNotEmpty property="nextRunTimeEnd">
+					<![CDATA[ NEXT_RUN_TIME <= #nextRunTimeEnd# ]]>
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="taskState" prepend="and">
+			<isNotNull property="taskState">
+				<isNotEmpty property="taskState">
+					TASK_STATE = #taskState#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="userFlag" prepend="and">
+			<isNotNull property="userFlag">
+				<isNotEmpty property="userFlag">
+					USER_FLAG = #userFlag#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="remark" prepend="and">
+			<isNotNull property="remark">
+				<isNotEmpty property="remark">
+					REMARK = #remark#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+	</dynamic>
+	</sql>
+
+	<select id="selectRomCronTaskConf" parameterClass="RomCronTaskConf" resultClass="RomCronTaskConf">
+		<include refid="select-all-column"/>
+		<include refid="where-all-condition"/>
+	</select>
+	
+	<insert id="insertRomCronTaskConf" parameterClass="RomCronTaskConf">
+	INSERT INTO ROM_CRON_TASK_CONF (
+		TASK_ID,
+		PRO_CODE,
+		FUNC_CODE,
+		SCRIPTS_ID,
+		BEGIN_TIME,
+		END_TIME,
+		INTERVAL_TIME,
+		NEXT_RUN_TIME,
+		TASK_STATE,
+		USER_FLAG,
+		REMARK
+	) VALUES (
+		#taskId# ,
+		#proCode# ,
+		#funcCode# ,
+		#scriptsId# ,
+		#beginTime# ,
+		#endTime# ,
+		#intervalTime# ,
+		#nextRunTime# ,
+		#taskState# ,
+		#userFlag# ,
+		#remark#     
+	)
+	</insert>
+	
+	<update id="updateRomCronTaskConf" parameterClass="java.util.Map">
+	UPDATE ROM_CRON_TASK_CONF
+	<dynamic prepend=" SET ">
+		<isNotNull property="_taskId" prepend=",">
+			TASK_ID = #_taskId#
+		</isNotNull>
+		<isNotNull property="_proCode" prepend=",">
+			PRO_CODE = #_proCode#
+		</isNotNull>
+		<isNotNull property="_funcCode" prepend=",">
+			FUNC_CODE = #_funcCode#
+		</isNotNull>
+		<isNotNull property="_scriptsId" prepend=",">
+			SCRIPTS_ID = #_scriptsId#
+		</isNotNull>
+		<isNotNull property="_beginTime" prepend=",">
+			BEGIN_TIME = #_beginTime#
+		</isNotNull>
+		<isNotNull property="_endTime" prepend=",">
+			END_TIME = #_endTime#
+		</isNotNull>
+		<isNotNull property="_intervalTime" prepend=",">
+			INTERVAL_TIME = #_intervalTime#
+		</isNotNull>
+		<isNotNull property="_nextRunTime" prepend=",">
+			NEXT_RUN_TIME = #_nextRunTime#
+		</isNotNull>
+		<isNotNull property="_taskState" prepend=",">
+			TASK_STATE = #_taskState#
+		</isNotNull>
+		<isNotNull property="_userFlag" prepend=",">
+			USER_FLAG = #_userFlag#
+		</isNotNull>
+		<isNotNull property="_remark" prepend=",">
+			REMARK = #_remark#
+		</isNotNull>
+	</dynamic>
+
+	<include refid="where-all-condition"/>
+	</update>
+	
+
+	<delete id="deleteRomCronTaskConf" parameterClass="RomCronTaskConf">
+	DELETE FROM ROM_CRON_TASK_CONF
+	<include refid="where-all-condition"/>
+	</delete>
+	
+	<select id="selectRomCronTaskConfParam" parameterClass="java.util.Map" resultClass="RomCronTaskConf">
+		<isEmpty property="S">
+			SELECT
+			TASK_ID AS taskId,
+			PRO_CODE AS proCode,
+			FUNC_CODE AS funcCode,
+			SCRIPTS_ID AS scriptsId,
+			BEGIN_TIME AS beginTime,
+			END_TIME AS endTime,
+			INTERVAL_TIME AS intervalTime,
+			NEXT_RUN_TIME AS nextRunTime,
+			TASK_STATE AS taskState,
+			USER_FLAG AS userFlag,
+			REMARK AS remark
+		</isEmpty>
+		<isNotEmpty property="S">
+			SELECT $S$
+		</isNotEmpty>
+		 	FROM ROM_CRON_TASK_CONF $W$
+	</select>
+</sqlMap>

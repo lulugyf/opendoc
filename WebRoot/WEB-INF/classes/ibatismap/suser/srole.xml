@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="srole">
+ <typeAlias alias="RoleBo" type="com.sitech.rom.common.bo.RoleBo"/>
+ 
+ <!-- 查询角色信息 -->
+ <select id="qryRomRoleInfo" parameterClass="RomSysRole" resultClass="RoleBo">
+   select 
+          a.ROLE_ID AS roleId,
+          a.ROLE_NAME AS roleName,
+          a.ROLE_TYPE AS roleType,
+          a.ROLE_STATE AS roleState,
+          a.PROVINCE_CODE AS provinceCode,
+          a.TELL_TYPE AS tellType,      
+          b.PROVINCE_NAME AS provinceName,
+          c.TELLCORP_NAME AS tellcorpName,
+          d.PRO_NAME AS proName
+     from rom_sys_role a
+     left join rom_province_code b on a.province_code=b.province_code
+	  left join rom_tellcorp_code c on a.tell_type=c.tellcorp_code
+	  left join rom_pro_code d on a.pro_code=d.pro_code
+    where 1=1 
+		<isPropertyAvailable property="provinceCode" prepend="and">
+			<isNotNull property="provinceCode">
+				<isNotEmpty property="provinceCode">
+					a.PROVINCE_CODE = #provinceCode#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="tellType" prepend="and">
+			<isNotNull property="tellType">
+				<isNotEmpty property="tellType">
+					a.TELL_TYPE = #tellType#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="proCode" prepend="and">
+			<isNotNull property="proCode">
+				<isNotEmpty property="proCode">
+					a.PRO_CODE = #proCode#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="roleState" prepend="and">
+			<isNotNull property="roleState">
+				<isNotEmpty property="roleState">
+					a.ROLE_STATE = #roleState#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>	
+ 	order by d.PRO_NAME,a.ROLE_NAME
+ </select> 
+
+</sqlMap>

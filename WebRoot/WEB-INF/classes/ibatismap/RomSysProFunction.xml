@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="RomSysProFunction">
+	<typeAlias alias="RomSysProFunction" type="com.sitech.rom.common.dto.RomSysProFunction"/>
+	
+	<resultMap id="RomSysProFunctionResult" class="RomSysProFunction">
+		<result property="proCode" column="PRO_CODE"/>
+		<result property="functionCode" column="FUNCTION_CODE"/>
+		<result property="remarks" column="REMARKS"/>
+  	</resultMap>
+
+	<sql id="select-all-column">
+	SELECT
+		PRO_CODE AS proCode,
+		FUNCTION_CODE AS functionCode,
+		REMARKS AS remarks	
+	FROM ROM_SYS_PRO_FUNCTION
+	</sql>
+	
+	<sql id="where-all-condition">
+	<dynamic prepend=" WHERE ">
+		<isPropertyAvailable property="proCode" prepend="and">
+			<isNotNull property="proCode">
+				<isNotEmpty property="proCode">
+					PRO_CODE = #proCode#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="functionCode" prepend="and">
+			<isNotNull property="functionCode">
+				<isNotEmpty property="functionCode">
+					FUNCTION_CODE = #functionCode#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="remarks" prepend="and">
+			<isNotNull property="remarks">
+				<isNotEmpty property="remarks">
+					REMARKS = #remarks#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+	</dynamic>
+	</sql>
+
+	<select id="selectRomSysProFunction" parameterClass="RomSysProFunction" resultClass="RomSysProFunction">
+		<include refid="select-all-column"/>
+		<include refid="where-all-condition"/>
+	</select>
+	
+	<insert id="insertRomSysProFunction" parameterClass="RomSysProFunction">
+	INSERT INTO ROM_SYS_PRO_FUNCTION (
+		PRO_CODE,
+		FUNCTION_CODE,
+		REMARKS
+	) VALUES (
+		#proCode# ,
+		#functionCode# ,
+		#remarks#     
+	)
+	</insert>
+	
+	<update id="updateRomSysProFunction" parameterClass="java.util.Map">
+	UPDATE ROM_SYS_PRO_FUNCTION
+	<dynamic prepend=" SET ">
+		<isNotNull property="_proCode" prepend=",">
+			PRO_CODE = #_proCode#
+		</isNotNull>
+		<isNotNull property="_functionCode" prepend=",">
+			FUNCTION_CODE = #_functionCode#
+		</isNotNull>
+		<isNotNull property="_remarks" prepend=",">
+			REMARKS = #_remarks#
+		</isNotNull>
+	</dynamic>
+
+	<include refid="where-all-condition"/>
+	</update>
+	
+
+	<delete id="deleteRomSysProFunction" parameterClass="RomSysProFunction">
+	DELETE FROM ROM_SYS_PRO_FUNCTION
+	<include refid="where-all-condition"/>
+	</delete>
+	
+	<select id="selectRomSysProFunctionParam" parameterClass="java.util.Map" resultClass="RomSysProFunction">
+		<isEmpty property="S">
+			SELECT
+			PRO_CODE AS proCode,
+			FUNCTION_CODE AS functionCode,
+			REMARKS AS remarks
+		</isEmpty>
+		<isNotEmpty property="S">
+			SELECT $S$
+		</isNotEmpty>
+		 	FROM ROM_SYS_PRO_FUNCTION $W$
+	</select>
+</sqlMap>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="suser">
+ 
+ <!-- 得到最大工号的数字 -->
+ <select id="getMaxLoginnoNum" resultClass="string">
+ 	select max(substr(login_no,2)) from rom_sys_login
+ </select>
+
+ <!-- 得到最大产品的数字 -->
+ <select id="getMaxProductNum" resultClass="string">
+ 	select max(substr(pro_code,2)) from rom_pro_code  where pro_code like 'P%'
+ </select>
+  
+</sqlMap>

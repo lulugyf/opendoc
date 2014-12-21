@@ -1,0 +1,108 @@
+﻿body {
+	margin: 0;
+	padding: 0;
+	font: 12px Verdana, Arial, Helvetica, sans-serif,"宋体","黑体";
+	line-height: 1.8em;
+	text-align: left;
+	border: 0;
+}
+* {
+	padding: 0;
+	margin: 0;
+}
+
+.Calendar {
+	font-family:Verdana;
+	font-size:12px;
+	
+	text-align:center;
+	width:200px;
+	height:160px;
+	padding:0px;
+	line-height:1.5em;
+}
+.Calendar a{
+	color:#1e5494;
+}
+
+.Calendar table{
+	width:100%; 
+	border:0;
+	border-left: solid 1px #c8bfba;
+	border-bottom: solid 1px #c8bfba;
+	margin-top:0px;
+	background:#c8bfba;
+}
+.Calendar table thead {
+	border-right: solid 1px #c8bfba;
+}
+.Calendar table thead td {
+	font-size: 11px;
+	padding:2px 0 0 0;
+	background:#9bb8ce url('../images/calendar.png') repeat-x 0 -84px;
+	height:20px;
+	border:0px;
+	color:#4474a3;
+}
+
+.Calendar table td {
+	font-size: 11px;
+	padding: 3px 1px 3px 1px;
+	background: #f4f7f8;
+	border-top: solid 1px #c8bfba;
+	border-right: solid 1px #c8bfba;
+}
+.Calendar .title {
+	height:25px;
+	padding:5px 5px 0px 5px;
+	background:transparent url('../images/calendar.png') repeat-x 0 bottom;
+	border: solid 1px #c8bfba;
+	border-bottom:0;
+}
+#idCalendarPre{
+	cursor:pointer;
+	float:left;
+	width:12px;
+	height:20px;
+	background:transparent url('../images/calendar.png') no-repeat -3px -43px;
+}
+#idCalendarPreYear{
+	cursor:pointer;
+	float:left;
+	width:20px;
+	height:20px;
+	background:transparent url('../images/calendar.png') no-repeat 0 0;
+}
+
+#idCalendarNext{
+	cursor:pointer;
+	float:right;
+	width:12px;
+	height:20px;
+	background:transparent url('../images/calendar.png') no-repeat -3px -64px;
+}
+#idCalendarNextYear{
+	cursor:pointer;
+	float:right;
+	width:20px;
+	height:20px;
+	background:transparent url('../images/calendar.png') no-repeat 0px -22px;
+
+}
+input#idCalendarNow {
+	border: 0;
+	width:23px;
+	height: 16px;
+	padding: 0;
+	margin: 0;
+	cursor:pointer;
+	background:#c9beba url('../images/calendar.png') no-repeat 0 -109px;
+}
+#idCalendar td.onToday {
+	font-weight:bold;
+	color:#cb8242;
+}
+#idCalendar td.onSelect {
+	font-weight:bold;
+	color:#cb8242;
+}

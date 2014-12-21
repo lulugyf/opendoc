@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="RomSysFunction">
+	<typeAlias alias="RomSysFunction" type="com.sitech.rom.common.dto.RomSysFunction"/>
+	
+	<resultMap id="RomSysFunctionResult" class="RomSysFunction">
+		<result property="functionCode" column="FUNCTION_CODE"/>
+		<result property="functionName" column="FUNCTION_NAME"/>
+		<result property="actionName" column="ACTION_NAME"/>
+		<result property="nodeType" column="NODE_TYPE"/>
+		<result property="parentCode" column="PARENT_CODE"/>
+		<result property="operationCode" column="OPERATION_CODE"/>
+		<result property="noteSeq" column="NOTE_SEQ"/>
+		<result property="remarks" column="REMARKS"/>
+  	</resultMap>
+
+	<sql id="select-all-column">
+	SELECT
+		FUNCTION_CODE AS functionCode,
+		FUNCTION_NAME AS functionName,
+		ACTION_NAME AS actionName,
+		NODE_TYPE AS nodeType,
+		PARENT_CODE AS parentCode,
+		OPERATION_CODE AS operationCode,
+		NOTE_SEQ AS noteSeq,
+		REMARKS AS remarks,
+		OPEN_TYPE AS openType	
+	FROM ROM_SYS_FUNCTION
+	</sql>
+	
+	<sql id="where-all-condition">
+	<dynamic prepend=" WHERE ">
+		<isPropertyAvailable property="functionCode" prepend="and">
+			<isNotNull property="functionCode">
+				<isNotEmpty property="functionCode">
+					FUNCTION_CODE = #functionCode#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="functionName" prepend="and">
+			<isNotNull property="functionName">
+				<isNotEmpty property="functionName">
+					FUNCTION_NAME = #functionName#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="actionName" prepend="and">
+			<isNotNull property="actionName">
+				<isNotEmpty property="actionName">
+					ACTION_NAME = #actionName#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="nodeType" prepend="and">
+			<isNotNull property="nodeType">
+				<isNotEmpty property="nodeType">
+					NODE_TYPE = #nodeType#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="parentCode" prepend="and">
+			<isNotNull property="parentCode">
+				<isNotEmpty property="parentCode">
+					PARENT_CODE = #parentCode#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="operationCode" prepend="and">
+			<isNotNull property="operationCode">
+				<isNotEmpty property="operationCode">
+					OPERATION_CODE = #operationCode#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="noteSeq" prepend="and">
+			<isNotNull property="noteSeq">
+				<isNotEmpty property="noteSeq">
+					NOTE_SEQ = #noteSeq#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="remarks" prepend="and">
+			<isNotNull property="remarks">
+				<isNotEmpty property="remarks">
+					REMARKS = #remarks#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="openType" prepend="and">
+			<isNotNull property="openType">
+				<isNotEmpty property="openType">
+					OPEN_TYPE = #openType#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+	</dynamic>
+	</sql>
+	
+	<select id="selectRomSysFunction" parameterClass="RomSysFunction" resultClass="RomSysFunction">
+		<include refid="select-all-column"/>
+		<include refid="where-all-condition"/>
+		ORDER BY NOTE_SEQ,FUNCTION_CODE
+	</select>
+	
+	<insert id="insertRomSysFunction" parameterClass="RomSysFunction">
+	INSERT INTO ROM_SYS_FUNCTION (
+		FUNCTION_CODE,
+		FUNCTION_NAME,
+		ACTION_NAME,
+		NODE_TYPE,
+		PARENT_CODE,
+		OPERATION_CODE,
+		NOTE_SEQ,
+		REMARKS,
+		OPEN_TYPE
+	) VALUES (
+		#functionCode# ,
+		#functionName# ,
+		#actionName# ,
+		#nodeType# ,
+		#parentCode# ,
+		#operationCode# ,
+		#noteSeq# ,
+		#remarks#,
+		#openType#      
+	)
+	</insert>
+	
+	<update id="updateRomSysFunction" parameterClass="java.util.Map">
+	UPDATE ROM_SYS_FUNCTION
+	<dynamic prepend=" SET ">
+		<isNotNull property="_functionCode" prepend=",">
+			FUNCTION_CODE = #_functionCode#
+		</isNotNull>
+		<isNotNull property="_functionName" prepend=",">
+			FUNCTION_NAME = #_functionName#
+		</isNotNull>
+		<isNotNull property="_actionName" prepend=",">
+			ACTION_NAME = #_actionName#
+		</isNotNull>
+		<isNotNull property="_nodeType" prepend=",">
+			NODE_TYPE = #_nodeType#
+		</isNotNull>
+		<isNotNull property="_parentCode" prepend=",">
+			PARENT_CODE = #_parentCode#
+		</isNotNull>
+		<isNotNull property="_operationCode" prepend=",">
+			OPERATION_CODE = #_operationCode#
+		</isNotNull>
+		<isNotNull property="_noteSeq" prepend=",">
+			NOTE_SEQ = #_noteSeq#
+		</isNotNull>
+		<isNotNull property="_remarks" prepend=",">
+			REMARKS = #_remarks#
+		</isNotNull>
+		<isNotNull property="_openType" prepend=",">
+			OPEN_TYPE = #_openType#
+		</isNotNull>
+	</dynamic>
+
+	<include refid="where-all-condition"/>
+	</update>
+	
+
+	<delete id="deleteRomSysFunction" parameterClass="RomSysFunction">
+	DELETE FROM ROM_SYS_FUNCTION
+	<include refid="where-all-condition"/>
+	</delete>
+	
+	<select id="selectRomSysFunctionParam" parameterClass="java.util.Map" resultClass="RomSysFunction">
+		<isEmpty property="S">
+			SELECT
+			FUNCTION_CODE AS functionCode,
+			FUNCTION_NAME AS functionName,
+			ACTION_NAME AS actionName,
+			NODE_TYPE AS nodeType,
+			PARENT_CODE AS parentCode,
+			OPERATION_CODE AS operationCode,
+			NOTE_SEQ AS noteSeq,
+			REMARKS AS remarks,
+			OPEN_TYPE AS openType
+		</isEmpty>
+		<isNotEmpty property="S">
+			SELECT $S$
+		</isNotEmpty>
+		 	FROM ROM_SYS_FUNCTION $W$
+	</select>
+</sqlMap>

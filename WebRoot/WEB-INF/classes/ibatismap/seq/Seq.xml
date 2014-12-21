@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="Seq">
+	<typeAlias alias="Seq"
+		type="com.sitech.rom.common.dto.Seq" />
+	
+	<select id="selectseq" parameterClass="Seq"
+		resultClass="java.lang.Long">
+		select nextval(#seq_name#) as seq
+	</select>
+	
+	<select id="FOUND_ROWS" resultClass="java.lang.Integer">
+		select FOUND_ROWS()
+	</select>
+
+</sqlMap>

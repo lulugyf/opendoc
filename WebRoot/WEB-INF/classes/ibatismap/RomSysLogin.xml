@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="RomSysLogin">
+	<typeAlias alias="RomSysLogin" type="com.sitech.rom.common.dto.RomSysLogin"/>
+	
+	<resultMap id="RomSysLoginResult" class="RomSysLogin">
+		<result property="loginNo" column="LOGIN_NO"/>
+		<result property="loginName" column="LOGIN_NAME"/>
+		<result property="loginPwd" column="LOGIN_PWD"/>
+		<result property="useFlg" column="USE_FLG"/>
+		<result property="expireTime" column="EXPIRE_TIME"/>
+		<result property="loginFlg" column="LOGIN_FLG"/>
+		<result property="phoneNo" column="PHONE_NO"/>
+		<result property="loginIp" column="LOGIN_IP"/>
+		<result property="remark" column="REMARK"/>
+		<result property="province_code" column="PROVINCE_CODE"/>
+  	</resultMap>
+
+	<sql id="select-all-column">
+	SELECT
+		LOGIN_NO AS loginNo,
+		LOGIN_NAME AS loginName,
+		LOGIN_PWD AS loginPwd,
+		USE_FLG AS useFlg,
+		EXPIRE_TIME AS expireTime,
+		LOGIN_FLG AS loginFlg,
+		PHONE_NO AS phoneNo,
+		LOGIN_IP AS loginIp,
+		REMARK AS remark ,	
+		PROVINCE_CODE AS  province_code
+	FROM ROM_SYS_LOGIN
+	</sql>
+	
+	<sql id="where-all-condition">
+	<dynamic prepend=" WHERE ">
+		<isPropertyAvailable property="loginNo" prepend="and">
+			<isNotNull property="loginNo">
+				<isNotEmpty property="loginNo">
+					LOGIN_NO = #loginNo#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="loginName" prepend="and">
+			<isNotNull property="loginName">
+				<isNotEmpty property="loginName">
+					LOGIN_NAME = #loginName#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="loginPwd" prepend="and">
+			<isNotNull property="loginPwd">
+				<isNotEmpty property="loginPwd">
+					LOGIN_PWD = #loginPwd#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="useFlg" prepend="and">
+			<isNotNull property="useFlg">
+				<isNotEmpty property="useFlg">
+					USE_FLG = #useFlg#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="expireTimeStart" prepend="and">
+			<isNotNull property="expireTimeStart">
+				<isNotEmpty property="expireTimeStart">
+					<![CDATA[ EXPIRE_TIME >= #expireTimeStart# ]]>
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="expireTimeEnd" prepend="and">
+			<isNotNull property="expireTimeEnd">
+				<isNotEmpty property="expireTimeEnd">
+					<![CDATA[ EXPIRE_TIME <= #expireTimeEnd# ]]>
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="loginFlg" prepend="and">
+			<isNotNull property="loginFlg">
+				<isNotEmpty property="loginFlg">
+					LOGIN_FLG = #loginFlg#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="phoneNo" prepend="and">
+			<isNotNull property="phoneNo">
+				<isNotEmpty property="phoneNo">
+					PHONE_NO = #phoneNo#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="loginIp" prepend="and">
+			<isNotNull property="loginIp">
+				<isNotEmpty property="loginIp">
+					LOGIN_IP = #loginIp#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="remark" prepend="and">
+			<isNotNull property="remark">
+				<isNotEmpty property="remark">
+					REMARK = #remark#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+			<isPropertyAvailable property="province_code" prepend="and">
+			<isNotNull property="province_code">
+				<isNotEmpty property="remark">
+					PROVINCE_CODE = #province_code#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+	</dynamic>
+	</sql>
+	<select id="selectRomSysLoginById" parameterClass="java.lang.String" resultClass="RomSysLogin">
+		<include refid="select-all-column"/>
+		WHERE LOGIN_NO = #loginNo#
+	</select>
+
+	<select id="selectRomSysLogin" parameterClass="RomSysLogin" resultClass="RomSysLogin">
+		<include refid="select-all-column"/>
+		<include refid="where-all-condition"/>
+		ORDER BY LOGIN_NO
+	</select>
+	
+	<insert id="insertRomSysLogin" parameterClass="RomSysLogin">
+	INSERT INTO ROM_SYS_LOGIN (
+		LOGIN_NO,
+		LOGIN_NAME,
+		LOGIN_PWD,
+		USE_FLG,
+		EXPIRE_TIME,
+		LOGIN_FLG,
+		PHONE_NO,
+		LOGIN_IP,
+		REMARK,
+		PROVINCE_CODE
+	) VALUES (
+		#loginNo# ,
+		#loginName# ,
+		#loginPwd# ,
+		#useFlg# ,
+		#expireTime# ,
+		#loginFlg# ,
+		#phoneNo# ,
+		#loginIp# ,
+		#remark# ,
+		#province_code#    
+	)
+	</insert>
+	
+	<update id="updateRomSysLogin" parameterClass="java.util.Map">
+	UPDATE ROM_SYS_LOGIN
+	<dynamic prepend=" SET ">
+		<isNotNull property="_loginNo" prepend=",">
+			LOGIN_NO = #_loginNo#
+		</isNotNull>
+		<isNotNull property="_loginName" prepend=",">
+			LOGIN_NAME = #_loginName#
+		</isNotNull>
+		<isNotNull property="_loginPwd" prepend=",">
+			LOGIN_PWD = #_loginPwd#
+		</isNotNull>
+		<isNotNull property="_useFlg" prepend=",">
+			USE_FLG = #_useFlg#
+		</isNotNull>
+		<isNotNull property="_expireTime" prepend=",">
+			EXPIRE_TIME = #_expireTime#
+		</isNotNull>
+		<isNotNull property="_loginFlg" prepend=",">
+			LOGIN_FLG = #_loginFlg#
+		</isNotNull>
+		<isNotNull property="_phoneNo" prepend=",">
+			PHONE_NO = #_phoneNo#
+		</isNotNull>
+		<isNotNull property="_loginIp" prepend=",">
+			LOGIN_IP = #_loginIp#
+		</isNotNull>
+		<isNotNull property="_remark" prepend=",">
+			REMARK = #_remark#
+		</isNotNull>
+	   <isNotNull property="_province_code" prepend=",">
+		    PROVINCE_CODE = #_province_code#
+		</isNotNull>
+	</dynamic>
+
+	<include refid="where-all-condition"/>
+	</update>
+	
+	<delete id="deleteRomSysLoginById" parameterClass="java.lang.String">
+	DELETE FROM ROM_SYS_LOGIN
+	WHERE LOGIN_NO = #loginNo#
+	</delete>
+
+	<delete id="deleteRomSysLogin" parameterClass="RomSysLogin">
+	DELETE FROM ROM_SYS_LOGIN
+	<include refid="where-all-condition"/>
+	</delete>
+	
+	<select id="selectRomSysLoginParam" parameterClass="java.util.Map" resultClass="RomSysLogin">
+		<isEmpty property="S">
+			SELECT
+			LOGIN_NO AS loginNo,
+			LOGIN_NAME AS loginName,
+			LOGIN_PWD AS loginPwd,
+			USE_FLG AS useFlg,
+			EXPIRE_TIME AS expireTime,
+			LOGIN_FLG AS loginFlg,
+			PHONE_NO AS phoneNo,
+			LOGIN_IP AS loginIp,
+			REMARK AS remark,
+			PROVINCE_CODE AS  province_code
+		</isEmpty>
+		<isNotEmpty property="S">
+			SELECT $S$
+		</isNotEmpty>
+		 	FROM ROM_SYS_LOGIN $W$
+	</select>
+</sqlMap>

@@ -1,0 +1,43 @@
+
+.optable table {
+    line-height: 1.7em;
+    
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: #c0d4db -moz-use-text-color -moz-use-text-color #c0d4db;
+    border-image: none;
+    border-style: solid none none solid;
+    border-width: 1px 0 0 1px;
+    margin-bottom: 3px;
+    table-layout: fixed;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-size: 12px;
+    table-layout: auto;
+}
+
+.optable table th {
+    color: #366fa9;
+    font-weight: normal;
+    white-space: nowrap;
+    background-color: #f6f6f6;
+    border-bottom: 1px solid #c0d4db;
+    border-right: 1px solid #c0d4db;
+    text-align: right;
+    white-space: nowrap;
+    width: 100px;
+    font-size: 12px;
+    padding: 2px;
+}
+
+
+.optable td {
+    border-bottom: 1px solid #c0d4db;
+    border-right: 1px solid #c0d4db;
+    text-align: left;
+    padding: 2px;
+}
+
+

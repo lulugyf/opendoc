@@ -1,0 +1,753 @@
+﻿
+function actb_free(objs,objh,ca)
+{
+	/* ---- Public Variables ---- */
+	this.actb_timeOut = -1; // Autocomplete Timeout in ms (-1: autocomplete never time out)
+	this.actb_lim = 10;    // Number of elements autocomplete can show (-1: no limit)
+	this.actb_firstText = false; // should the auto complete be limited to the beginning of keyword?
+	this.actb_mouse = true; // Enable Mouse Support
+	this.actb_delimiter = new Array(';',',');  // Delimiter for multiple autocomplete. Set it to empty array for single autocomplete
+	this.actb_startcheck = 1; // Show widget only after this number of characters is typed in.
+	/* ---- Public Variables ---- */
+
+	/* --- Styles --- */
+	this.actb_bgColor = '#fff';
+	this.actb_textColor = '#000';
+	this.actb_hColor = '#fefe9c';
+	this.actb_fFamily = 'Verdana';
+	this.actb_fSize = '12px';
+	this.actb_hStyle = 'color:#ff8500;text-decoration:underline;font-weight="bold"';
+	/* --- Styles --- */
+
+	/* ---- Private Variables ---- */
+	var actb_delimwords = new Array();
+	var ex=" ";
+	var actb_cdelimword = 0;
+	var actb_delimchar = new Array();
+	var actb_display = false;
+	var actb_pos = 0;
+	var actb_total = 0;
+	var actb_curr = null;
+	var actb_hidden = null;
+	var actb_rangeu = 0;
+	var actb_ranged = 0;
+	var actb_bool = new Array();
+	var actb_pre = 0;
+	var actb_toid;
+	var actb_tomake = false;
+	var actb_getpre = "";
+	var actb_mouse_on_list = 1;
+	var actb_kwcount = 0;
+	var actb_caretmove = false;
+	this.actb_keywords = new Array();
+	/* ---- Private Variables---- */
+	
+  this.alisTableName = "tat_table"+objs.id;
+  
+	this.actb_keywords = ca;
+	var actb_self = this;
+
+	actb_curr = objs;
+	actb_hidden = objh;
+	
+	addEvent(actb_curr,"focus",actb_setup);
+	//addEvent(document,"click",hiddenAlis);
+	
+	function actb_setup(){
+		addEvent(document,"keydown",actb_checkkey);
+		addEvent(actb_curr,"blur",actb_clear);
+		addEvent(document,"keypress",actb_keypress);
+	}
+
+	function actb_clear(evt){
+		if (!evt) evt = event;
+		removeEvent(document,"keydown",actb_checkkey);
+		removeEvent(actb_curr,"blur",actb_clear);
+		removeEvent(document,"keypress",actb_keypress);
+		
+		//removeEvent(actb_curr,"focus",actb_setup); 
+		actb_removedisp(); 
+	}
+	
+	function hiddenAlis(event){ // 初始匹配后点击除弹出层外其他区域随即隐藏弹出层 add by zhangzha on 20101217
+			if(document.getElementById(this.alisTableName)){
+		      var e = event || window.event;  
+		      var elem = e.srcElement||e.target;
+		      if(elem.id != this.alisTableName){  
+		         actb_mouse_on_list=0;
+		         actb_removedisp();
+		      }
+			} 
+  }
+	function actb_parse(n){
+		if (actb_self.actb_delimiter.length > 0){
+			var t = actb_delimwords[actb_cdelimword].trim().addslashes();
+			var plen = actb_delimwords[actb_cdelimword].trim().length;
+		}else{
+			var t = actb_curr.value.addslashes();
+			var plen = actb_curr.value.length;
+		}
+		var tobuild = '';
+		var i;
+
+		if (actb_self.actb_firstText){
+			var re = new RegExp("^" + t, "i");
+		}else{
+			var re = new RegExp(t, "i");
+		}
+		var p = n.search(re);
+				
+		for (i=0;i<p;i++){
+			tobuild += n.substr(i,1);
+		}
+		tobuild += "<font style='"+(actb_self.actb_hStyle)+"'>"
+		for (i=p;i<plen+p;i++){
+			tobuild += n.substr(i,1);
+		}
+		tobuild += "</font>";
+			for (i=plen+p;i<n.length;i++){
+			tobuild += n.substr(i,1);
+		}
+		return tobuild;
+	}
+	
+	// 展示匹配结果集div层
+	function actb_generate(){
+		if (document.getElementById(this.alisTableName)){ actb_display = false;document.body.removeChild(document.getElementById(this.alisTableName)); } 
+		if (actb_kwcount == 0){
+			actb_display = false;
+			return;
+		}
+		var cdiv=document.createElement("div");
+		cdiv.id=this.alisTableName;
+		cdiv.style.position='absolute';
+		cdiv.style.overflow="visible";
+		cdiv.className='tat_table';
+		cdiv.style.zIndex=51;
+		cdiv.innerHTML='<iframe id="div_iframe_'+objs.id+'" style="position:absolute" scrolling="no"	frameborder="0" src="about:blank"></iframe>';
+		cdiv.style.top = eval(curTop(actb_curr) + actb_curr.offsetHeight) + 5 + "px";
+		cdiv.style.left = curLeft(actb_curr) + "px";
+		
+		a = document.createElement('table');
+		a.style.width="200px"
+		a.cellSpacing='0px';
+		a.cellPadding='0px';
+		a.style.position='absolute';
+		a.style.backgroundColor=actb_self.actb_bgColor;
+		a.style.filter = "progid:DXImageTransform.Microsoft.Shadow(Color=#dddddd,Direction=120,strength=4);";
+		cdiv.appendChild(a);
+		document.body.appendChild(cdiv);
+		
+		var i;
+		var first = true;
+		var j = 1;
+		if (actb_self.actb_mouse){
+			a.onmouseout = actb_table_unfocus;
+			a.onmouseover = actb_table_focus;
+		}
+		var counter = 0;
+		for (i=0;i<actb_self.actb_keywords.length;i++){
+			if (actb_bool[i]){
+				counter++;
+				r = a.insertRow(-1);
+				r.id = 'tat_tr'+(j);
+				c = r.insertCell(-1);
+				if (first && !actb_tomake){
+					c.style.backgroundColor = actb_self.actb_hColor; // modify by zhangzha 此处设置第一条匹配项背景
+					first = false;
+					actb_pos = counter;
+				}else if(actb_pre == i){
+					c.style.backgroundColor = actb_self.actb_hColor;
+					first = false;
+					actb_pos = counter;
+				}else{
+					c.style.backgroundColor = actb_self.actb_bgColor;
+				}
+				c.style.color = actb_self.actb_textColor;
+				c.style.fontFamily = actb_self.actb_fFamily;
+				c.style.fontSize = actb_self.actb_fSize;
+				c.innerHTML = actb_parse(actb_self.actb_keywords[i]);
+				c.id = 'tat_td'+(j);
+				c.setAttribute('pos',j);
+				if (actb_self.actb_mouse){
+					c.style.cursor = 'pointer';
+					c.onclick=actb_mouseclick;
+					c.onmouseover = actb_table_highlight;
+				}
+				j++;
+			}
+			//向下翻页
+			if (j - 1 == actb_self.actb_lim && j < actb_total){
+				r = a.insertRow(-1);
+
+				c = r.insertCell(-1);
+				c.style.backgroundColor = actb_self.actb_bgColor;
+				c.style.color = actb_self.actb_textColor;
+				c.style.fontFamily = 'arial narrow';
+				c.style.fontSize = actb_self.actb_fSize;
+				c.align='center';
+				replaceHTML(c,'\\/');
+				if (actb_self.actb_mouse){
+					c.style.cursor = 'pointer';
+					c.onclick = actb_mouse_down;
+				}
+				break;
+			}
+		}
+		
+		actb_rangeu = 1;
+		actb_ranged = j-1;
+		actb_display = true;
+		if (actb_pos <= 0) actb_pos = 1;
+	  document.getElementById("div_iframe_"+objs.id).style.height=document.getElementById(this.alisTableName).offsetHeight;
+	  document.getElementById("div_iframe_"+objs.id).style.width=document.getElementById(this.alisTableName).offsetWidth;
+	}
+	
+	// 匹配结果集div层（翻页）
+	function actb_remake(){
+		document.body.removeChild(document.getElementById(this.alisTableName));
+		
+		var cdiv=document.createElement("div");
+		cdiv.id=this.alisTableName;
+		cdiv.style.position='absolute';
+		cdiv.style.overflow="visible";
+		cdiv.className='tat_table';
+		cdiv.style.zIndex=51;
+		cdiv.innerHTML='<iframe id="div_iframe_'+objs.id+'" style="position:absolute" scrolling="no"	frameborder="0" src="about:blank"></iframe>';
+		cdiv.style.top = eval(curTop(actb_curr) + actb_curr.offsetHeight) + 5 + "px";
+		cdiv.style.left = curLeft(actb_curr) + "px";
+		
+		a = document.createElement('table');
+		a.style.width='200px';
+		a.cellSpacing='0px';
+		a.cellPadding='0px';
+		a.style.position='absolute';
+		a.style.backgroundColor=actb_self.actb_bgColor;
+		a.style.filter = "progid:DXImageTransform.Microsoft.Shadow(Color=#dddddd,Direction=120,strength=4);";
+		
+		cdiv.appendChild(a);
+		document.body.appendChild(cdiv);
+		
+		if (actb_self.actb_mouse){
+			a.onmouseout= actb_table_unfocus;
+			a.onmouseover=actb_table_focus;
+		}
+		var i;
+		var first = true;
+		var j = 1;
+		//向上翻页
+		if (actb_rangeu > 1){
+			r = a.insertRow(-1);
+			c = r.insertCell(-1);
+			c.style.backgroundColor = actb_self.actb_bgColor;
+			c.style.color = actb_self.actb_textColor;
+			c.style.fontFamily = 'arial narrow';
+			c.style.fontSize = actb_self.actb_fSize;
+			c.align='center';
+			replaceHTML(c,'/\\');
+			if (actb_self.actb_mouse){
+				c.style.cursor = 'pointer';
+				c.onclick = actb_mouse_up;
+			}
+		}
+		for (i=0;i<actb_self.actb_keywords.length;i++){
+			if (actb_bool[i]){
+				if (j >= actb_rangeu && j <= actb_ranged){
+					r = a.insertRow(-1);
+					r.id = 'tat_tr'+(j);
+					c = r.insertCell(-1);
+					c.style.backgroundColor = actb_self.actb_bgColor;
+					c.style.color = actb_self.actb_textColor;
+					c.style.fontFamily = actb_self.actb_fFamily;
+					c.style.fontSize = actb_self.actb_fSize;
+					c.innerHTML = actb_parse(actb_self.actb_keywords[i]);
+					c.id = 'tat_td'+(j);
+					c.setAttribute('pos',j);
+					if (actb_self.actb_mouse){
+						c.style.cursor = 'pointer';
+						c.onclick=actb_mouseclick;
+						c.onmouseover = actb_table_highlight;
+					}
+					j++;
+				}else{
+					j++;
+				}
+			}
+			if (j > actb_ranged) break;
+		}
+		//向下翻页
+		if (j-1 < actb_total){
+			r = a.insertRow(-1);
+			c = r.insertCell(-1);
+			c.style.backgroundColor = actb_self.actb_bgColor;
+			c.style.color = actb_self.actb_textColor;
+			c.style.fontFamily = 'arial narrow';
+			c.style.fontSize = actb_self.actb_fSize;
+			c.align='center';
+			replaceHTML(c,'\\/');
+			if (actb_self.actb_mouse){
+				c.style.cursor = 'pointer';
+				c.onclick = actb_mouse_down;
+			}
+		}
+		
+	  document.getElementById("div_iframe_"+objs.id).style.height=document.getElementById(this.alisTableName).offsetHeight;
+	  document.getElementById("div_iframe_"+objs.id).style.width=document.getElementById(this.alisTableName).offsetWidth;
+	}
+	// 鼠标向上箭头事件
+	function actb_goup(){
+		if (!actb_display) return;
+		if (actb_pos == 1) return;
+		document.getElementById('tat_td'+actb_pos).style.backgroundColor = actb_self.actb_bgColor;
+		actb_pos--;
+		if (actb_pos < actb_rangeu) actb_moveup();
+		document.getElementById('tat_td'+actb_pos).style.backgroundColor = actb_self.actb_hColor;
+		if (actb_toid) clearTimeout(actb_toid);
+		if (actb_self.actb_timeOut > 0) actb_toid = setTimeout(function(){actb_mouse_on_list=0;actb_removedisp();},actb_self.actb_timeOut);
+	}
+	// 鼠标向下箭头事件
+	function actb_godown(){
+		if (!actb_display) return;
+		if (actb_pos == actb_total) return;
+		document.getElementById('tat_td'+actb_pos).style.backgroundColor = actb_self.actb_bgColor;
+		actb_pos++;
+		if (actb_pos > actb_ranged) actb_movedown();
+		document.getElementById('tat_td'+actb_pos).style.backgroundColor = actb_self.actb_hColor;
+		if (actb_toid) clearTimeout(actb_toid);
+		if (actb_self.actb_timeOut > 0) actb_toid = setTimeout(function(){actb_mouse_on_list=0;actb_removedisp();},actb_self.actb_timeOut);
+	}
+	function actb_movedown(){
+		actb_rangeu++;
+		actb_ranged++;
+		actb_remake();
+	}
+	function actb_moveup(){
+		actb_rangeu--;
+		actb_ranged--;
+		actb_remake();
+	}
+
+	/* Mouse */
+	// 鼠标点击向下翻页事件
+	function actb_mouse_down(){
+		//actb_setup(); // add by zhangzha on 20101217 点击此翻页后执行了actb_clear方法，清除了对象，导致后续无法识别
+		document.getElementById('tat_td'+actb_pos).style.backgroundColor = actb_self.actb_bgColor;
+		actb_pos++;
+		actb_movedown();
+		document.getElementById('tat_td'+actb_pos).style.backgroundColor = actb_self.actb_hColor;
+		actb_curr.focus();
+		actb_mouse_on_list = 0;
+		if (actb_toid) clearTimeout(actb_toid);
+		if (actb_self.actb_timeOut > 0) actb_toid = setTimeout(function(){actb_mouse_on_list=0;actb_removedisp();},actb_self.actb_timeOut);
+	}
+	// 鼠标点击向上翻页事件
+	function actb_mouse_up(evt){
+		//actb_setup(); // add by zhangzha on 20101217
+		if (!evt) evt = event;
+		if (evt.stopPropagation){
+			evt.stopPropagation();
+		}else{
+			evt.cancelBubble = true;
+		}
+		document.getElementById('tat_td'+actb_pos).style.backgroundColor = actb_self.actb_bgColor;
+		actb_pos--;
+		actb_moveup();
+		document.getElementById('tat_td'+actb_pos).style.backgroundColor = actb_self.actb_hColor;
+		actb_curr.focus();
+		actb_mouse_on_list = 0;
+		if (actb_toid) clearTimeout(actb_toid);
+		if (actb_self.actb_timeOut > 0) actb_toid = setTimeout(function(){actb_mouse_on_list=0;actb_removedisp();},actb_self.actb_timeOut);
+	}
+	// 鼠标点击匹配结果集项
+	function actb_mouseclick(evt){
+		if (!evt) evt = event;
+		if (!actb_display) return;
+		actb_mouse_on_list = 0;
+		actb_pos = this.getAttribute('pos');
+		actb_penter();
+	}
+	function actb_table_focus(){
+		actb_mouse_on_list = 1;
+	}
+	function actb_table_unfocus(){
+		actb_mouse_on_list = 0;
+		if (actb_toid) clearTimeout(actb_toid);
+		if (actb_self.actb_timeOut > 0) actb_toid = setTimeout(function(){actb_mouse_on_list = 0;actb_removedisp();},actb_self.actb_timeOut);
+	}
+	function actb_table_highlight(){
+		actb_mouse_on_list = 1;
+		document.getElementById('tat_td'+actb_pos).style.backgroundColor = actb_self.actb_bgColor;
+		actb_pos = this.getAttribute('pos');
+		while (actb_pos < actb_rangeu) actb_moveup();
+		while (actb_pos > actb_ranged) actb_movedown();
+		document.getElementById('tat_td'+actb_pos).style.backgroundColor = actb_self.actb_hColor;
+		if (actb_toid) clearTimeout(actb_toid);
+		if (actb_self.actb_timeOut > 0) actb_toid = setTimeout(function(){actb_mouse_on_list = 0;actb_removedisp();},actb_self.actb_timeOut);
+	}
+	/* ---- */
+
+	function actb_insertword(a){
+		if (actb_self.actb_delimiter.length > 0){
+			str = '';
+			l=0;
+			for (i=0;i<actb_delimwords.length;i++){
+				if (actb_cdelimword == i){
+					prespace = postspace = '';
+					gotbreak = false;
+					for (j=0;j<actb_delimwords[i].length;++j){
+						if (actb_delimwords[i].charAt(j) != ' '){
+							gotbreak = true;
+							break;
+						}
+						prespace += ' ';
+					}
+					for (j=actb_delimwords[i].length-1;j>=0;--j){
+						if (actb_delimwords[i].charAt(j) != ' ') break;
+						postspace += ' ';
+					}
+					str += prespace;
+					str += a;
+					l = str.length;
+					if (gotbreak) str += postspace;
+				}else{
+					str += actb_delimwords[i];
+				}
+				if (i != actb_delimwords.length - 1){
+					str += actb_delimchar[i];
+				}
+			}
+			actb_curr.value = str;
+			arr=str.split(ex);
+			actb_hidden.value = arr[0];
+			setCaret(actb_curr,l);
+		}else{
+			actb_curr.value = a;
+			arr=a.split(ex);
+			actb_hidden.value = arr[0];
+		}
+		actb_mouse_on_list = 0;
+		actb_removedisp();
+	}
+	function actb_penter(){
+		if (!actb_display) return;
+		actb_display = false;
+		var word = '';
+		var c = 0;
+		for (var i=0;i<=actb_self.actb_keywords.length;i++){
+			if (actb_bool[i]) c++;
+			if (c == actb_pos){
+				word = actb_self.actb_keywords[i];
+				break;
+			}
+		}
+		actb_insertword(word);
+		l = getCaretStart(actb_curr);
+	}
+	// 删除层
+	function actb_removedisp(){
+		if (actb_mouse_on_list==0){
+			actb_display = 0;
+			if (document.getElementById(this.alisTableName)){ document.body.removeChild(document.getElementById(this.alisTableName)); }
+			if (actb_toid) clearTimeout(actb_toid);
+		}
+	}
+	
+	function actb_keypress(e){
+		if (actb_caretmove) stopEvent(e);
+		return !actb_caretmove;
+	}
+	function actb_checkkey(evt){
+		if (!evt) evt = event;
+		a = evt.keyCode;
+		caret_pos_start = getCaretStart(actb_curr);
+		actb_caretmove = 0;
+		switch (a){
+			case 38:
+				actb_goup();
+				actb_caretmove = 1;
+				return false;
+				break;
+			case 40:
+				actb_godown();
+				actb_caretmove = 1;
+				return false;
+				break;
+			case 13: case 9:
+				if (actb_display){
+					actb_caretmove = 1;
+					actb_penter();
+					return false;
+				}else{
+					return true;
+				}
+				break;
+			default:
+				setTimeout(function(){actb_tocomplete(a)},50);
+				break;
+		}
+	}
+
+	function actb_tocomplete(kc){
+		if (kc == 38 || kc == 40 || kc == 13) return;
+		var i;
+		if (actb_display){ 
+			var word = 0;
+			var c = 0;
+			for (var i=0;i<=actb_self.actb_keywords.length;i++){
+				if (actb_bool[i]) c++;
+				if (c == actb_pos){
+					word = i;
+					break;
+				}
+			}
+			actb_pre = word;
+		}else{ actb_pre = -1};
+		
+		if (actb_curr.value == ''){
+			actb_mouse_on_list = 0;
+			actb_removedisp();
+			return;
+		}
+		if (actb_self.actb_delimiter.length > 0){
+			caret_pos_start = getCaretStart(actb_curr);
+			caret_pos_end = getCaretEnd(actb_curr);
+			
+			delim_split = '';
+			for (i=0;i<actb_self.actb_delimiter.length;i++){
+				delim_split += actb_self.actb_delimiter[i];
+			}
+			delim_split = delim_split.addslashes();
+			delim_split_rx = new RegExp("(["+delim_split+"])");
+			c = 0;
+			actb_delimwords = new Array();
+			actb_delimwords[0] = '';
+			for (i=0,j=actb_curr.value.length;i<actb_curr.value.length;i++,j--){
+				if (actb_curr.value.substr(i,j).search(delim_split_rx) == 0){
+					ma = actb_curr.value.substr(i,j).match(delim_split_rx);
+					actb_delimchar[c] = ma[1];
+					c++;
+					actb_delimwords[c] = '';
+				}else{
+					actb_delimwords[c] += actb_curr.value.charAt(i);
+				}
+			}
+
+			var l = 0;
+			actb_cdelimword = -1;
+			for (i=0;i<actb_delimwords.length;i++){
+				if (caret_pos_end >= l && caret_pos_end <= l + actb_delimwords[i].length){
+					actb_cdelimword = i;
+				}
+				l+=actb_delimwords[i].length + 1;
+			}
+			var ot = actb_delimwords[actb_cdelimword].trim(); 
+			var t = actb_delimwords[actb_cdelimword].addslashes().trim();
+		}else{
+			var ot = actb_curr.value;
+			var t = actb_curr.value.addslashes();
+		}
+		if (ot.length == 0){
+			actb_mouse_on_list = 0;
+			actb_removedisp();
+		}
+		if (ot.length < actb_self.actb_startcheck) return this;
+		if (actb_self.actb_firstText){
+			var re = new RegExp("^" + t, "i");
+		}else{
+			var re = new RegExp(t, "i");
+		}
+
+		actb_total = 0;
+		actb_tomake = false;
+		actb_kwcount = 0;
+		for (i=0;i<actb_self.actb_keywords.length;i++){
+			actb_bool[i] = false;
+			if (re.test(actb_self.actb_keywords[i])){
+				actb_total++;
+				actb_bool[i] = true;
+				actb_kwcount++;
+				if (actb_pre == i) actb_tomake = true;
+			}
+		}
+
+		if (actb_toid) clearTimeout(actb_toid);
+		if (actb_self.actb_timeOut > 0) actb_toid = setTimeout(function(){actb_mouse_on_list = 0;actb_removedisp();},actb_self.actb_timeOut);
+		actb_generate();
+	}
+	return this;
+}
+
+/* Event Functions */
+// 追加事件
+// Add an event to the obj given
+// event_name refers to the event trigger, without the "on", like click or mouseover
+// func_name refers to the function callback when event is triggered
+function addEvent(obj,event_name,func_name){
+	if (obj.attachEvent){
+		obj.attachEvent("on"+event_name, func_name);
+	}else if(obj.addEventListener){
+		obj.addEventListener(event_name,func_name,true);
+	}else{
+		obj["on"+event_name] = func_name;
+	}
+}
+
+// Removes an event from the object
+function removeEvent(obj,event_name,func_name){
+	if (obj.detachEvent){
+		obj.detachEvent("on"+event_name,func_name);
+	}else if(obj.removeEventListener){
+		obj.removeEventListener(event_name,func_name,true);
+	}else{
+		obj["on"+event_name] = null;
+	}
+}
+
+// Stop an event from bubbling up the event DOM
+function stopEvent(evt){
+	evt || window.event;
+	if (evt.stopPropagation){
+		evt.stopPropagation();
+		evt.preventDefault();
+	}else if(typeof evt.cancelBubble != "undefined"){
+		evt.cancelBubble = true;
+		evt.returnValue = false;
+	}
+	return false;
+}
+
+// Get the obj that starts the event
+function getElement(evt){
+	if (window.event){
+		return window.event.srcElement;
+	}else{
+		return evt.currentTarget;
+	}
+}
+// Get the obj that triggers off the event
+function getTargetElement(evt){
+	if (window.event){
+		return window.event.srcElement;
+	}else{
+		return evt.target;
+	}
+}
+// For IE only, stops the obj from being selected
+function stopSelect(obj){
+	if (typeof obj.onselectstart != 'undefined'){
+		addEvent(obj,"selectstart",function(){ return false;});
+	}
+}
+
+/*    Caret Functions     */
+
+// Get the end position of the caret in the object. Note that the obj needs to be in focus first
+function getCaretEnd(obj){
+	if(typeof obj.selectionEnd != "undefined"){
+		return obj.selectionEnd;
+	}else if(document.selection&&document.selection.createRange){
+		var M=document.selection.createRange();
+		try{
+			var Lp = M.duplicate();
+			Lp.moveToElementText(obj);
+		}catch(e){
+			var Lp=obj.createTextRange();
+		}
+		Lp.setEndPoint("EndToEnd",M);
+		var rb=Lp.text.length;
+		if(rb>obj.value.length){
+			return -1;
+		}
+		return rb;
+	}
+}
+// Get the start position of the caret in the object
+function getCaretStart(obj){
+	if(typeof obj.selectionStart != "undefined"){
+		return obj.selectionStart;
+	}else if(document.selection&&document.selection.createRange){
+		var M=document.selection.createRange();
+		try{
+			var Lp = M.duplicate();
+			Lp.moveToElementText(obj);
+		}catch(e){
+			var Lp=obj.createTextRange();
+		}
+		Lp.setEndPoint("EndToStart",M);
+		var rb=Lp.text.length;
+		if(rb>obj.value.length){
+			return -1;
+		}
+		return rb;
+	}
+}
+// sets the caret position to l in the object
+function setCaret(obj,l){
+	obj.focus();
+	if (obj.setSelectionRange){
+		obj.setSelectionRange(l,l);
+	}else if(obj.createTextRange){
+		m = obj.createTextRange();		
+		m.moveStart('character',l);
+		m.collapse();
+		m.select();
+	}
+}
+// sets the caret selection from s to e in the object
+function setSelection(obj,s,e){
+	obj.focus();
+	if (obj.setSelectionRange){
+		obj.setSelectionRange(s,e);
+	}else if(obj.createTextRange){
+		m = obj.createTextRange();		
+		m.moveStart('character',s);
+		m.moveEnd('character',e);
+		m.select();
+	}
+}
+
+/*    Escape function   */
+String.prototype.addslashes = function(){
+	return this.replace(/(["\\\.\|\[\]\^\*\+\?\$\(\)])/g, '\\$1');
+}
+String.prototype.trim = function () {
+    return this.replace(/^\s*(\S*(\s+\S+)*)\s*$/, "$1");
+};
+/* --- Escape --- */
+
+/* Offset position from top of the screen */
+function curTop(obj){
+	toreturn = 0;
+	while(obj){
+		toreturn += obj.offsetTop;
+		obj = obj.offsetParent;
+	}
+	return toreturn;
+}
+function curLeft(obj){
+	toreturn = 0;
+	while(obj){
+		toreturn += obj.offsetLeft;
+		obj = obj.offsetParent;
+	}
+	return toreturn;
+}
+/* ------ End of Offset function ------- */
+
+/* Types Function */
+
+// is a given input a number?
+function isNumber(a) {
+    return typeof a == 'number' && isFinite(a);
+}
+
+/* Object Functions */
+
+function replaceHTML(obj,text){
+	while(el = obj.childNodes[0]){
+		obj.removeChild(el);
+	};
+	obj.appendChild(document.createTextNode(text));
+}
+
+

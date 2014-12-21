@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="RomCronTaskData">
+	<typeAlias alias="RomCronTaskData" type="com.sitech.rom.common.dto.RomCronTaskData"/>
+	
+	<resultMap id="RomCronTaskDataResult" class="RomCronTaskData">
+		<result property="taskId" column="TASK_ID"/>
+		<result property="createDate" column="CREATE_DATE"/>
+		<result property="itemName" column="ITEM_NAME"/>
+		<result property="itemDesc" column="ITEM_DESC"/>
+		<result property="itemData" column="ITEM_DATA"/>
+		<result property="itemDimension" column="ITEM_DIMENSION"/>
+		<result property="remark" column="REMARK"/>
+  	</resultMap>
+
+	<sql id="select-all-column">
+	SELECT
+		TASK_ID AS taskId,
+		CREATE_DATE AS createDate,
+		ITEM_NAME AS itemName,
+		ITEM_DESC AS itemDesc,
+		ITEM_DATA AS itemData,
+		ITEM_DIMENSION AS itemDimension,
+		REMARK AS remark	
+	FROM ROM_CRON_TASK_DATA
+	</sql>
+	
+	<sql id="where-all-condition">
+	<dynamic prepend=" WHERE ">
+		<isPropertyAvailable property="taskId" prepend="and">
+			<isNotNull property="taskId">
+				<isNotEmpty property="taskId">
+					TASK_ID = #taskId#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="createDateStart" prepend="and">
+			<isNotNull property="createDateStart">
+				<isNotEmpty property="createDateStart">
+					<![CDATA[ CREATE_DATE >= #createDateStart# ]]>
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="createDateEnd" prepend="and">
+			<isNotNull property="createDateEnd">
+				<isNotEmpty property="createDateEnd">
+					<![CDATA[ CREATE_DATE <= #createDateEnd# ]]>
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="itemName" prepend="and">
+			<isNotNull property="itemName">
+				<isNotEmpty property="itemName">
+					ITEM_NAME = #itemName#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="itemDesc" prepend="and">
+			<isNotNull property="itemDesc">
+				<isNotEmpty property="itemDesc">
+					ITEM_DESC = #itemDesc#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="itemData" prepend="and">
+			<isNotNull property="itemData">
+				<isNotEmpty property="itemData">
+					ITEM_DATA = #itemData#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="itemDimension" prepend="and">
+			<isNotNull property="itemDimension">
+				<isNotEmpty property="itemDimension">
+					ITEM_DIMENSION = #itemDimension#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="remark" prepend="and">
+			<isNotNull property="remark">
+				<isNotEmpty property="remark">
+					REMARK = #remark#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+	</dynamic>
+	</sql>
+
+	<select id="selectRomCronTaskData" parameterClass="RomCronTaskData" resultClass="RomCronTaskData">
+		<include refid="select-all-column"/>
+		<include refid="where-all-condition"/>
+		order by CREATE_DATE desc
+	</select>
+	
+	<!--获取端口监控所需的数据  -->
+	<select id="selectPortMonitorData" resultClass="RomCronTaskData">
+		  SELECT item_desc as itemDesc,
+		         MAX (DECODE (item_name, '端口状态', item_data, '')) AS portStatus,
+		         MAX (DECODE (item_name, '积压指令数', item_data, '')) AS delayedNum,
+		         MAX (DECODE (item_name, '错误指令数', item_data, '')) AS errorNum
+		    FROM ROM_CRON_TASK_DATA
+		   WHERE task_id = 100
+		GROUP BY item_desc
+	</select>
+	
+	
+	<insert id="insertRomCronTaskData" parameterClass="RomCronTaskData">
+	INSERT INTO ROM_CRON_TASK_DATA (
+		TASK_ID,
+		CREATE_DATE,
+		ITEM_NAME,
+		ITEM_DESC,
+		ITEM_DATA,
+		ITEM_DIMENSION,
+		REMARK
+	) VALUES (
+		#taskId# ,
+		#createDate# ,
+		#itemName# ,
+		#itemDesc# ,
+		#itemData# ,
+		#itemDimension# ,
+		#remark#     
+	)
+	</insert>
+	
+	<update id="updateRomCronTaskData" parameterClass="java.util.Map">
+	UPDATE ROM_CRON_TASK_DATA
+	<dynamic prepend=" SET ">
+		<isNotNull property="_taskId" prepend=",">
+			TASK_ID = #_taskId#
+		</isNotNull>
+		<isNotNull property="_createDate" prepend=",">
+			CREATE_DATE = #_createDate#
+		</isNotNull>
+		<isNotNull property="_itemName" prepend=",">
+			ITEM_NAME = #_itemName#
+		</isNotNull>
+		<isNotNull property="_itemDesc" prepend=",">
+			ITEM_DESC = #_itemDesc#
+		</isNotNull>
+		<isNotNull property="_itemData" prepend=",">
+			ITEM_DATA = #_itemData#
+		</isNotNull>
+		<isNotNull property="_itemDimension" prepend=",">
+			ITEM_DIMENSION = #_itemDimension#
+		</isNotNull>
+		<isNotNull property="_remark" prepend=",">
+			REMARK = #_remark#
+		</isNotNull>
+	</dynamic>
+
+	<include refid="where-all-condition"/>
+	</update>
+	
+
+	<delete id="deleteRomCronTaskData" parameterClass="RomCronTaskData">
+	DELETE FROM ROM_CRON_TASK_DATA
+	<include refid="where-all-condition"/>
+	</delete>
+	
+	<select id="selectRomCronTaskDataParam" parameterClass="java.util.Map" resultClass="RomCronTaskData">
+		<isEmpty property="S">
+			SELECT
+			TASK_ID AS taskId,
+			CREATE_DATE AS createDate,
+			ITEM_NAME AS itemName,
+			ITEM_DESC AS itemDesc,
+			ITEM_DATA AS itemData,
+			ITEM_DIMENSION AS itemDimension,
+			REMARK AS remark
+		</isEmpty>
+		<isNotEmpty property="S">
+			SELECT $S$
+		</isNotEmpty>
+		 	FROM ROM_CRON_TASK_DATA $W$
+	</select>
+</sqlMap>

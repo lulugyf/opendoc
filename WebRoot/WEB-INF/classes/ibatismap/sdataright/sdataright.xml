@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="sdataright">
+
+<typeAlias alias="DataRightBo" type="com.sitech.rom.common.bo.DataRightBo"/>
+
+<!-- 获得带有数据权限的省代码 -->
+<select id="getRightProvinceList" parameterClass="map" resultClass="RomProvinceCode">
+
+	select distinct
+		x1.PROVINCE_CODE AS provinceCode,
+		x1.PROVINCE_NAME AS provinceName
+	from 
+	rom_login_role_relation a,
+	rom_sys_role b,
+	rom_sys_role_function c,
+	rom_province_code x1
+	where a.login_no=#loginNo#
+	and a.role_id=b.role_id
+	and b.pro_code=#proCode#
+	and b.role_id=c.role_id
+	and c.function_code=#functionCode#
+	and b.province_code=x1.province_code
+
+</select>
+
+<!-- 废弃了。获得带有数据权限的运营商代码 -->  
+<select id="getRightTellcorpList" parameterClass="map" resultClass="RomTellcorpCode">
+
+	select distinct
+		x1.TELLCORP_CODE AS tellcorpCode,
+		x1.TELLCORP_NAME AS tellcorpName 
+	from 
+	rom_login_role_relation a,
+	rom_sys_role b,
+	rom_sys_role_function c,
+	rom_tellcorp_code x1
+	where a.login_no=#loginNo#
+	and a.role_id=b.role_id
+	and b.pro_code=#proCode#
+	and b.role_id=c.role_id
+	and c.function_code=#functionCode#
+	and b.tell_type=x1.tellcorp_code
+
+</select>  
+
+<!--  获得带有数据权限的省份运营商信息-->
+<select id="getRightProvinceTellcorpList" parameterClass="map" resultClass="DataRightBo">
+
+    select distinct
+        x1.PROVINCE_CODE AS provinceCode,
+        x1.PROVINCE_NAME AS provinceName,
+		x2.TELLCORP_CODE AS tellcorpCode,
+		x2.TELLCORP_NAME AS tellcorpName        
+    from 
+    rom_login_role_relation a,
+    rom_sys_role b,
+    rom_sys_role_function c,
+    rom_province_code x1,
+    rom_tellcorp_code x2
+    where a.login_no=#loginNo#
+    and a.role_id=b.role_id
+    and b.pro_code=#proCode#
+    and b.role_id=c.role_id
+    and c.function_code=#functionCode#
+    and b.province_code=x1.province_code
+    and b.tell_type=x2.tellcorp_code 
+</select>
+ 
+</sqlMap>

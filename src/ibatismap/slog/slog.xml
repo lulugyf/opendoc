@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="slog">
+	<typeAlias alias="RomSysOpLog" type="com.sitech.rom.common.dto.RomSysOpLog"/>
+	
+	<select id="selectOpLog" parameterClass="RomSysOpLog" resultClass="RomSysOpLog">
+	SELECT
+        a.OP_DATE AS opDate,
+        a.OP_STAFF AS opStaff,
+        a.STAFF_NAME AS staffName,
+        b.PRO_NAME AS proCode,
+        c.FUNCTION_NAME AS functionCode,
+        a.OP_TIME AS opTime,
+        a.OP_CONTENT AS opContent,
+        a.REMARKS AS remarks    
+    FROM ROM_SYS_OP_LOG a,
+         ROM_PRO_CODE b,
+         ROM_SYS_FUNCTION c
+   WHERE a.PRO_CODE=B.PRO_CODE(+)
+     AND a.FUNCTION_CODE=c.FUNCTION_CODE(+)
+		<isPropertyAvailable property="opDate" prepend="and">
+			<isNotNull property="opDate">
+				<isNotEmpty property="opDate">
+					a.OP_DATE = #opDate#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="opStaff" prepend="and">
+			<isNotNull property="opStaff">
+				<isNotEmpty property="opStaff">
+					a.OP_STAFF = #opStaff#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="staffName" prepend="and">
+			<isNotNull property="staffName">
+				<isNotEmpty property="staffName">
+					a.STAFF_NAME = #staffName#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="proCode" prepend="and">
+			<isNotNull property="proCode">
+				<isNotEmpty property="proCode">
+					a.PRO_CODE = #proCode#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="functionCode" prepend="and">
+			<isNotNull property="functionCode">
+				<isNotEmpty property="functionCode">
+					a.FUNCTION_CODE = #functionCode#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="opTimeStart" prepend="and">
+			<isNotNull property="opTimeStart">
+				<isNotEmpty property="opTimeStart">
+					<![CDATA[ a.OP_TIME >= #opTimeStart# ]]>
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="opTimeEnd" prepend="and">
+			<isNotNull property="opTimeEnd">
+				<isNotEmpty property="opTimeEnd">
+					<![CDATA[ a.OP_TIME <= #opTimeEnd# ]]>
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="opContent" prepend="and">
+			<isNotNull property="opContent">
+				<isNotEmpty property="opContent">
+					a.OP_CONTENT = #opContent#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="remarks" prepend="and">
+			<isNotNull property="remarks">
+				<isNotEmpty property="remarks">
+					a.REMARKS = #remarks#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+	ORDER BY a.OP_TIME desc
+	</select>
+</sqlMap>

@@ -1,0 +1,37 @@
+#msg{
+width:180px;
+height:120px;
+position:absolute;
+right:0px;
+bottom:0px;
+z-index:2;
+border:1px solid #555;
+background:url(../images/msg_bj.gif) repeat-x 0 0;
+font-size:12px;
+}
+#msgTitle{
+height:16px;
+padding:8px 0px 0px 10px;
+border-bottom:2px solid #b3f9ff;
+position:relative;
+}
+#msgContent{
+padding:10px;
+height:1%;
+color:#555;
+}
+#msgImg{
+position:absolute;
+right:5px;
+top:5px;
+z-index:10;
+width:10px;
+height:10px;
+}
+.icon_close_off{
+	background:url('../images/icon_close_off.gif') no-repeat;
+	}
+.icon_close_on{
+	background:url('../images/icon_close_on.gif') no-repeat;
+	}
+

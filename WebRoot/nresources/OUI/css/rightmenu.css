@@ -1,0 +1,65 @@
+﻿body {
+	margin: 0;
+	padding: 0;
+	font: 12px Verdana, Arial, Helvetica, sans-serif,"宋体"，"黑体";
+	line-height: 1.8em;
+	text-align: left;
+	border: 0;
+}
+* {
+	padding: 0;
+	margin: 0;
+}
+
+
+.rightmenu {
+	z-index: 1;
+	background: #e3eff6;
+	filter: progid:dximagetransform.microsoft.shadow(color=#dddddd,direction=120,strength=4);
+	left: 100px;
+	width: 100px;
+	position: absolute;
+	top: 20px;
+	border: 1px #689fb9 solid;
+}
+
+.rightmenu ul {
+}
+
+.rightmenu ul li {
+	cursor: pointer;
+	line-height: 24px;
+	height: 24px
+}
+
+.rightmenu ul li span {
+	width:24px;
+	height:24px;
+	float:left;
+	background:#c8e0ed;
+	margin:0 10px 0 0;
+}
+.rightmenu .del {
+    background:#c8e0ed url('../images/rightmenu.png') no-repeat -125px -50px;
+}
+.rightmenu .edit {
+    background:#c8e0ed url('../images/rightmenu.png') no-repeat -126px -27px;
+}
+.rightmenu .todo {
+    background:#c8e0ed url('../images/rightmenu.png') no-repeat -125px -70px;
+}
+.rightmenu .finish {
+    background:#c8e0ed url('../images/rightmenu.png') no-repeat -125px -92px;
+}
+
+
+
+
+
+
+
+
+
+
+
+

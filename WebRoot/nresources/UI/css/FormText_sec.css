@@ -1,0 +1,13 @@
+﻿.tat_table {
+	border: 1px #FF4E00 solid;
+	background-color:#00ff00;
+	border-bottom: 0;
+	border-left: 0;
+}
+.tat_table td {
+	border: 1px #FF4E00 solid;
+	border-top: 0;
+	padding: 1px 4px 1px 10px;
+	line-height:18px;
+	background: url('../images/framework.png') no-repeat -185px -788px;
+}

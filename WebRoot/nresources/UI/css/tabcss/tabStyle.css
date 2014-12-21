@@ -1,0 +1,239 @@
+@charset "GB2312";
+body
+{
+	margin:0;
+	padding:0;
+	font:12px Verdana, Arial, Helvetica, sans-serif,"ËÎÌå"£¬"ºÚÌå";
+	line-height:1.8em;
+	text-align:left;
+	color:#555;
+}
+*
+{
+	padding:0;
+	margin:0;
+}
+ul
+{
+	list-style-type:none;
+	list-style-image:url();
+}
+img,
+iframe
+{
+	border:0;
+}
+.clr
+{
+	clear:both; 
+	font-size:0px;
+	height:0px;
+	overflow:hidden 
+}
+#contentFrame
+{
+	margin:0 auto;
+	height:1%;
+}
+/* --------------------tab begin----------------------------- */
+#tabset
+{
+	position:relative;
+	overflow:hidden;
+	width:100%;
+	height:100%;
+	margin-top:1px;
+	border-top: 1px solid #257ABB;
+}
+#tab{
+	background: url(../../images/tabs-nav.gif) repeat-x scroll 0 0;
+	height:1%;
+	margin-top:2px;
+	padding-left:0px;
+	position:relative;
+	width:1200%;
+	left:0px;
+
+}
+#tab ul button {
+	width: 30px;
+	height: 24px;
+	z-index: 1000;
+	margin-top: -30px;
+	float:right;
+	border: 1px solid #000000;
+}
+#tab ul{
+	height:1%;
+	z-index:100;
+	width:1000%;
+}
+#tab ul li {
+	color: #004488;
+	cursor: default;
+	float: left;
+	height: 28px;
+	line-height: 25px;
+	text-align: center;
+	cursor: pointer;
+	
+}
+#tab ul li span {
+	padding: 4px 15px 0 10px;
+	height: 28px;
+}
+#tab ul li.current {
+    background:transparent url('../../images/tabs-nav.gif') no-repeat scroll right -76px;
+
+}
+#tab ul li.current span{ 
+	background:transparent url('../../images/tabs-nav.gif') no-repeat scroll left -38px;
+}
+#tab ul li span img
+{
+	height:12px;
+	position:absolute;
+	right:4px;
+	top:2px;
+	width:12px;
+}
+#tab ul li span.fristab
+{
+	padding-left:30px;
+	}
+#tab ul li span img#tab_user
+{
+	position:absolute;
+	left:10px;
+	top:0px;
+	width:16px;
+	height:16px;
+	margin:8px 10px 0 0;
+	}
+#tabset span.first{
+	position:absolute;
+	background:none;
+	width:26px;
+	top:1px;
+	height:26px;
+	cursor:pointer;	
+	overflow:hidden;
+}
+#tabset span.next
+{
+	position:absolute;
+	width:16px;
+	top:1px;
+	height:26px;
+	cursor:pointer;	
+	right:0;	
+	overflow:hidden;
+
+}
+#imgLeft
+{
+	display:none;
+	}
+#imgRight
+{
+	display:none;
+	}
+/* --------------------tab end----------------------------- */
+
+/* ------------------Content begin----------------------------- */
+#contentArea {
+	margin:0 auto;
+	height:100%;
+	
+}
+#contentArea dt
+{
+	display:none;
+	height:100%;
+}
+#contentArea dt.on {
+	display:block;
+}
+
+#ball
+{
+	position:absolute;
+	left:8px;
+	top:24px;
+	background:#F6F6F6;
+	color:#222;
+	text-align:left;
+	width:150px;
+	border-top:1px #6593CF solid;
+	FILTER: progid:DXImageTransform.Microsoft.Shadow(Color=#dddddd,Direction=120,strength=4);
+	
+}
+#ball div{
+	cursor:pointer;
+	border:1px  solid #6593CF;
+	border-top:0;
+	height:25px;
+	line-height:25px;
+	padding:0 10px;
+	position:relative;
+	
+}
+
+#ball iframe{
+	border:none;
+	background-color:transparent;
+	position: absolute;
+	left: -2px;
+	top: -2px;
+	width: 152px;
+	height: 100%;
+	z-index: -100;
+}
+
+#ball div.curmouse
+{
+	
+	background:#F6F6F6;
+	
+}
+#ball div.forbidden
+{
+	color:#aca899;
+}
+#ball div#saveOption{ 
+	height:30px;
+}
+#ball div#saveOption button{
+	margin:5px 0 5px 20px;
+	border:1px silver solid ;
+
+}
+#tabset #tab ul li #ball div img{
+	height:25px;
+	width:24px;
+	display:block;
+	top:0;
+	left:0px;
+	position:absolute; 
+	margin-right:5px;
+}
+#tabset #tab ul li  #ball div span.text-item{
+	background:none;
+	padding:0;
+	margin-left:20px;
+	height:25px;
+	display:block;
+	color:black;
+}
+
+/* --------------------Content end----------------------------- */
+
+#tabset_child #tab{
+			border-top:0;
+			border-bottom:1px #666 solid;
+			background:url("../../images/tabsChild_bg.gif") repeat-x ;	
+	}
+	#tabset_child #tab li{background:none;border-right:#aaa 1px solid;position: relative;}
+	#tabset_child #tab ul li span{color:gray;}
+	#tabset_child #tab ul li.current {background:none;}
+	#tabset_child #tab ul li.current span{background:none;  color:#0D42BD;  position:relative;}

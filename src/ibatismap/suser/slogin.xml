@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="slogin">
+	<typeAlias alias="LoginBo" type="com.sitech.rom.common.bo.LoginBo"/>
+ 
+ <!-- 查询同产品、省份、运营商工号 -->
+ <select id="qryLoginTreeInfo" parameterClass="LoginBo" resultClass="LoginBo">
+    select distinct 
+           a.login_no AS loginNo,
+           a.login_name AS loginName
+	  from ROM_SYS_LOGIN a,
+	       ROM_SYS_ROLE b,
+	       ROM_LOGIN_ROLE_RELATION c
+	 where a.use_flg=0
+	   and a.login_no=c.login_no
+	   and b.role_id=c.role_id
+	   and b.province_code=#provinceCode#
+	   and b.tell_type=#tellType#
+	   and b.pro_code=#proId#
+	   and not exists(select 1 
+	                    from ROM_SYS_LOGIN 
+	                   where a.login_no=login_no 
+	                     and login_no=#loginNo#)
+	 order by a.login_no
+ </select> 
+
+</sqlMap>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="RomLoginRoleRelation">
+	<typeAlias alias="RomLoginRoleRelation" type="com.sitech.rom.common.dto.RomLoginRoleRelation"/>
+	
+	<resultMap id="RomLoginRoleRelationResult" class="RomLoginRoleRelation">
+		<result property="loginNo" column="LOGIN_NO"/>
+		<result property="roleId" column="ROLE_ID"/>
+		<result property="remarks" column="REMARKS"/>
+  	</resultMap>
+
+	<sql id="select-all-column">
+	SELECT
+		LOGIN_NO AS loginNo,
+		ROLE_ID AS roleId,
+		REMARKS AS remarks	
+	FROM ROM_LOGIN_ROLE_RELATION
+	</sql>
+	
+	<sql id="where-all-condition">
+	<dynamic prepend=" WHERE ">
+		<isPropertyAvailable property="loginNo" prepend="and">
+			<isNotNull property="loginNo">
+				<isNotEmpty property="loginNo">
+					LOGIN_NO = #loginNo#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="roleId" prepend="and">
+			<isNotNull property="roleId">
+				<isNotEmpty property="roleId">
+					ROLE_ID = #roleId#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="remarks" prepend="and">
+			<isNotNull property="remarks">
+				<isNotEmpty property="remarks">
+					REMARKS = #remarks#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+	</dynamic>
+	</sql>
+
+	<select id="selectRomLoginRoleRelation" parameterClass="RomLoginRoleRelation" resultClass="RomLoginRoleRelation">
+		<include refid="select-all-column"/>
+		<include refid="where-all-condition"/>
+	</select>
+	
+	<insert id="insertRomLoginRoleRelation" parameterClass="RomLoginRoleRelation">
+	INSERT INTO ROM_LOGIN_ROLE_RELATION (
+		LOGIN_NO,
+		ROLE_ID,
+		REMARKS
+	) VALUES (
+		#loginNo# ,
+		#roleId# ,
+		#remarks#     
+	)
+	</insert>
+	
+	<update id="updateRomLoginRoleRelation" parameterClass="java.util.Map">
+	UPDATE ROM_LOGIN_ROLE_RELATION
+	<dynamic prepend=" SET ">
+		<isNotNull property="_loginNo" prepend=",">
+			LOGIN_NO = #_loginNo#
+		</isNotNull>
+		<isNotNull property="_roleId" prepend=",">
+			ROLE_ID = #_roleId#
+		</isNotNull>
+		<isNotNull property="_remarks" prepend=",">
+			REMARKS = #_remarks#
+		</isNotNull>
+	</dynamic>
+
+	<include refid="where-all-condition"/>
+	</update>
+	
+
+	<delete id="deleteRomLoginRoleRelation" parameterClass="RomLoginRoleRelation">
+	DELETE FROM ROM_LOGIN_ROLE_RELATION
+	<include refid="where-all-condition"/>
+	</delete>
+	
+	<select id="selectRomLoginRoleRelationParam" parameterClass="java.util.Map" resultClass="RomLoginRoleRelation">
+		<isEmpty property="S">
+			SELECT
+			LOGIN_NO AS loginNo,
+			ROLE_ID AS roleId,
+			REMARKS AS remarks
+		</isEmpty>
+		<isNotEmpty property="S">
+			SELECT $S$
+		</isNotEmpty>
+		 	FROM ROM_LOGIN_ROLE_RELATION $W$
+	</select>
+</sqlMap>

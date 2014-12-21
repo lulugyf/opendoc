@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="sfunction">
+ <typeAlias alias="RomSysFunction" type="com.sitech.rom.common.dto.RomSysFunction"/>
+ 
+ <!-- 查询产品下功能列表 -->
+ <select id="qryFunctionByProCode" parameterClass="java.lang.String" resultClass="RomSysFunction">
+    SELECT
+        a.FUNCTION_CODE AS functionCode,
+        a.FUNCTION_NAME AS functionName
+    FROM ROM_SYS_FUNCTION a,ROM_SYS_PRO_FUNCTION b
+   WHERE a.FUNCTION_CODE=b.FUNCTION_CODE
+     AND b.PRO_CODE=#proCode#
+     AND a.ACTION_NAME is not null
+   ORDER BY functionName
+ </select> 
+
+</sqlMap>

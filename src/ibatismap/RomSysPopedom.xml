@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="RomSysPopedom">
+	<typeAlias alias="RomSysPopedom" type="com.sitech.rom.common.dto.RomSysPopedom"/>
+	
+	<resultMap id="RomSysPopedomResult" class="RomSysPopedom">
+		<result property="functionCode" column="FUNCTION_CODE"/>
+		<result property="actionName" column="ACTION_NAME"/>
+		<result property="operationCode" column="OPERATION_CODE"/>
+  	</resultMap>
+
+	<sql id="select-all-column">
+	SELECT
+		FUNCTION_CODE AS functionCode,
+		ACTION_NAME AS actionName,
+		OPERATION_CODE AS operationCode	
+	FROM ROM_SYS_POPEDOM
+	</sql>
+	
+	<sql id="where-all-condition">
+	<dynamic prepend=" WHERE ">
+		<isPropertyAvailable property="functionCode" prepend="and">
+			<isNotNull property="functionCode">
+				<isNotEmpty property="functionCode">
+					FUNCTION_CODE = #functionCode#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="actionName" prepend="and">
+			<isNotNull property="actionName">
+				<isNotEmpty property="actionName">
+					ACTION_NAME = #actionName#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="operationCode" prepend="and">
+			<isNotNull property="operationCode">
+				<isNotEmpty property="operationCode">
+					OPERATION_CODE = #operationCode#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+	</dynamic>
+	</sql>
+
+	<select id="selectRomSysPopedom" parameterClass="RomSysPopedom" resultClass="RomSysPopedom">
+		<include refid="select-all-column"/>
+		<include refid="where-all-condition"/>
+	</select>
+	
+	<insert id="insertRomSysPopedom" parameterClass="RomSysPopedom">
+	INSERT INTO ROM_SYS_POPEDOM (
+		FUNCTION_CODE,
+		ACTION_NAME,
+		OPERATION_CODE
+	) VALUES (
+		#functionCode# ,
+		#actionName# ,
+		#operationCode#     
+	)
+	</insert>
+	
+	<update id="updateRomSysPopedom" parameterClass="java.util.Map">
+	UPDATE ROM_SYS_POPEDOM
+	<dynamic prepend=" SET ">
+		<isNotNull property="_functionCode" prepend=",">
+			FUNCTION_CODE = #_functionCode#
+		</isNotNull>
+		<isNotNull property="_actionName" prepend=",">
+			ACTION_NAME = #_actionName#
+		</isNotNull>
+		<isNotNull property="_operationCode" prepend=",">
+			OPERATION_CODE = #_operationCode#
+		</isNotNull>
+	</dynamic>
+
+	<include refid="where-all-condition"/>
+	</update>
+	
+
+	<delete id="deleteRomSysPopedom" parameterClass="RomSysPopedom">
+	DELETE FROM ROM_SYS_POPEDOM
+	<include refid="where-all-condition"/>
+	</delete>
+	
+	<select id="selectRomSysPopedomParam" parameterClass="java.util.Map" resultClass="RomSysPopedom">
+		<isEmpty property="S">
+			SELECT
+			FUNCTION_CODE AS functionCode,
+			ACTION_NAME AS actionName,
+			OPERATION_CODE AS operationCode
+		</isEmpty>
+		<isNotEmpty property="S">
+			SELECT $S$
+		</isNotEmpty>
+		 	FROM ROM_SYS_POPEDOM $W$
+	</select>
+</sqlMap>

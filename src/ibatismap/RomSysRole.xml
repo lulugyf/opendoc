@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="RomSysRole">
+	<typeAlias alias="RomSysRole" type="com.sitech.rom.common.dto.RomSysRole"/>
+	
+	<resultMap id="RomSysRoleResult" class="RomSysRole">
+		<result property="roleId" column="ROLE_ID"/>
+		<result property="roleName" column="ROLE_NAME"/>
+		<result property="roleType" column="ROLE_TYPE"/>
+		<result property="roleState" column="ROLE_STATE"/>
+		<result property="proCode" column="PRO_CODE"/>
+		<result property="provinceCode" column="PROVINCE_CODE"/>
+		<result property="tellType" column="TELL_TYPE"/>
+		<result property="remarks" column="REMARKS"/>
+  	</resultMap>
+
+	<sql id="select-all-column">
+	SELECT
+		ROLE_ID AS roleId,
+		ROLE_NAME AS roleName,
+		ROLE_TYPE AS roleType,
+		ROLE_STATE AS roleState,
+		PRO_CODE AS proCode,
+		PROVINCE_CODE AS provinceCode,
+		TELL_TYPE AS tellType,
+		REMARKS AS remarks	
+	FROM ROM_SYS_ROLE
+	</sql>
+	
+	<sql id="where-all-condition">
+	<dynamic prepend=" WHERE ">
+		<isPropertyAvailable property="roleId" prepend="and">
+			<isNotNull property="roleId">
+				<isNotEmpty property="roleId">
+					ROLE_ID = #roleId#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="roleName" prepend="and">
+			<isNotNull property="roleName">
+				<isNotEmpty property="roleName">
+					ROLE_NAME = #roleName#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="roleType" prepend="and">
+			<isNotNull property="roleType">
+				<isNotEmpty property="roleType">
+					ROLE_TYPE = #roleType#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="roleState" prepend="and">
+			<isNotNull property="roleState">
+				<isNotEmpty property="roleState">
+					ROLE_STATE = #roleState#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="proCode" prepend="and">
+			<isNotNull property="proCode">
+				<isNotEmpty property="proCode">
+					PRO_CODE = #proCode#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="provinceCode" prepend="and">
+			<isNotNull property="provinceCode">
+				<isNotEmpty property="provinceCode">
+					PROVINCE_CODE = #provinceCode#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="tellType" prepend="and">
+			<isNotNull property="tellType">
+				<isNotEmpty property="tellType">
+					TELL_TYPE = #tellType#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="remarks" prepend="and">
+			<isNotNull property="remarks">
+				<isNotEmpty property="remarks">
+					REMARKS = #remarks#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+	</dynamic>
+	</sql>
+	<select id="selectRomSysRoleById" parameterClass="java.lang.Long" resultClass="RomSysRole">
+		<include refid="select-all-column"/>
+		WHERE ROLE_ID = #roleId#
+	</select>
+
+	<select id="selectRomSysRole" parameterClass="RomSysRole" resultClass="RomSysRole">
+		<include refid="select-all-column"/>
+		<include refid="where-all-condition"/>
+	</select>
+	
+	<insert id="insertRomSysRole" parameterClass="RomSysRole">
+	INSERT INTO ROM_SYS_ROLE (
+		ROLE_ID,
+		ROLE_NAME,
+		ROLE_TYPE,
+		ROLE_STATE,
+		PRO_CODE,
+		PROVINCE_CODE,
+		TELL_TYPE,
+		REMARKS
+	) VALUES (
+		#roleId# ,
+		#roleName# ,
+		#roleType# ,
+		#roleState# ,
+		#proCode# ,
+		#provinceCode# ,
+		#tellType# ,
+		#remarks#     
+	)
+	</insert>
+	
+	<update id="updateRomSysRole" parameterClass="java.util.Map">
+	UPDATE ROM_SYS_ROLE
+	<dynamic prepend=" SET ">
+		<isNotNull property="_roleId" prepend=",">
+			ROLE_ID = #_roleId#
+		</isNotNull>
+		<isNotNull property="_roleName" prepend=",">
+			ROLE_NAME = #_roleName#
+		</isNotNull>
+		<isNotNull property="_roleType" prepend=",">
+			ROLE_TYPE = #_roleType#
+		</isNotNull>
+		<isNotNull property="_roleState" prepend=",">
+			ROLE_STATE = #_roleState#
+		</isNotNull>
+		<isNotNull property="_proCode" prepend=",">
+			PRO_CODE = #_proCode#
+		</isNotNull>
+		<isNotNull property="_provinceCode" prepend=",">
+			PROVINCE_CODE = #_provinceCode#
+		</isNotNull>
+		<isNotNull property="_tellType" prepend=",">
+			TELL_TYPE = #_tellType#
+		</isNotNull>
+		<isNotNull property="_remarks" prepend=",">
+			REMARKS = #_remarks#
+		</isNotNull>
+	</dynamic>
+
+	<include refid="where-all-condition"/>
+	</update>
+	
+	<delete id="deleteRomSysRoleById" parameterClass="java.lang.Long">
+	DELETE FROM ROM_SYS_ROLE
+	WHERE ROLE_ID = #roleId#
+	</delete>
+
+	<delete id="deleteRomSysRole" parameterClass="RomSysRole">
+	DELETE FROM ROM_SYS_ROLE
+	<include refid="where-all-condition"/>
+	</delete>
+	
+	<select id="selectRomSysRoleParam" parameterClass="java.util.Map" resultClass="RomSysRole">
+		<isEmpty property="S">
+			SELECT
+			ROLE_ID AS roleId,
+			ROLE_NAME AS roleName,
+			ROLE_TYPE AS roleType,
+			ROLE_STATE AS roleState,
+			PRO_CODE AS proCode,
+			PROVINCE_CODE AS provinceCode,
+			TELL_TYPE AS tellType,
+			REMARKS AS remarks
+		</isEmpty>
+		<isNotEmpty property="S">
+			SELECT $S$
+		</isNotEmpty>
+		 	FROM ROM_SYS_ROLE $W$
+	</select>
+</sqlMap>

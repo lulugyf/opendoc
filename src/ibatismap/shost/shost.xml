@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="shost">
+ <typeAlias alias="HostBo" type="com.sitech.rom.common.bo.HostBo"/>
+ 
+ <!-- 查询主机信息 -->
+ <select id="qryRomHostInfo" parameterClass="HostBo" resultClass="HostBo">
+     select 
+			a.HOST_ID AS hostId,
+			a.PROVINCE_CODE AS provinceCode,
+			a.TELL_TYPE AS tellType,			
+			HOST_ENV AS hostEnv,
+			HOST_IP AS hostIp,
+			HOST_NAME AS hostName,
+			HOST_OS AS hostOs,
+			UPDATE_TIME AS updateTime,
+			a.remark AS remark,     
+         b.province_name AS provinceName,
+         c.tellcorp_name AS tellName,
+         e.pro_name AS proName
+    from rom_host_info a,
+    rom_province_code b,
+    rom_tellcorp_code c,
+    rom_pro_host_relation d,
+    rom_pro_code e
+    where a.province_code=b.province_code
+    	and a.tell_type=c.tellcorp_code
+    	and a.host_id=d.host_id
+    	and d.pro_code=e.pro_code
+		and a.province_code =#provinceCode#
+		and a.tell_type =#tellType#
+    	<isPropertyAvailable property="proCode" prepend="and">
+			<isNotNull property="proCode">
+				<isNotEmpty property="proCode">
+					d.pro_code = #proCode#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="hostId" prepend="and">
+			<isNotNull property="hostId">
+				<isNotEmpty property="hostId">
+					a.HOST_ID = #hostId#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="hostEnv" prepend="and">
+			<isNotNull property="hostEnv">
+				<isNotEmpty property="hostEnv">
+					HOST_ENV = #hostEnv#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="hostOs" prepend="and">
+			<isNotNull property="hostOs">
+				<isNotEmpty property="hostOs">
+					HOST_OS = #hostOs#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="hostIp" prepend="and">
+			<isNotNull property="hostIp">
+				<isNotEmpty property="hostIp">
+					HOST_IP = #hostIp#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+     order by hostIp
+ </select> 
+ 
+  <!-- 新增主机，关联已有主机 -->
+ <select id="qryRomHostRelate" parameterClass="HostBo" resultClass="HostBo">
+     select 
+            a.HOST_ID AS hostId,
+            a.PROVINCE_CODE AS provinceCode,
+            a.TELL_TYPE AS tellType,            
+            HOST_ENV AS hostEnv,
+            HOST_IP AS hostIp,
+            HOST_NAME AS hostName,
+            HOST_OS AS hostOs,
+            UPDATE_TIME AS updateTime,
+            a.remark AS remark,     
+         b.province_name AS provinceName,
+         c.tellcorp_name AS tellName
+    from rom_host_info a,
+    rom_province_code b,
+    rom_tellcorp_code c
+    where a.province_code=b.province_code
+        and a.tell_type=c.tellcorp_code
+        and not exists (
+            select 1
+            from rom_pro_host_relation x1
+            where a.host_id=x1.host_id
+            and x1.pro_code=#proCode#
+        )
+		and a.province_code =#provinceCode#
+		and a.tell_type =#tellType#
+		<isPropertyAvailable property="hostId" prepend="and">
+			<isNotNull property="hostId">
+				<isNotEmpty property="hostId">
+					a.HOST_ID = #hostId#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="hostEnv" prepend="and">
+			<isNotNull property="hostEnv">
+				<isNotEmpty property="hostEnv">
+					a.HOST_ENV = #hostEnv#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="hostOs" prepend="and">
+			<isNotNull property="hostOs">
+				<isNotEmpty property="hostOs">
+					a.HOST_OS = #hostOs#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="hostIp" prepend="and">
+			<isNotNull property="hostIp">
+				<isNotEmpty property="hostIp">
+					a.HOST_IP = #hostIp#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+     order by hostIp
+ </select>
+ 
+ <!-- 查询某个工号所有权限的省份 -->
+ <select id="qryAllProvinceByLoginNo" resultClass="HostBo">
+	select 
+	b.province_code  AS provinceCode,
+	c.province_name  AS provinceName
+	from ROM_LOGIN_ROLE_RELATION a,ROM_SYS_ROLE b,ROM_PROVINCE_CODE c
+	where a.role_id=b.role_id
+	and b.province_code=c.province_code
+	and a.login_no=#value#
+ </select>
+ 
+ <!-- 查询某个工号所有权限的运营商 -->
+ <select id="qryAllTellByLoginNo" resultClass="HostBo">
+	select 
+	b.tell_type AS tellType,
+	c.tellcorp_name AS tellName
+	from ROM_LOGIN_ROLE_RELATION a,ROM_SYS_ROLE b,ROM_TELLCORP_CODE c
+	where a.role_id=b.role_id
+	and b.tell_type=c.tellcorp_code
+	and a.login_no=#value#
+ </select> 
+ 
+</sqlMap>

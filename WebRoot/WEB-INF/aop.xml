@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 	        
+		    http://www.springframework.org/schema/beans/spring-beans.xsd">	
+	<!--add by Licl at 20090105 根据bean名字动态代理 -->
+	<bean
+		class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+		<property name="beanNames">
+			<value>*Svc</value>
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<!-- 注意:beanBeforeAdvisor放置第一位置，需要计算数据源，供transactionAdvisor使用. -->
+				<value>beanBeforeAdvisor</value>
+				<value>throwsAfterAdvisor</value>
+				<value>transactionAdvisor</value>
+				<value>logAfterAdvisor</value>
+				<value>beanAfterAdvisor</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="transactionAdvisor"
+		class="org.springframework.transaction.interceptor.TransactionAttributeSourceAdvisor">
+		<property name="transactionInterceptor" ref="proxyTemplate" />
+	</bean>
+
+	<!-- 写日志 begin -->
+	<bean id="logAfterAdvisor"
+		class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+		<property name="advice">
+			<ref local="logAfterAdvice" />
+		</property>
+		<property name="pattern">
+			<value>.*</value>
+		</property>
+	</bean>
+	<bean id="logAfterAdvice" class="com.sitech.jcf.aop.log.Impl.LogAfterAdvice" autowire="byName"/>
+	<bean id="logger" class="com.sitech.jcf.aop.log.Impl.LogWriter" />
+	<!-- 写日志 end -->
+
+	<bean id="beanAfterAdvisor"
+		class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+		<property name="advice">
+			<ref local="beanAfterAdvice" />
+		</property>
+		<property name="pattern">
+			<value>.*</value>
+		</property>
+	</bean>
+	<bean id="beanAfterAdvice" class="com.sitech.jcf.aop.monitor.support.BeanAfterAdvice" autowire="byName"/>
+
+	<bean id="beanBeforeAdvisor"
+		class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+		<property name="advice">
+			<ref local="beanBeforeAdvice" />
+		</property>
+		<property name="pattern">
+			<value>.*</value>
+		</property>
+	</bean>
+	<bean id="beanBeforeAdvice" class="com.sitech.jcf.aop.monitor.support.BeanBeforeAdvice" autowire="byName"/>
+	
+	<!-- 处理异常情况 -->
+	<bean id="throwsAfterAdvisor"
+		class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+		<property name="advice">
+			<ref local="throwsAfterAdvice" />
+		</property>
+		<property name="pattern">
+			<value>.*</value>
+		</property>
+	</bean>
+	<bean id="throwsAfterAdvice" class="com.sitech.jcf.aop.monitor.support.ThrowsAfterAdvice" autowire="byName"/>
+</beans>

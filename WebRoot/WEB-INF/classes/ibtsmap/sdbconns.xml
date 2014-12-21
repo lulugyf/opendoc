@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="sdbconns">
+	<typeAlias alias="DBConn" type="com.sitech.rom.rpt.bo.DBConn" />
+	<typeAlias alias="DBType" type="com.sitech.rom.rpt.bo.DBType" />
+	<typeAlias alias="QueryAll" type="com.sitech.rom.rpt.bo.QueryAll" />
+	<typeAlias alias="RomSysPopedom" type="com.sitech.rom.common.dto.RomSysPopedom" />
+
+	
+	<sql id="where-dbconns">
+		<dynamic prepend=" WHERE ">
+			<isPropertyAvailable property="label" prepend="and">
+				<isNotNull property="label">
+					<isNotEmpty property="label">
+						label = #label#
+					</isNotEmpty>
+				</isNotNull>
+			</isPropertyAvailable>
+			<isPropertyAvailable property="host" prepend="and">
+				<isNotNull property="host">
+					<isNotEmpty property="host">
+						host = #host#
+					</isNotEmpty>
+				</isNotNull>
+			</isPropertyAvailable>
+		<isPropertyAvailable property="db" prepend="and">
+			<isNotNull property="db">
+				<isNotEmpty property="db">
+					db = #db#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="dbtype" prepend="and">
+			<isNotNull property="dbtype">
+				<isNotEmpty property="dbtype">
+					dbtype = #dbtype#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+				</dynamic>
+	</sql>
+
+	<select id="qryConns" parameterClass="DBConn"
+		resultClass="DBConn">
+		select
+		label, host, user, pswd, db, dbtype, remarks
+		from t_dbconns
+		<include refid="where-dbconns"/>
+		order by label, host
+	</select>
+	
+	<select id="qryDBTypes" resultClass="DBType">
+	select dbtype from t_dbtypes
+	</select>
+
+
+
+	<update id="updateConns" parameterClass="java.util.Map">
+		update t_dbconns
+		<dynamic prepend=" SET ">
+			<isNotNull property="host" prepend=",">
+				host = #host#
+			</isNotNull>
+			<isNotNull property="user" prepend=",">
+				user = #user#
+			</isNotNull>
+			<isNotNull property="pswd" prepend=",">
+				pswd = #pswd#
+			</isNotNull>
+			<isNotNull property="db" prepend=",">
+				db = #db#
+			</isNotNull>
+			<isNotNull property="dbtype" prepend=",">
+				dbtype = #dbtype#
+			</isNotNull>
+			<isNotNull property="remarks" prepend=",">
+				remarks = #remarks#
+			</isNotNull>
+		</dynamic>
+		WHERE label = #label#
+	</update>
+	
+	<update id="updateDBConn" parameterClass="DBConn">
+		update t_dbconns set
+		  host=#host#, user=#user#, pswd=#pswd#, db=#db#, dbtype=#dbtype#, 
+		  remarks=#remarks#
+		WHERE label = #label#
+	</update>
+
+	<delete id="deleteConns" parameterClass="java.lang.String">
+		DELETE FROM t_dbconns
+		WHERE label = #label#
+	</delete>
+
+	<insert id="insertConns" parameterClass="DBConn">
+		INSERT INTO t_dbconns (
+		label,
+		host,
+		user,
+		pswd,
+		db,
+		dbtype,
+		remarks
+		) VALUES (
+		#label# ,
+		#host# ,
+		#user# ,
+		#pswd# ,
+		#db# ,
+		#dbtype#,
+		#remarks#
+		)
+	</insert>
+	
+	<select id="select_test"
+	parameterClass="QueryAll"
+	 resultClass="RomSysPopedom">
+	SELECT
+		FUNCTION_CODE AS functionCode,
+		ACTION_NAME AS actionName,
+		OPERATION_CODE AS operationCode	
+	FROM ROM_SYS_POPEDOM 
+	<dynamic >
+		<isNotNull property="query">
+	 where action_name like #query#
+		or function_code like #query#
+		</isNotNull>
+	</dynamic>
+	</select>
+	
+</sqlMap>

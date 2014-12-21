@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="RomProCode">
+	<typeAlias alias="RomProCode" type="com.sitech.rom.common.dto.RomProCode"/>
+	
+	<resultMap id="RomProCodeResult" class="RomProCode">
+		<result property="proCode" column="PRO_CODE"/>
+		<result property="proName" column="PRO_NAME"/>
+		<result property="proVersion" column="PRO_VERSION"/>
+		<result property="remarks" column="REMARKS"/>
+  	</resultMap>
+
+	<sql id="select-all-column">
+	SELECT
+		PRO_CODE AS proCode,
+		PRO_NAME AS proName,
+		PRO_VERSION AS proVersion,
+		REMARKS AS remarks	
+	FROM ROM_PRO_CODE
+	</sql>
+	
+	<sql id="where-all-condition">
+	<dynamic prepend=" WHERE ">
+		<isPropertyAvailable property="proCode" prepend="and">
+			<isNotNull property="proCode">
+				<isNotEmpty property="proCode">
+					PRO_CODE = #proCode#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="proName" prepend="and">
+			<isNotNull property="proName">
+				<isNotEmpty property="proName">
+					PRO_NAME = #proName#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="proVersion" prepend="and">
+			<isNotNull property="proVersion">
+				<isNotEmpty property="proVersion">
+					PRO_VERSION = #proVersion#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="remarks" prepend="and">
+			<isNotNull property="remarks">
+				<isNotEmpty property="remarks">
+					REMARKS = #remarks#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+	</dynamic>
+	</sql>
+	<select id="selectRomProCodeById" parameterClass="java.lang.String" resultClass="RomProCode">
+		<include refid="select-all-column"/>
+		WHERE PRO_CODE = #proCode#
+	</select>
+
+	<select id="selectRomProCode" parameterClass="RomProCode" resultClass="RomProCode">
+		<include refid="select-all-column"/>
+		<include refid="where-all-condition"/>
+		order by proName
+	</select>
+	
+	<insert id="insertRomProCode" parameterClass="RomProCode">
+	INSERT INTO ROM_PRO_CODE (
+		PRO_CODE,
+		PRO_NAME,
+		PRO_VERSION,
+		REMARKS
+	) VALUES (
+		#proCode# ,
+		#proName# ,
+		#proVersion# ,
+		#remarks#     
+	)
+	</insert>
+	
+	<update id="updateRomProCode" parameterClass="java.util.Map">
+	UPDATE ROM_PRO_CODE
+	<dynamic prepend=" SET ">
+		<isNotNull property="_proCode" prepend=",">
+			PRO_CODE = #_proCode#
+		</isNotNull>
+		<isNotNull property="_proName" prepend=",">
+			PRO_NAME = #_proName#
+		</isNotNull>
+		<isNotNull property="_proVersion" prepend=",">
+			PRO_VERSION = #_proVersion#
+		</isNotNull>
+		<isNotNull property="_remarks" prepend=",">
+			REMARKS = #_remarks#
+		</isNotNull>
+	</dynamic>
+
+	<include refid="where-all-condition"/>
+	</update>
+	
+	<delete id="deleteRomProCodeById" parameterClass="java.lang.String">
+	DELETE FROM ROM_PRO_CODE
+	WHERE PRO_CODE = #proCode#
+	</delete>
+
+	<delete id="deleteRomProCode" parameterClass="RomProCode">
+	DELETE FROM ROM_PRO_CODE
+	<include refid="where-all-condition"/>
+	</delete>
+	
+	<select id="selectRomProCodeParam" parameterClass="java.util.Map" resultClass="RomProCode">
+		<isEmpty property="S">
+			SELECT
+			PRO_CODE AS proCode,
+			PRO_NAME AS proName,
+			PRO_VERSION AS proVersion,
+			REMARKS AS remarks
+		</isEmpty>
+		<isNotEmpty property="S">
+			SELECT $S$
+		</isNotEmpty>
+		 	FROM ROM_PRO_CODE $W$
+	</select>
+</sqlMap>

@@ -1,0 +1,78 @@
+<mxEditor defaultGroup="group" defaultEdge="connector">
+	<ui>
+		<add as="graph" element="graph"/>
+	</ui>
+	<Array as="templates">
+		<add as="connector">
+			<Connector label="" href="">
+				<mxCell edge="1">
+					<mxGeometry as="geometry" relative="1"/>
+				</mxCell>
+			</Connector>
+		</add>
+		<add as="rectangle">
+			<Rect label="Shape" href="">
+				<mxCell vertex="1">	
+					<mxGeometry as="geometry" width="80" height="40"/>
+				</mxCell>
+			</Rect>
+		</add>
+	</Array>
+	<mxGraph as="graph" alternateEdgeStyle="verticalConnector" allowLoops="1" dropEnabled="1">
+		<add as="convertValueToString"><![CDATA[
+			function(cell)
+			{
+				return cell.getAttribute('label');
+			}
+		]]></add>
+		<mxStylesheet as="stylesheet">
+			<add as="text">
+				<add as="shape" value="rectangle"/>
+				<add as="perimeter" value="rectanglePerimeter"/>
+				<add as="fontSize" value="12"/>
+				<add as="align" value="left"/>
+				<add as="verticalAlign" value="middle"/>
+			</add>
+			<add as="defaultVertex" extend="text">
+				<add as="shape" value="rectangle"/>
+				<add as="fontSize" value="11"/>
+				<add as="align" value="center"/>
+				<add as="verticalAlign" value="middle"/>
+				<add as="shadow" value="0"/>
+				<add as="strokeColor" value="#B4B4B4"/>
+				<add as="fillColor" value="#EAEAEA"/>
+				<add as="gradientColor" value="white"/>
+			</add>
+			<add as="defaultEdge">
+				<add as="shape" value="connector"/>
+				<add as="fontSize" value="10"/>
+				<add as="align" value="center"/>
+				<add as="verticalAlign" value="middle"/>
+				<add as="rounded" value="1"/>
+				<add as="labelBackgroundColor" value="white"/>
+				<add as="strokeColor" value="#36393D"/>
+				<add as="strokeWidth" value="1"/>
+				<add as="edgeStyle" value="elbowEdgeStyle"/>
+				<add as="endArrow" value="classic"/>
+			</add>
+			<add as="verticalConnector" extend="defaultEdge">
+				<add as="elbow" value="vertical"/>
+			</add>
+			<add as="straightConnector">
+				<add as="shape" value="connector"/>
+				<add as="endArrow" value="classic"/>
+				<add as="labelBackgroundColor" value="white"/>
+				<add as="strokeColor" value="#36393D"/>
+				<add as="strokeWidth" value="1"/>
+				<add as="edgeStyle">null</add>
+			</add>
+			<add as="arrowConnector" extend="defaultEdge">
+				<add as="shape" value="arrow"/>
+				<add as="fillColor" value="#EAEAEA"/>
+				<add as="endSize" value="20"/>
+				<remove as="edgeStyle"/>
+			</add>
+		</mxStylesheet>
+	</mxGraph>
+	
+</mxEditor>

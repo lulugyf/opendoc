@@ -1,0 +1,141 @@
+﻿@import url('common.css');
+html {
+	overflow: hidden;
+}
+.login {
+	background: url('../images/login_bg.gif') repeat-x;
+	overflow: hidden;
+}
+.login .warp {
+	width: 100%;
+	height: 598px;
+	background: url('../images/login-warp.gif') no-repeat scroll right top;
+	position: absolute;
+	top: 0;
+	right: 0;
+	display:none;
+}
+.login .loginPanel {
+	width: 700px;
+	height: 460px;
+	background: url('../images/login.jpg') no-repeat;
+	position: absolute;
+	top:0%;
+	left: 50%;
+	z-index: 100;
+	margin:73px 0 0 -340px;
+}
+.login .loginPanel_esop {
+	width: 700px;
+	height: 460px;
+	background: url('../images/login_esop.jpg') no-repeat;
+	position: absolute;
+	top: 0%;
+	left: 50%;
+	z-index: 100;
+	margin: 73px 0 0 -340px;
+}
+.login .panel2 {
+	background: silver;
+	filter : progid:DXImageTransform.Microsoft.Blur(makeShadow=true,pixelRadius=5,shadowOpacity=0.1);
+	display:none;
+}
+.login .loginPanel .caption {
+	height: 75px;
+	background: url('../images/login-logo.gif') no-repeat scroll 15px 24px;
+	display:none;
+}
+.login .loginPanel .caption .title {
+	height: 75px;
+	background: url('../images/login-title.jpg') no-repeat scroll 90% 40px;
+}
+.login .loginPanel .footer {
+	height: 30px;
+	position: absolute;
+	top:380px;
+	width: 100%;
+	text-align: center;
+	line-height: 30px;
+	color: #4b4a4c;
+}
+.login form {
+	width: 280px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin: -10px 0 0 -140px;
+}
+.login form fieldset {
+	border: 0;
+	padding: 20px 0;
+}
+.login form .fm-input {
+	width: 210px;
+	height: 100%;
+	float: left;
+	background: url('../images/login-fm-input.gif') no-repeat scroll right center;
+}
+.login form .fm-input input {
+	width: 134px;
+	border: 1px silver solid;
+}
+.login form .fm-submit {
+	height: 100%;
+	float: left;
+	margin-left: 9px;
+}
+.login form .fm-submit button {
+	border: 0;
+	background: white url('../images/button_1_56.jpg');
+	width: 56px;
+	height: 24px;
+	color: #333;
+	background-position: expression(this.disabled==true?"bottom":"top");
+	cursor: hand;
+}
+.login form .fm-div {
+	margin-bottom: 5px;
+	height: 25px;
+}
+.login form label {
+	width: 60px;
+	height: 25px;
+	float: left;
+}
+.idName {
+	background: url(../images/icon_id.png) no-repeat 3px center;
+	padding: 2px 2px 0px 30px;
+	height: 20px;
+	border: 1px solid #999;
+}
+.pass {
+	background: url(../images/icon_pass.png) no-repeat 5px center;
+	height: 20px;
+	padding: 2px 2px 0px 30px;
+	border: 1px solid #999;
+}
+.radio {
+
+    line-height:20px;
+    padding:0 0 0 12px;
+    background:url('../images/ico_rightmenu.png') no-repeat 0 3px ;
+}
+.radio input {
+	margin:0 5px;
+}
+.tips {
+	position: absolute;
+	height: 30px;
+	top:410px;
+	width: 100%;
+	text-align: center;
+	line-height: 30px;
+	color: #2d71b4;
+}
+.activex {
+	background:transparent url('../images/login.gif') no-repeat 0 0;
+	border:0;
+	width:51px;
+	height:19px;
+	cursor:pointer;
+}

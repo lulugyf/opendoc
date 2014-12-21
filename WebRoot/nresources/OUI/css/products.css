@@ -1,0 +1,129 @@
+﻿/*------ 销售品明细项样式 ------*/
+.jueTitle_1 {
+	BORDER: #ff9900 2px solid;
+	BACKGROUND: #fff;
+}
+.jueTitle TABLE {
+	MARGIN: -12px 0px 0px;
+}
+.jueTitle_1 TABLE {
+	MARGIN-TOP: -12px;
+}
+/*------ table sub start ------*/
+.anzi {
+	MARGIN: 0px;
+	display: block;
+	padding: 0px 10px 0px 10px;
+	background-color: #F6F6F6;
+}
+.antai {
+	margin: 0px;
+	width: 100%;
+	border-bottom: 1px dashed #C3C3C3;
+	padding: 2px 0px 0px 0px;
+}
+.antai b {
+	color: #3366FF;
+	margin: 0px;
+	padding: 5px 5px 2px 0;
+	width: auto !important;
+	width: 100px;
+	min-width: 100px;
+}
+.antai SPAN {
+	MARGIN: 0px;
+	WHITE-SPACE: nowrap;
+	width: 120px;
+	text-align: left;
+	float: left;
+	height: 20px;
+	padding:3px 0 2px 5px;
+}
+.antai p {
+	MARGIN: 0px;
+	text-align: left;
+	float: left;
+	line-height: 20px;
+	text-indent: 25px;
+	color: #DF8122;
+}
+.shoppingL {
+	FLOAT: left;
+	WIDTH: 24.8%;
+	HEIGHT: 1%;
+}
+.shoppingR {
+	FLOAT: right;
+	WIDTH: 75%;
+}
+.shoppingR FIELDSET {
+	MARGIN: 1px 0px 6px;
+	PADDING: 10px 10px 4px 10px;
+}
+.shoppingR FIELDSET LEGEND {
+	FONT-WEIGHT: bold;
+	FONT-SIZE: 12px;
+	COLOR: #666;
+}
+#tabtit, #tabtree ,#tabtree2{
+	height: 22px;
+	padding: 0 0 0 12px;
+	margin: 0px;
+	overflow: hidden;
+	border: 1px solid #95CBDD;
+	background: url(../images/form_bg.png) repeat-x 0 -479px;
+}
+#tabtit UL {
+	POSITION: absolute;
+	HEIGHT: 22px;
+	padding: 0;
+	margin: 0;
+}
+#tabtit UL LI, #tabtree UL LI,#tabtree2 UL LI{
+	DISPLAY: inline;
+	FLOAT: left;
+	WIDTH: 80px;
+	CURSOR: pointer;
+	MARGIN-RIGHT: 2px;
+	PADDING-TOP: 4px;
+	HEIGHT: 22px;
+	TEXT-ALIGN: center;
+}
+#tabtit .normaltab {
+	BACKGROUND: url(../images/form_bg.png) no-repeat 0 -834px;
+	OVERFLOW: hidden;
+	COLOR: #3161b1;
+	HEIGHT: 22px;
+}
+#tabtree li,#tabtree2 li{
+	BACKGROUND: url(../images/form_bg.png) no-repeat 0 -834px;
+	OVERFLOW: hidden;
+	COLOR: #3161b1;
+	HEIGHT: 22px;
+}
+#tabtit .hovertab {
+	BACKGROUND: url(../images/form_bg.png) no-repeat 0 -809px;
+	OVERFLOW: hidden;
+	COLOR: #3161b1;
+	HEIGHT: 22px;
+}
+#tabtree .current,#tabtree2 .current{
+	OVERFLOW: hidden;
+	COLOR: #3161b1;
+	HEIGHT: 22px;
+	background: url(../images/form_bg.png) no-repeat 0 -809px;
+}
+#tabtit .hovertab SPAN {
+	DISPLAY: inline;
+	FLOAT: right;
+}
+#tabtree .hovertab SPAN,#tabtree2 .hovertab SPAN {
+	DISPLAY: inline;
+	FLOAT: right;
+}
+.shoppingL .dis {
+	BORDER: #6c90ca 1px solid;
+	DISPLAY: block;
+	BORDER-TOP: 0;
+	PADDING: 8px 12px;
+}

@@ -1,0 +1,166 @@
+﻿/*CSS Digg style pagination*/
+#step {
+	height: 26px;
+	margin: 0px;
+	padding: 5px 15px;
+}
+#step div {
+	margin: 0px 20px 0px 0px;
+	float: left;
+}
+#step div span {
+	float: left;
+	text-decoration: none;
+}
+#step .step_1_ok {
+	background: url(../images/step_bg.gif) no-repeat right -26px;
+	padding-right: 20px;
+	height: 26px;
+	margin-right: 34px;
+}
+#step .step_1_ok span {
+	background: url(../images/step_bg.gif) no-repeat left top;
+	height: 21px;
+	color: #6b955b;
+	font-weight: normal;
+	padding: 5px 0px 0px 25px;
+}
+#step .step_1_ing {
+	background: url(../images/step_bg.gif) no-repeat right -130px;
+	padding-right: 28px;
+	height: 26px;
+}
+#step .step_1_ing span {
+	background: url(../images/step_bg.gif) no-repeat left -104px;
+	height: 21px;
+	color: #fe9519;
+	font-weight: bold;
+	padding: 5px 0px 0px 25px;
+	float: left;
+}
+#step .step_1_pending {
+	background: url(../images/step_bg.gif) no-repeat left -208px;
+	padding-right: 10px;
+	height: 26px;
+	margin-right: 40px;
+}
+#step .step_1_pending span {
+	height: 21px;
+	color: #328dd4;
+	font-weight: normal;
+	padding: 5px 0px 0px 30px;
+	float: left;
+}
+
+#step .step_2_ok {
+	background: url(../images/step_bg.gif) no-repeat right -26px;
+	padding-right: 20px;
+	height: 26px;
+	margin-right: 34px;
+}
+#step .step_2_ok span {
+	background: url(../images/step_bg.gif) no-repeat left -52px;
+	height: 21px;
+	color: #6b955b;
+	font-weight: normal;
+	padding: 5px 0px 0px 25px;
+}
+#step .step_2_ing {
+	background: url(../images/step_bg.gif) no-repeat right -130px;
+	padding-right: 28px;
+	height: 26px;
+}
+#step .step_2_ing span {
+	background: url(../images/step_bg.gif) no-repeat left -156px;
+	height: 21px;
+	color: #fe9519;
+	font-weight: bold;
+	padding: 5px 0px 0px 25px;
+	float: left;
+}
+#step .step_2_pending {
+	background: url(../images/step_bg.gif) no-repeat left -234px;
+	padding-right: 10px;
+	height: 26px;
+	margin-right: 40px;
+}
+#step .step_2_pending span {
+	height: 21px;
+	color: #328dd4;
+	font-weight: normal;
+	padding: 5px 0px 0px 30px;
+	float: left;
+}
+
+#step .step_3_ok {
+	background: url(../images/step_bg.gif) no-repeat right -26px;
+	padding-right: 20px;
+	height: 26px;
+}
+#step .step_3_ok span {
+	background: url(../images/step_bg.gif) no-repeat left -78px;
+	height: 21px;
+	color: #6b955b;
+	font-weight: normal;
+	padding: 5px 0px 0px 25px;
+}
+#step .step_3_ing {
+	background: url(../images/step_bg.gif) no-repeat right -130px;
+	padding-right: 28px;
+	height: 26px;
+}
+#step .step_3_ing span {
+	background: url(../images/step_bg.gif) no-repeat left -182px;
+	height: 21px;
+	color: #fe9519;
+	font-weight: bold;
+	padding: 5px 0px 0px 25px;
+	float: left;
+}
+#step .step_3_pending {
+	background: url(../images/step_bg.gif) no-repeat left -260px;
+	padding-right: 10px;
+	height: 26px;
+}
+#step .step_3_pending span {
+	height: 21px;
+	color: #328dd4;
+	font-weight: normal;
+	padding: 5px 0px 0px 30px;
+	float: left;
+}
+
+
+
+#step_popup {
+	margin: 10px;
+	padding: 35px 15px 5px 15px;
+	border-bottom: 2px dashed #a0b3c1;
+	text-align: center;
+	width: 300px;
+	background: url(../images/step_czdh.gif) no-repeat 55px top;
+}
+#step_but {
+	background: url(../images/step_but.gif) no-repeat left top;
+	height: 45px;
+	width: 209px;
+	margin: 15px;
+}
+#step_but span {
+	height: 32px;
+	padding-left: 40px;
+	padding-top: 13px;
+	margin: 0px;
+	float: left;
+	color: #555f6f;
+	font-size: 14px;
+}
+#step_but .step_1 {
+	background: url(../images/step_but.gif) no-repeat left -45px;
+}
+#step_but .step_2 {
+	background: url(../images/step_but.gif) no-repeat left -90px;
+}
+#step_but .step_3 {
+	background: url(../images/step_but.gif) no-repeat left -135px;
+}

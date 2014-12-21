@@ -1,0 +1,30 @@
+﻿
+html,body{
+	height:100%;
+	overflow:hidden;
+	border:0;
+}
+.errorPanel{
+	width:589px;
+	height:153px;
+	background:silver url('../images/errorPanel.jpg');
+	position:absolute;
+	top:50%;
+	left:50%;
+	margin-left:-299px;
+	margin-top:-76px;
+	border:1px #D5D8D7 solid;
+}
+.errorPanel .box{
+	margin:20px 20px 20px 180px;
+}
+.errorPanel .box .title{
+	font-size:14px;
+	font-weight:bold;
+	color:#E65E00;
+}
+.errorPanel .box p{
+	font-size:12px;
+	line-height:22px;
+	margin:18px 0;
+}

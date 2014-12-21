@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMapConfig 
+    PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-config-2.dtd">    
+
+<sqlMapConfig>
+	<settings 
+	    cacheModelsEnabled="true" 
+	    enhancementEnabled="true"
+		lazyLoadingEnabled="true" 
+		errorTracingEnabled="true" 
+		maxRequests="256"
+		maxSessions="64" 
+		maxTransactions="32" 
+		useStatementNamespaces="true" />
+		
+	<sqlMap resource="ibatismap/*.xml"/>
+	<sqlMap resource="ibatismap/s*/*.xml"/>
+	<sqlMap resource="ibatismap/t*/*.xml"/>
+	
+	<sqlMap resource="ibtsmap/sdbconns.xml"/>
+	<sqlMap resource="ibtsmap/tasks.xml"/>
+ 
+</sqlMapConfig>

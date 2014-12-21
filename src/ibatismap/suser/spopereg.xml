@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="spopereg">
+<typeAlias alias="PoperegBo" type="com.sitech.rom.common.bo.PoperegBo"/>
+
+	<!-- 查询功能注册信息 -->
+	<select id="qryPopereg" parameterClass="PoperegBo" resultClass="PoperegBo">
+		SELECT
+            a.FUNCTION_CODE AS functionCode,
+            c.FUNCTION_NAME AS functionName,
+            a.ACTION_NAME AS actionName,
+            a.OPERATION_CODE AS operationCode,
+            b.OPERA_NAME AS operationName
+        FROM ROM_SYS_POPEDOM a
+		  left join ROM_OPERA_CODE b on a.OPERATION_CODE = b.OPERA_CODE
+		  left join ROM_SYS_FUNCTION c on a.FUNCTION_CODE = c.FUNCTION_CODE
+    where 1=1 
+        <isPropertyAvailable property="functionCode" prepend="and">
+			<isNotNull property="functionCode">
+				<isNotEmpty property="functionCode">
+					a.FUNCTION_CODE = #functionCode#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+        <isPropertyAvailable property="actionName" prepend="and">
+			<isNotNull property="actionName">
+				<isNotEmpty property="actionName">
+					a.ACTION_NAME = #actionName#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+	  ORDER BY a.FUNCTION_CODE,a.ACTION_NAME
+	</select> 
+</sqlMap>

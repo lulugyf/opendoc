@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="RomScriptsConfig">
+	<typeAlias alias="RomScriptsConfig" type="com.sitech.rom.common.dto.RomScriptsConfig"/>
+	
+	<resultMap id="RomScriptsConfigResult" class="RomScriptsConfig">
+		<result property="scriptsId" column="SCRIPTS_ID"/>
+		<result property="hostId" column="HOST_ID"/>
+		<result property="scriptsDir" column="SCRIPTS_DIR"/>
+		<result property="scriptsName" column="SCRIPTS_NAME"/>
+		<result property="scriptsType" column="SCRIPTS_TYPE"/>
+		<result property="reqUrl" column="REQ_URL"/>
+		<result property="visitUser" column="VISIT_USER"/>
+		<result property="visitPswd" column="VISIT_PSWD"/>
+		<result property="remarks" column="REMARKS"/>
+  	</resultMap>
+
+	<sql id="select-all-column">
+	SELECT
+		SCRIPTS_ID AS scriptsId,
+		HOST_ID AS hostId,
+		SCRIPTS_DIR AS scriptsDir,
+		SCRIPTS_NAME AS scriptsName,
+		SCRIPTS_TYPE AS scriptsType,
+		REQ_URL AS reqUrl,
+		VISIT_USER AS visitUser,
+		VISIT_PSWD AS visitPswd,
+		REMARKS AS remarks	
+	FROM ROM_SCRIPTS_CONFIG
+	</sql>
+	
+	<sql id="where-all-condition">
+	<dynamic prepend=" WHERE ">
+		<isPropertyAvailable property="scriptsId" prepend="and">
+			<isNotNull property="scriptsId">
+				<isNotEmpty property="scriptsId">
+					SCRIPTS_ID = #scriptsId#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="hostId" prepend="and">
+			<isNotNull property="hostId">
+				<isNotEmpty property="hostId">
+					HOST_ID = #hostId#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="scriptsDir" prepend="and">
+			<isNotNull property="scriptsDir">
+				<isNotEmpty property="scriptsDir">
+					SCRIPTS_DIR = #scriptsDir#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="scriptsName" prepend="and">
+			<isNotNull property="scriptsName">
+				<isNotEmpty property="scriptsName">
+					SCRIPTS_NAME = #scriptsName#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="scriptsType" prepend="and">
+			<isNotNull property="scriptsType">
+				<isNotEmpty property="scriptsType">
+					SCRIPTS_TYPE = #scriptsType#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="reqUrl" prepend="and">
+			<isNotNull property="reqUrl">
+				<isNotEmpty property="reqUrl">
+					REQ_URL = #reqUrl#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="visitUser" prepend="and">
+			<isNotNull property="visitUser">
+				<isNotEmpty property="visitUser">
+					VISIT_USER = #visitUser#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="visitPswd" prepend="and">
+			<isNotNull property="visitPswd">
+				<isNotEmpty property="visitPswd">
+					VISIT_PSWD = #visitPswd#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="remarks" prepend="and">
+			<isNotNull property="remarks">
+				<isNotEmpty property="remarks">
+					REMARKS = #remarks#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+	</dynamic>
+	</sql>
+	<select id="selectRomScriptsConfigById" parameterClass="java.lang.Long" resultClass="RomScriptsConfig">
+		<include refid="select-all-column"/>
+		WHERE SCRIPTS_ID = #scriptsId#
+	</select>
+
+	<select id="selectRomScriptsConfig" parameterClass="RomScriptsConfig" resultClass="RomScriptsConfig">
+		<include refid="select-all-column"/>
+		<include refid="where-all-condition"/>
+	</select>
+	
+	<insert id="insertRomScriptsConfig" parameterClass="RomScriptsConfig">
+	INSERT INTO ROM_SCRIPTS_CONFIG (
+		SCRIPTS_ID,
+		HOST_ID,
+		SCRIPTS_DIR,
+		SCRIPTS_NAME,
+		SCRIPTS_TYPE,
+		REQ_URL,
+		VISIT_USER,
+		VISIT_PSWD,
+		REMARKS
+	) VALUES (
+		#scriptsId# ,
+		#hostId# ,
+		#scriptsDir# ,
+		#scriptsName# ,
+		#scriptsType# ,
+		#reqUrl# ,
+		#visitUser# ,
+		#visitPswd# ,
+		#remarks#     
+	)
+	</insert>
+	
+	<update id="updateRomScriptsConfig" parameterClass="java.util.Map">
+	UPDATE ROM_SCRIPTS_CONFIG
+	<dynamic prepend=" SET ">
+		<isNotNull property="_scriptsId" prepend=",">
+			SCRIPTS_ID = #_scriptsId#
+		</isNotNull>
+		<isNotNull property="_hostId" prepend=",">
+			HOST_ID = #_hostId#
+		</isNotNull>
+		<isNotNull property="_scriptsDir" prepend=",">
+			SCRIPTS_DIR = #_scriptsDir#
+		</isNotNull>
+		<isNotNull property="_scriptsName" prepend=",">
+			SCRIPTS_NAME = #_scriptsName#
+		</isNotNull>
+		<isNotNull property="_scriptsType" prepend=",">
+			SCRIPTS_TYPE = #_scriptsType#
+		</isNotNull>
+		<isNotNull property="_reqUrl" prepend=",">
+			REQ_URL = #_reqUrl#
+		</isNotNull>
+		<isNotNull property="_visitUser" prepend=",">
+			VISIT_USER = #_visitUser#
+		</isNotNull>
+		<isNotNull property="_visitPswd" prepend=",">
+			VISIT_PSWD = #_visitPswd#
+		</isNotNull>
+		<isNotNull property="_remarks" prepend=",">
+			REMARKS = #_remarks#
+		</isNotNull>
+	</dynamic>
+
+	<include refid="where-all-condition"/>
+	</update>
+	
+	<delete id="deleteRomScriptsConfigById" parameterClass="java.lang.Long">
+	DELETE FROM ROM_SCRIPTS_CONFIG
+	WHERE SCRIPTS_ID = #scriptsId#
+	</delete>
+
+	<delete id="deleteRomScriptsConfig" parameterClass="RomScriptsConfig">
+	DELETE FROM ROM_SCRIPTS_CONFIG
+	<include refid="where-all-condition"/>
+	</delete>
+	
+	<select id="selectRomScriptsConfigParam" parameterClass="java.util.Map" resultClass="RomScriptsConfig">
+		<isEmpty property="S">
+			SELECT
+			SCRIPTS_ID AS scriptsId,
+			HOST_ID AS hostId,
+			SCRIPTS_DIR AS scriptsDir,
+			SCRIPTS_NAME AS scriptsName,
+			SCRIPTS_TYPE AS scriptsType,
+			REQ_URL AS reqUrl,
+			VISIT_USER AS visitUser,
+			VISIT_PSWD AS visitPswd,
+			REMARKS AS remarks
+		</isEmpty>
+		<isNotEmpty property="S">
+			SELECT $S$
+		</isNotEmpty>
+		 	FROM ROM_SCRIPTS_CONFIG $W$
+	</select>
+</sqlMap>

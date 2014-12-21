@@ -1,0 +1,26 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>操作错误</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="../../nresources/UI/css/errorpanel.css" rel="stylesheet" type="text/css" >
+
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000" leftmargin="0" topmargin="0"  onkeyup="if(event.keyCode==13)window.close();">
+<div class="errorPanel">
+	<div class="box">
+		<h1 class="title">操作失败，无权限</h1>
+		<p class="msg">对不起，您没有足够的权限进行操作！如有任何问题，请与系统管理员联系．</p>
+		<button onclick="goBack()">返　回</button>
+	</div>
+
+</div>
+<script language=javascript>
+	function goBack(){
+		window.location='../login/login.htm';
+	}
+	
+</script>
+</body>
+</html>

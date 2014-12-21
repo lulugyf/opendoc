@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans   
+           				http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
+           				http://www.springframework.org/schema/context   
+           				http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+		<property name="interceptors">
+			<list>
+				<ref bean="sessionInterceptor"/>
+				<ref bean="popedomInterceptor"/>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- session验证 -->
+	<bean id="sessionInterceptor" class="com.sitech.rom.web.SessionInterceptor">
+		<property name="noCheckURL" value=".+\/login\.do" /> 
+		<property name="mappingURL" value=".+\.do" />
+	</bean>
+	
+	<!-- 权限验证 -->
+	<bean id="popedomInterceptor" class="com.sitech.rom.web.PopedomInterceptor">
+		<property name="noCheckURL" value=".+\/login\.do;.+\/getPopedomMenu\.do;.+\/gotoUpdatePass\.do;.+\/updatePassword\.do;.+\/getfuncmenu\.do" /> 
+		<property name="mappingURL" value=".+\.do" />
+	</bean>
+	
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">   
+	         <list>   
+	             <bean class = "org.springframework.http.converter.StringHttpMessageConverter">   
+	                <property name = "supportedMediaTypes">
+	                      <list>
+	                          <value>text/html;charset=UTF-8</value>   
+	                     </list>   
+	                </property>   
+	             </bean>
+	         </list>   
+	    </property>  
+	</bean>
+	
+	<!-- 自动搜索@Controller标注的类 -->
+	<context:component-scan base-package="com.sitech.rom.*">
+	  <!-- 将Controller的注解包含  -->
+	  <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+	  <!-- 将Service的注解排除掉  --> 
+	  <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service" /> 
+  	</context:component-scan> 	
+	
+	<!-- Default ViewResolver -->
+	<bean id="viewResolver"	class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/npage/" />
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+	 <!--  
+        org.springframework.web.servlet.view.ResourceBundleViewResolver
+        用于多个视图集成时,ResourceBundleViewResolver是通过解析资源文件来解析请求输出文件的。
+        <property name="basename" value="views"></property>,即表示在/WEB-INF/classes路径下有一个
+        views.properties文件,
+		views.properties的内容为
+        welcome.(class)=org.springframework.web.servlet.view.velocity.VelocityView
+        welcome.url=welcome.vm
+        freemarker.(class)=org.springframework.web.servlet.view.freemarker.FreeMarkerView
+        freemarker.url=freemarker.ftl
+    -->
+	<!-- bean class="org.springframework.web.servlet.view.ResourceBundleViewResolver">
+        <property name="basename" value="views"></property>
+        <property name="order" value="0"></property>
+    </bean-->
+	
+	<!-- 开启文件上传 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" p:defaultEncoding="utf-8">
+		<property name="maxUploadSize" value="104857600" />
+	</bean>	
+	
+		
+</beans>

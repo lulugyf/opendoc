@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="RomUserInfo">
+	<typeAlias alias="RomUserInfo" type="com.sitech.rom.common.dto.RomUserInfo"/>
+	
+	<resultMap id="RomUserInfoResult" class="RomUserInfo">
+		<result property="userId" column="USER_ID"/>
+		<result property="hostId" column="HOST_ID"/>
+		<result property="userName" column="USER_NAME"/>
+		<result property="passwd" column="PASSWD"/>
+		<result property="homeDir" column="HOME_DIR"/>
+		<result property="remark" column="REMARK"/>
+  	</resultMap>
+
+	<sql id="select-all-column">
+	SELECT
+		USER_ID AS userId,
+		HOST_ID AS hostId,
+		USER_NAME AS userName,
+		PASSWD AS passwd,
+		HOME_DIR AS homeDir,
+		REMARK AS remark	
+	FROM ROM_USER_INFO
+	</sql>
+	
+	<sql id="where-all-condition">
+	<dynamic prepend=" WHERE ">
+		<isPropertyAvailable property="userId" prepend="and">
+			<isNotNull property="userId">
+				<isNotEmpty property="userId">
+					USER_ID = #userId#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="hostId" prepend="and">
+			<isNotNull property="hostId">
+				<isNotEmpty property="hostId">
+					HOST_ID = #hostId#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="userName" prepend="and">
+			<isNotNull property="userName">
+				<isNotEmpty property="userName">
+					USER_NAME = #userName#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="passwd" prepend="and">
+			<isNotNull property="passwd">
+				<isNotEmpty property="passwd">
+					PASSWD = #passwd#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="homeDir" prepend="and">
+			<isNotNull property="homeDir">
+				<isNotEmpty property="homeDir">
+					HOME_DIR = #homeDir#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="remark" prepend="and">
+			<isNotNull property="remark">
+				<isNotEmpty property="remark">
+					REMARK = #remark#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+	</dynamic>
+	</sql>
+
+	<select id="selectRomUserInfo" parameterClass="RomUserInfo" resultClass="RomUserInfo">
+		<include refid="select-all-column"/>
+		<include refid="where-all-condition"/>
+	</select>
+	
+	<insert id="insertRomUserInfo" parameterClass="RomUserInfo">
+	INSERT INTO ROM_USER_INFO (
+		USER_ID,
+		HOST_ID,
+		USER_NAME,
+		PASSWD,
+		HOME_DIR,
+		REMARK
+	) VALUES (
+		#userId# ,
+		#hostId# ,
+		#userName# ,
+		#passwd# ,
+		#homeDir# ,
+		#remark#     
+	)
+	</insert>
+	
+	<update id="updateRomUserInfo" parameterClass="java.util.Map">
+	UPDATE ROM_USER_INFO
+	<dynamic prepend=" SET ">
+		<isNotNull property="_userId" prepend=",">
+			USER_ID = #_userId#
+		</isNotNull>
+		<isNotNull property="_hostId" prepend=",">
+			HOST_ID = #_hostId#
+		</isNotNull>
+		<isNotNull property="_userName" prepend=",">
+			USER_NAME = #_userName#
+		</isNotNull>
+		<isNotNull property="_passwd" prepend=",">
+			PASSWD = #_passwd#
+		</isNotNull>
+		<isNotNull property="_homeDir" prepend=",">
+			HOME_DIR = #_homeDir#
+		</isNotNull>
+		<isNotNull property="_remark" prepend=",">
+			REMARK = #_remark#
+		</isNotNull>
+	</dynamic>
+
+	<include refid="where-all-condition"/>
+	</update>
+	
+
+	<delete id="deleteRomUserInfo" parameterClass="RomUserInfo">
+	DELETE FROM ROM_USER_INFO
+	<include refid="where-all-condition"/>
+	</delete>
+	
+	<select id="selectRomUserInfoParam" parameterClass="java.util.Map" resultClass="RomUserInfo">
+		<isEmpty property="S">
+			SELECT
+			USER_ID AS userId,
+			HOST_ID AS hostId,
+			USER_NAME AS userName,
+			PASSWD AS passwd,
+			HOME_DIR AS homeDir,
+			REMARK AS remark
+		</isEmpty>
+		<isNotEmpty property="S">
+			SELECT $S$
+		</isNotEmpty>
+		 	FROM ROM_USER_INFO $W$
+	</select>
+</sqlMap>
