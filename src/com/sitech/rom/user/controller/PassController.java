@@ -71,6 +71,7 @@ public class PassController extends BaseController {
 			}else{
 				operInfo="1";
 				result.setLoginPwd(login_password);
+				result.setLoginFlg("1");
 				loginSvc.updateLoginPass(result);
 				
 			}
