@@ -112,6 +112,7 @@ $(function(){
 <tr><td colspan="2"> 
 	<input type="button" class="b_foot" id="adddocparam" value="添加">
 	<input type="button" class="b_foot" id="moddocparam" value="修改">
+	<a href="#" onclick="$('#docparam').hide()">hide</a>
 </td></tr>
 <tr><td valign="top" colspan="2">
 
@@ -121,9 +122,11 @@ $(function(){
 
 <input type="hidden" id="rownum" value=""/>
 		<table id="datatable" class="myoptable" width="90%" cellspacing="0">
-		
-		<tr></tr>
+		<tr>
+			<td>参数名称</td><td>参数默认值</td><td>参数类型</td><td>是否过滤</td>
+			<td>是否可改</td><td><input type="button" class="b_foot" onclick="$('#docparam').show()" value="添加参数" /></td></tr>
 		</table>
+		
 </td></tr>
 <tr><td colspan="2"><span id="showmessage" style="color:red;display:none"></span></td></tr>
 </table>
@@ -261,7 +264,7 @@ $(function(){
 	function initdocparamlist(docid){
 		var datatable = document.getElementById("datatable");
 		var rownum = datatable.rows.length;
-		for(i=0;i<rownum;i++){
+		for(i=1;i<rownum;i++){
 				datatable.deleteRow(i);
 				rownum=rownum-1;
 		        i=i-1;
@@ -275,8 +278,8 @@ $(function(){
 	        success: function (data){
 	        	console.log(JSON.stringify(data));
 	        	if(data.ret == 0){
-	        		var thHTML = "<tr><td>参数名称</td><td>参数默认值</td><td>参数类型</td><td>是否过滤</td><td>是否可改</td><td><a href='#' onclick=\"$('#docparam').show()\">添加参数</a></td></tr>";
-	        		$("#datatable").append(thHTML);//在table最后面添加一行
+	        		//var thHTML = "";
+	        		//$("#datatable").append(thHTML);//在table最后面添加一行
 	        		var list = data.data;
 	        		for(var docparam in list){
 	        			var trHTML = "<tr><td>"+list[docparam].param+"</td><td>"+list[docparam].default_value+"</td><td>"+list[docparam].typename+"</td><td>";
