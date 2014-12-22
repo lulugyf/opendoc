@@ -35,7 +35,7 @@ String sys=Constants.PROD_SYSTEM;
 							</select>					
 						</td>
 					</tr>
-					<tr>
+					<!--  <tr>
 						
 						<th><font color="red">*省份代码：</font></th>
 						<td>
@@ -59,7 +59,7 @@ String sys=Constants.PROD_SYSTEM;
 							</c:if>
 							</select>							
 						</td>
-					</tr>
+					</tr>-->
 					<tr>
 						<th><font color="red">*是否有效</font></th>
 						<td>
@@ -70,13 +70,12 @@ String sys=Constants.PROD_SYSTEM;
 						</td>
 						<th><font color="red">*所属产品</font></th>
 						<td>
-							<select name="proCode" id="proCode" style="display:none">
-								<option value="" selected="true"></option>
+							<select name="proCode" id="proCode" class="required">
 						    	<c:forEach var="item" items="${productList}">
 						    		<option value="${item.proCode}">${item.proName}</option>		
 								</c:forEach>
 							</select>
-							<input type="text" name="proName" id="proName" readonly="true"/>
+							<input type="hidden" name="proName" id="proName" readonly="true"/>
 						</td>
 					</tr>
 				</table>

@@ -14,7 +14,7 @@
 		<%@ include file="/npage/include/header.jsp"%>
 </div>	 
 				<table class="myoptable">
-					<tr>
+					<!--  <tr>
 						<th>省份代码</th>
 						<td>
 							<select name="provinceCode" id="provinceCode">
@@ -28,6 +28,7 @@
 						</td>
 						<th>运营商代码</th>
 						<td>
+						
 							<select name="tellType" id="tellType">
 							 <option value="" ></option>
 							<c:if test="${tellcorpList!=null}"> 
@@ -37,7 +38,7 @@
 							</c:if>
 							</select>							
 						</td>
-					</tr>
+					</tr>-->
 					<tr>
 						<th>产品</th>
 						<td>

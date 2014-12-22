@@ -33,9 +33,9 @@ String sys=Constants.PROD_SYSTEM;
 							</select>					
 						</td>
 					</tr>
-					<tr>
+					<!--<tr>
 						
-						<th><font color="red">*省份代码</font></th>
+						  <th><font color="red">*省份代码</font></th>
 						<td>
 							<select name="provinceCode" id="provinceCode" class="required">
 							 <option value="" ></option>
@@ -57,7 +57,7 @@ String sys=Constants.PROD_SYSTEM;
 							</c:if>
 							</select>							
 						</td>
-					</tr> 
+					</tr> -->
 					<tr>
 						<th><font color="red">*是否有效</font></th>
 						<td>

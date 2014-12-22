@@ -62,6 +62,7 @@ public class LoginController extends BaseController {
 		//	modelMap.put("loginAgain", true);
 		//}else{
 			boolean flag = false;
+			String isfirstlogin = "";
 			try{
 				flag = loginSvc.validUserPwd(loginNo, loginPwd); //工号密码校验
 			}catch(Throwable e){
@@ -71,6 +72,7 @@ public class LoginController extends BaseController {
 			
 			if(flag == true){ //工号密码校验成功
 				RomSysLogin romSysLogin = loginSvc.queryRomSysLogin(loginNo);
+				isfirstlogin = romSysLogin.getLoginFlg();
 				String areaCode=null;
 				
 				session.setAttribute("loginNo",loginNo);
@@ -91,6 +93,10 @@ public class LoginController extends BaseController {
 			
 			request.setAttribute("isLoginSucc", flag); //是否登录成功标识
 		//}
+			
+			if("0".equals(isfirstlogin)){
+				return "login/pass_update";
+			}
 		
 			return "login/index";
 		//return new ModelAndView("login/index",modelMap);

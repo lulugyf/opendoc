@@ -69,9 +69,12 @@ public class RoleController extends BaseController {
 	public String roleList(HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) {
 		
-	    String provinceCode = request.getParameter("provinceCode").trim();
-	    String tellType = request.getParameter("tellType").trim();
+//	    String provinceCode = request.getParameter("provinceCode").trim();
+//	    String tellType = request.getParameter("tellType").trim();
 	    String proCode = request.getParameter("proCode").trim();
+	    
+	    String tellType = "";
+	    String provinceCode = "";
 
 	    RomSysRole romSysRole = new RomSysRole();
 	    if(provinceCode!=null && !"".equals(provinceCode))romSysRole.setProvinceCode(provinceCode);
@@ -114,6 +117,8 @@ public class RoleController extends BaseController {
 		
 		role.setRoleId(roleId);
 		role.setRemarks("新增角色");
+		role.setProvinceCode("");
+		role.setTellType("");
 		
 		if(roleSvc.addRole(role)){
 			request.setAttribute("operInfo","新增角色成功！");
@@ -152,6 +157,7 @@ public class RoleController extends BaseController {
 		request.setAttribute("tellcorpList", tellcorpList);
 
 		List<RomProCode> productList=productSvc.getProList(new RomProCode());
+		System.out.println("=====productList.size():"+productList.size());
 		request.setAttribute("productList", productList);
 		
 		return "user/role/role_update";		

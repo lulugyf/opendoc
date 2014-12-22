@@ -18,8 +18,8 @@
 			<th>角色名称</th>
 			<th>角色类别</th>
 			<th>是否有效</th>
-			<th>省份</th>
-			<th>运营商类型</th>
+			<!--  <th>省份</th>
+			<th>运营商类型</th>-->
 			<th>所属产品</th>
 			<th>操作</th>
 		</tr>
@@ -49,8 +49,8 @@
 				   		 <c:otherwise>有效</c:otherwise>
 				   		</c:choose>
 			   		</td>
-			   		<td>${show.provinceName}</td>
-			   		<td>${show.tellcorpName}</td>
+			   		<!--  <td>${show.provinceName}</td>
+			   		<td>${show.tellcorpName}</td> -->
 			   		<td>${show.proName}</td>
 			   		<td>
 			   		   <c:choose>
