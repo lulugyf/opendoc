@@ -8,15 +8,19 @@
 	<typeAlias alias="ParamData" type="com.sitech.rom.rpt.bo.ParamData" />
 	<typeAlias alias="ParamUser" type="com.sitech.rom.rpt.bo.ParamUser" />
 
+
 	<select id="qryType" parameterClass="java.lang.Integer"
 		resultClass="ParamType">
-		select typeid, name, datatype, remarks from t_paramtype
-		<dynamic prepend=" where ">
+		select typeid, name, datatype, remarks 
+		from t_paramtype 
+		where typeid!=0
+		<dynamic prepend=" and ">
 			<isPropertyAvailable property="value"> typeid=#value# </isPropertyAvailable>
 		</dynamic>
 		 order by typeid
 	</select>
 	
+
 	<select id="nextval" parameterClass="java.lang.String" resultClass="java.lang.Long">
 		select nextval(#value#) as value</select>
 	
@@ -101,24 +105,48 @@ where a.login_no=b.login_no and a.paramid=c.paramid and c.typeid=d.typeid
 	</select>
 	
 	<!-- for param_user relate -->
-	<select id="selUser" resultClass="java.lang.String">
+	<select id="selUser" parameterClass="java.lang.String" resultClass="java.lang.String">
 		select concat(login_no,'-',login_name) from rom_sys_login
+		<isParameterPresent prepend=" where ">
+		login_no like #value#
+		</isParameterPresent>
 	</select>
 	
 	<select id="qryParamUserTree" parameterClass="ParamData" resultClass="ParamData">
-	select a.paramid, typeid, paramValue, paramName, parentid, remarks, b.login_no as loginno
+	select a.paramid, a.typeid, paramValue, paramName, parentid, remarks, b.login_no as loginno
 	from t_paramdata a 
 	left outer join t_paramuser_rel b on a.paramid=b.paramid and b.login_no=#loginno#
-		where typeid=#typeid#
+		where a.typeid=#typeid#
 		order by parentid, paramid
 	</select>
 	
+	<select id="qryParamUserByType" parameterClass="ParamUser" resultClass="ParamUser">
+		select typeid, paramid, login_no as loginno
+		from t_paramuser_rel
+		where typeid=#typeid#
+	</select>
 	<delete id="delParamUser" parameterClass="ParamUser">
-		delete from t_paramuser_rel where paramid=#paramid# and login_no=#loginno#
+		delete from t_paramuser_rel where typeid=#typeid# and login_no=#loginno#
 	</delete>
 	
 	<insert id="addParamUser" parameterClass="ParamUser">
-		insert into t_paramuser_rel(paramid, login_no) values(#paramid#, #loginno#)
+		insert into t_paramuser_rel(typeid, paramid, login_no) values(#typeid#, #paramid#, #loginno#)
 	</insert>
 	
+	
+	<select id="qryParamUserEx" parameterClass="ParamUser" resultClass="ParamUser">
+		select docid, typeid, paramid, login_no as loginno, ex_flag
+		from t_paramuser_rel_ex
+		where docid=#docid# and typeid=#typeid# and login_no=#loginno#
+	</select>
+	
+	<delete id="delParamUserEx" parameterClass="ParamUser">
+		delete from t_paramuser_rel_ex where typeid=#typeid# and docid=#docid# and login_no=#loginno#
+	</delete>
+	
+	<insert id="addParamUserEx" parameterClass="ParamUser">
+		insert into t_paramuser_rel_ex(docid, typeid, paramid, login_no, ex_flag)
+			values(#docid#, #typeid#, #paramid#, #loginno#, #ex_flag#)
+	</insert>
+
 </sqlMap>

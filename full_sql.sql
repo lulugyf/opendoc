@@ -116,10 +116,10 @@ CREATE TABLE IF NOT EXISTS `rom_sequence` (
 -- Dumping data for table rom.rom_sequence: ~9 rows (approximately)
 /*!40000 ALTER TABLE `rom_sequence` DISABLE KEYS */;
 INSERT INTO `rom_sequence` (`name`, `current_value`, `increment`) VALUES
-	('paramdata', 27, 1),
+	('paramdata', 39, 1),
 	('paramtype', 16, 1),
 	('rptdoc', 10, 1),
-	('rptgroup', 11, 1),
+	('rptgroup', 14, 1),
 	('SEQ_COMMON', 1, 1),
 	('SEQ_EXPAND', 1, 1),
 	('SEQ_HOSTCHECK', 1, 1),
@@ -162,8 +162,7 @@ INSERT INTO `rom_sys_function` (`function_code`, `function_name`, `action_name`,
 	('DOCG0006', 'helhe 123', NULL, '0', 'RPTROOT', '1;', 'remarks', NULL, '1'),
 	('DOCG0007', '收入报表', NULL, '0', 'RPTROOT', '1;', 'add report group', NULL, '1'),
 	('DOCG0008', '支出报表', NULL, '0', 'RPTROOT', '1;', 'add report group', NULL, '1'),
-	('DOCG0009', '错误的分类111', NULL, '0', 'RPTROOT', '1;', 'remarks', NULL, '1'),
-	('DOCG0010', 'test报表组11', NULL, '0', 'RPTROOT', '1;', 'add report group', NULL, '1'),
+	('DOCG0014', '过滤条件', NULL, '0', 'RPTROOT', '1;', 'add report group', NULL, '1'),
 	('NETCELL', '网元管理', NULL, '0', '0', NULL, NULL, NULL, '1'),
 	('NODEMNG', '节点管理', NULL, '0', '0', NULL, NULL, 9, '1'),
 	('PARAMCFG', '报表参数配置', '../paramcfg_main.do', '0', 'RPTCFG', '1;2;3;', NULL, NULL, '1'),
@@ -386,7 +385,9 @@ INSERT INTO `rom_sys_popedom` (`function_code`, `action_name`, `operation_code`)
 	('DOC0009', 'rptdoc_main.do', '1'),
 	('DOC0009', 'getparamtree.do', '1'),
 	('DOC0010', 'rptdoc_main.do', '1'),
-	('DOC0010', 'getparamtree.do', '1');
+	('DOC0010', 'getparamtree.do', '1'),
+	('RPTCONF', 'setparamuserex.do', '1'),
+	('RPTCONF', 'getparamtree.do', '1');
 /*!40000 ALTER TABLE `rom_sys_popedom` ENABLE KEYS */;
 
 
@@ -399,7 +400,7 @@ CREATE TABLE IF NOT EXISTS `rom_sys_pro_function` (
   PRIMARY KEY (`pro_code`,`function_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table rom.rom_sys_pro_function: ~26 rows (approximately)
+-- Dumping data for table rom.rom_sys_pro_function: ~28 rows (approximately)
 /*!40000 ALTER TABLE `rom_sys_pro_function` DISABLE KEYS */;
 INSERT INTO `rom_sys_pro_function` (`pro_code`, `function_code`, `remarks`) VALUES
 	('P001', '2200', '设置产品功能'),
@@ -414,8 +415,7 @@ INSERT INTO `rom_sys_pro_function` (`pro_code`, `function_code`, `remarks`) VALU
 	('P001', 'DOCG0006', ' '),
 	('P001', 'DOCG0007', ' '),
 	('P001', 'DOCG0008', ' '),
-	('P001', 'DOCG0009', ' '),
-	('P001', 'DOCG0010', ' '),
+	('P001', 'DOCG0014', ' '),
 	('P001', 'PARAMCFG', '设置产品功能'),
 	('P001', 'PARAMUSR', '设置产品功能'),
 	('P001', 'RPTCFG', '设置产品功能'),
@@ -465,7 +465,7 @@ CREATE TABLE IF NOT EXISTS `rom_sys_role_function` (
   KEY `IDX_ROM_SYS_ROLE_FUNCTION` (`role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table rom.rom_sys_role_function: ~24 rows (approximately)
+-- Dumping data for table rom.rom_sys_role_function: ~26 rows (approximately)
 /*!40000 ALTER TABLE `rom_sys_role_function` DISABLE KEYS */;
 INSERT INTO `rom_sys_role_function` (`role_id`, `function_code`, `operation_code`) VALUES
 	(1, 'SYS01', 'NULL'),
@@ -487,8 +487,7 @@ INSERT INTO `rom_sys_role_function` (`role_id`, `function_code`, `operation_code
 	(5, 'DOCG0006', '1;'),
 	(5, 'DOCG0007', '1;'),
 	(5, 'DOCG0008', '1;'),
-	(5, 'DOCG0009', '1;'),
-	(5, 'DOCG0010', '1;'),
+	(5, 'DOCG0014', '1;'),
 	(5, 'PARAMCFG', '1;2;3;'),
 	(5, 'PARAMUSR', '1;2;'),
 	(5, 'RPTCFG', 'NULL'),
@@ -587,14 +586,14 @@ CREATE TABLE IF NOT EXISTS `t_docparam` (
   KEY `idx_docparam1` (`docid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table rom.t_docparam: ~5 rows (approximately)
+-- Dumping data for table rom.t_docparam: ~3 rows (approximately)
 /*!40000 ALTER TABLE `t_docparam` DISABLE KEYS */;
 INSERT INTO `t_docparam` (`docid`, `param`, `default_value`, `typeid`, `filterflag`, `remarks`, `allowchange`) VALUES
 	(8, 'sRegion', '11', 16, '0', 'test111', 1),
 	(8, 'sYear', '2005', 0, '0', '数据年份', 1),
 	(16, 'user', '', 0, '0', '000', 1),
-	(17, 'aaaa', '1111', 0, '1', '3333', 1),
-	(17, 'bbbbb', '1', 13, '1', '1111', 1);
+	(17, 'depid', '', 11, '1', '查看部门数据', 1),
+	(8, 'sRegion1', '', 10, '1', 'test', 1);
 /*!40000 ALTER TABLE `t_docparam` ENABLE KEYS */;
 
 
@@ -611,7 +610,7 @@ CREATE TABLE IF NOT EXISTS `t_paramdata` (
   KEY `idx1_paramdata` (`parentid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table rom.t_paramdata: ~18 rows (approximately)
+-- Dumping data for table rom.t_paramdata: ~27 rows (approximately)
 /*!40000 ALTER TABLE `t_paramdata` DISABLE KEYS */;
 INSERT INTO `t_paramdata` (`paramid`, `typeid`, `paramValue`, `paramName`, `parentid`, `remarks`) VALUES
 	(3, 13, '33', '名称33', 0, '0'),
@@ -632,7 +631,19 @@ INSERT INTO `t_paramdata` (`paramid`, `typeid`, `paramValue`, `paramName`, `pare
 	(24, 16, 'hello', '修改数据', 23, '了'),
 	(25, 16, 'hello', 'heloo111', 21, '了'),
 	(26, 16, 'hello', 'heloo111', 21, '了'),
-	(27, 16, 'hello', '回来了就好', 0, '了');
+	(27, 16, 'hello', '回来了就好', 0, '了'),
+	(28, 10, 'sichuan', '四川省', 0, ''),
+	(29, 10, 'chengdu', '成都市', 28, ''),
+	(30, 10, 'chenghua', '成华区', 29, ''),
+	(31, 10, 'wuhou', '武侯区', 29, ''),
+	(32, 10, 'jinyang', '青羊区', 29, ''),
+	(33, 10, 'jinniu', '金牛区', 29, ''),
+	(34, 10, 'gaoxin', '高新区', 29, ''),
+	(35, 11, 'manager', '总经理', 0, ''),
+	(36, 11, 'it', 'IT部', 35, ''),
+	(37, 11, 'hr', '人事部', 35, ''),
+	(38, 11, 'finance', '财务部', 35, ''),
+	(39, 11, 'sale', '销售部', 35, '');
 /*!40000 ALTER TABLE `t_paramdata` ENABLE KEYS */;
 
 
@@ -673,7 +684,7 @@ CREATE TABLE IF NOT EXISTS `t_paramtype` (
 /*!40000 ALTER TABLE `t_paramtype` DISABLE KEYS */;
 INSERT INTO `t_paramtype` (`typeid`, `name`, `datatype`, `remarks`) VALUES
 	(0, '[手工输入]', 'String', '初始化生成你'),
-	(10, '区域数据', 'String', 'vvvvvvvvvvv'),
+	(10, '销售区域', 'String', '销售区域划分'),
 	(11, '组织机构', 'String', '123'),
 	(13, '部门', 'String', '备注111'),
 	(16, '四川地区', 'String', 'abc');
@@ -683,31 +694,44 @@ INSERT INTO `t_paramtype` (`typeid`, `name`, `datatype`, `remarks`) VALUES
 -- Dumping structure for table rom.t_paramuser_rel
 DROP TABLE IF EXISTS `t_paramuser_rel`;
 CREATE TABLE IF NOT EXISTS `t_paramuser_rel` (
-  `paramid` int(11) NOT NULL DEFAULT '0',
+  `typeid` int(11) DEFAULT NULL COMMENT '参数类型id',
+  `paramid` int(11) NOT NULL DEFAULT '0' COMMENT '参数id，因为在参数表中paramid是唯一的， 所以没有加入 typeid',
   `login_no` varchar(8) NOT NULL DEFAULT '',
   PRIMARY KEY (`paramid`,`login_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table rom.t_paramuser_rel: ~16 rows (approximately)
+-- Dumping data for table rom.t_paramuser_rel: ~2 rows (approximately)
 /*!40000 ALTER TABLE `t_paramuser_rel` DISABLE KEYS */;
-INSERT INTO `t_paramuser_rel` (`paramid`, `login_no`) VALUES
-	(3, 'abc'),
-	(10, 'abc'),
-	(11, 'abc'),
-	(13, 'abc'),
-	(16, 'abc'),
-	(17, 'abc'),
-	(18, 'abc'),
-	(19, 'abc'),
-	(20, 'abc'),
-	(21, 'abc'),
-	(22, 'abc'),
-	(23, 'abc'),
-	(24, 'abc'),
-	(25, 'abc'),
-	(26, 'abc'),
-	(27, 'abc');
+INSERT INTO `t_paramuser_rel` (`typeid`, `paramid`, `login_no`) VALUES
+	(13, 13, 'abc'),
+	(13, 14, 'abc'),
+	(16, 22, 'abc'),
+	(16, 23, 'abc'),
+	(16, 24, 'abc'),
+	(16, 25, 'abc'),
+	(10, 30, 'abc'),
+	(10, 31, 'abc');
 /*!40000 ALTER TABLE `t_paramuser_rel` ENABLE KEYS */;
+
+
+-- Dumping structure for table rom.t_paramuser_rel_ex
+DROP TABLE IF EXISTS `t_paramuser_rel_ex`;
+CREATE TABLE IF NOT EXISTS `t_paramuser_rel_ex` (
+  `typeid` int(11) DEFAULT NULL COMMENT '参数类型id',
+  `docid` int(11) DEFAULT NULL COMMENT '报表id',
+  `paramid` int(11) NOT NULL DEFAULT '0' COMMENT '参数id',
+  `login_no` varchar(8) NOT NULL DEFAULT '' COMMENT '登录工号',
+  `ex_flag` char(1) DEFAULT NULL COMMENT '例外方式，1为添加 0为排除',
+  PRIMARY KEY (`paramid`,`login_no`),
+  KEY `idx1_t_paramuser_rel_ex` (`docid`,`typeid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='参数值与登录用户(ROM_SYS_LOGIN) 及 报表（t_doc）关系表 ， 这个与t_paramuser_rel相对而言的例外设置， 有这个配置时， 可对默认的关系做补充';
+
+-- Dumping data for table rom.t_paramuser_rel_ex: ~0 rows (approximately)
+/*!40000 ALTER TABLE `t_paramuser_rel_ex` DISABLE KEYS */;
+INSERT INTO `t_paramuser_rel_ex` (`typeid`, `docid`, `paramid`, `login_no`, `ex_flag`) VALUES
+	(10, 8, 32, 'abc', '1'),
+	(10, 8, 33, 'abc', '1');
+/*!40000 ALTER TABLE `t_paramuser_rel_ex` ENABLE KEYS */;
 
 
 -- Dumping structure for table rom.t_user

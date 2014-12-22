@@ -42,7 +42,7 @@ function _assert(cond, msg){
 _assert($.ui, "Fancytree requires jQuery UI (http://jqueryui.com)");
 
 function consoleApply(method, args){
-	var i, s,
+	/*var i, s,
 		fn = window.console ? window.console[method] : null;
 
 	if(fn){
@@ -56,7 +56,7 @@ function consoleApply(method, args){
 			}
 			fn(s);
 		}
-	}
+	} */
 }
 
 /*Return true if x is a FancytreeNode.*/
