@@ -55,6 +55,7 @@ public class ConfController {
 		
 		request.setAttribute("paramtypelist", dao.queryForList("rptparam.qryType"));
 		request.setAttribute("datatypelist", ParamType.getDataTypeList());
+		request.setAttribute("loginlist", dao.queryForList("rptparam.selUser"));
 		return "rpt/rptconf_main";
 	}
 

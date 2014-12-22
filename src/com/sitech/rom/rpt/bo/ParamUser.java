@@ -8,6 +8,8 @@ public class ParamUser {
 	private int typeid;
 	private String paramName;
 	private String paramValue;
+	private int docid;
+	private String ex_flag;
 	
 	
 //	select a.paramid, a.login_no loginno, b.login_name loginname, d.name typename, c.typeid typeid, c.paramName, c.paramValue
@@ -16,6 +18,18 @@ public class ParamUser {
 	
 	
 	
+	public String getEx_flag() {
+		return ex_flag;
+	}
+	public void setEx_flag(String ex_flag) {
+		this.ex_flag = ex_flag;
+	}
+	public int getDocid() {
+		return docid;
+	}
+	public void setDocid(int docid) {
+		this.docid = docid;
+	}
 	public int getParamid() {
 		return paramid;
 	}

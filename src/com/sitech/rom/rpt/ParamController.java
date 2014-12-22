@@ -40,6 +40,9 @@ public class ParamController {
 	@Resource
 	private IMyBaseDao dao;
 	
+	@Resource
+	private ParamService parSvc;
+	
 	private final Logger log = Logger.getLogger(getClass());
 	
 	// http://localhost:8081/rom/paramcfg_main.do?opCode=PARAMCFG&opName=报表0-报表参数配置报表0-报表参数配置&proId=P001&provinceCode=-1&tellType=-1
@@ -48,13 +51,6 @@ public class ParamController {
 			HttpServletResponse response, HttpSession session) {
 		
 		List<ParamType> typelist = dao.queryForList("rptparam.qryType");
-		for(int i=0; i<typelist.size(); i++){
-			ParamType p = typelist.get(i);
-			if(p.getTypeid() == 0){
-				typelist.remove(i);
-				break;
-			}
-		}
 		request.setAttribute("typelist", typelist);
 		request.setAttribute("datatypelist", ParamType.getDataTypeList());
 		return "rpt/param/param_main";
@@ -224,7 +220,43 @@ public class ParamController {
 	
 	@ResponseBody
 	@RequestMapping(value = "getparamtree.do")
-	public String getParamTree(HttpServletRequest request,
+	public String getparamtree(HttpServletRequest request,
+			HttpServletResponse response, HttpSession session){
+		response.setContentType("application/json,charset=utf8");
+		JSONObject j = new JSONObject();
+		int ret= -1;
+		
+		try{
+		
+			ParamData pd = new ParamData();
+			pd.setTypeid(Integer.parseInt(request.getParameter("typeid")));
+			pd.setLoginno(request.getParameter("login_no"));
+			
+			ParamUser pu = new ParamUser();
+			pu.setDocid(Integer.parseInt(request.getParameter("docid").trim()));
+			pu.setTypeid(pd.getTypeid());
+			pu.setLoginno(pd.getLoginno());
+
+			List<ParamData> list = (List<ParamData>)dao.queryForList("rptparam.qryParamUserTree", pd);
+			j.put("data", JSONArray.fromObject(list));
+			
+			List<ParamUser> list1 = (List<ParamUser>)dao.queryForList("rptparam.qryParamUserEx", pu);
+			j.put("data1", JSONArray.fromObject(list1));
+			
+			ret = 0;
+		}catch(Throwable e){
+			e.printStackTrace();
+			ret = -2;
+			j.put("msg",  "get  data failed:"+e.getMessage());
+		}
+
+		j.put("ret", ret);
+		return j.toString(4);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "getparamusertree.do")
+	public String getparamusertree(HttpServletRequest request,
 			HttpServletResponse response, HttpSession session){
 		response.setContentType("application/json,charset=utf8");
 		JSONObject j = new JSONObject();
@@ -232,11 +264,19 @@ public class ParamController {
 		
 		ParamData pd = new ParamData();
 		pd.setTypeid(Integer.parseInt(request.getParameter("typeid")));
-		pd.setLoginno(request.getParameter("loginno"));
+		pd.setLoginno(request.getParameter("login_no"));
+		
+		ParamUser pu = new ParamUser();
+		pu.setDocid(Integer.parseInt(request.getParameter("docid")));
+		pu.setTypeid(pd.getTypeid());
+		pu.setLoginno(pd.getLoginno());
 
 		try{
 			List<ParamData> list = (List<ParamData>)dao.queryForList("rptparam.qryParamUserTree", pd);
 			j.put("data", JSONArray.fromObject(list));
+			
+			List<ParamUser> list1 = (List<ParamUser>)dao.queryForList("rptparam.qryParamUserEx", pu);
+			j.put("data1", JSONArray.fromObject(list1));
 			ret = 0;
 		}catch(Throwable e){
 			ret = -2;
@@ -247,6 +287,38 @@ public class ParamController {
 		return j.toString(4);
 	}
 
+	/*
+	 设置参数 工号 报表的例外数据
+	 */
+	@ResponseBody
+	@RequestMapping(value = "setparamuserex.do")
+	public String setparamuserex(HttpServletRequest request,
+			HttpServletResponse response, HttpSession session){
+		
+		response.setContentType("application/json,charset=utf8");
+		JSONObject j = new JSONObject();
+		int ret= -1;
+		
+		String login_no = request.getParameter("login_no");
+		String typeid = request.getParameter("typeid");
+		String docid = request.getParameter("docid");
+		String incl = request.getParameter("incl");
+		String excl = request.getParameter("excl");
+		
+		try{
+			System.out.printf("incl: %s  excl: %s\n", incl, excl);
+			int affected = parSvc.updateParamUserEx(Integer.parseInt(typeid), login_no, Integer.parseInt(docid), incl, excl);
+			j.put("affected", affected);
+			ret = 0;
+		}catch(Throwable e){
+			ret = -2;
+			j.put("msg",  "get  data failed:"+e.getMessage());
+		}
+
+		j.put("ret", ret);
+		return j.toString(4);
+	}
+	
 	@ResponseBody
 	@RequestMapping(value = "setparamuser.do")
 	public String setParamUser(HttpServletRequest request,
@@ -257,35 +329,11 @@ public class ParamController {
 		int ret= -1;
 		
 		String login_no = request.getParameter("loginno");
+		String typeid = request.getParameter("typeid");
 		String newsel = request.getParameter("newsel");
-		String oldsel = request.getParameter("oldsel");
-
-		String[] sel_n = newsel.split("\\,");
-		String[] sel_o = oldsel.split("\\,");
-		Hashtable<String, Integer> ht_n = new Hashtable<String, Integer>();
-		for(String n: sel_n) ht_n.put(n, 1);
-		Hashtable<String, Integer> ht_o = new Hashtable<String, Integer>();
-		for(String n: sel_o) ht_o.put(n, 1);
-		ParamUser pu = new ParamUser();
-		pu.setLoginno(login_no);
+		
 		try{
-			int affected = 0;
-			for(String n: sel_n){
-				if("".equals(n)) continue;
-				if(!ht_o.containsKey(n)){
-					pu.setParamid(Integer.parseInt(n));
-					dao.insert("rptparam.addParamUser", pu);
-					affected ++;
-				}
-			}
-			for(String n:sel_o){
-				if("".equals(n)) continue;
-				if(!ht_n.containsKey(n)){
-					pu.setParamid(Integer.parseInt(n));
-					dao.delete("rptparam.delParamUser", pu);
-					affected++;
-				}
-			}
+			int affected = parSvc.updateParamUser(Integer.parseInt(typeid), login_no, newsel);
 			ret = 0;
 			j.put("affected", affected);
 		}catch(Throwable e){
@@ -374,4 +422,21 @@ public class ParamController {
 		return j.toString(4);
 	}
 	
+	@ResponseBody
+	@RequestMapping(value = "querylogin.do")
+	public String querylogin(HttpServletRequest request,
+			HttpServletResponse response, HttpSession session){
+		
+		StringBuilder sb = new StringBuilder();
+		
+		String q = request.getParameter("q");
+		
+		List<String> list = (List<String>)dao.queryForList("rptparam.selUser", q);
+		for(String l: list){
+			sb.append(l).append('\n');
+		}
+		
+		
+		return sb.toString();
+	}
 }

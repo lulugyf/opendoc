@@ -397,13 +397,30 @@ create table t_paramdata(
 ) DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 create index idx1_paramdata on t_paramdata(parentid);
 
--- 参数值与登录用户(ROM_SYS_LOGIN)关系表 
+-- 参数值与登录用户(ROM_SYS_LOGIN)关系表
+drop table if exists t_paramuser_rel;
 create table t_paramuser_rel
 (
-	paramid int,
+	typeid int comment '参数类型id',
+	paramid int comment '参数id，因为在参数表中paramid是唯一的， 所以没有加入 typeid',
 	login_no varchar(8),
 	primary key (paramid, login_no)
 );
+
+alter table t_paramuser_rel add typeid int comment '参数类型id' default 0;
+
+-- 参数值与登录用户(ROM_SYS_LOGIN) 及 报表（t_doc）关系表 ， 这个与t_paramuser_rel相对而言的例外设置， 有这个配置时， 可对默认的关系做补充
+drop table if exists t_paramuser_rel_ex;
+create table t_paramuser_rel_ex
+(
+	docid  int  comment '报表id',
+	typeid int comment '参数类型id',
+	paramid int comment '参数id',
+	login_no varchar(8) comment '登录工号',
+	ex_flag char(1) comment '例外方式，1为添加 0为排除',
+	primary key (paramid, login_no)
+) comment '参数值与登录用户(ROM_SYS_LOGIN) 及 报表（t_doc）关系表 ， 这个与t_paramuser_rel相对而言的例外设置， 有这个配置时， 可对默认的关系做补充';
+create index idx1_t_paramuser_rel_ex on t_paramuser_rel_ex(docid, typeid);
 
 /*参数配置, 保存部分配置参数*/
 drop table if exists t_parameters;

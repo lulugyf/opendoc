@@ -46,7 +46,7 @@
 		  </td>
 		</tr>
 	</table>
-	
+	<input type="hidden" id="typeid" />
 	<span id="showmessage" style="color:red;display:none"></span>
 </td><td valign="top" align="left">
 <a href="#" id="selectall">全选</a> &nbsp;&nbsp; <a href="#" id="selectnone">全取消</a>
@@ -96,6 +96,7 @@ $(function(){
 	
 	$('#editparamuser').click(function(){
 		var typeid = $('#typeselector').val();
+		$('#typeid').val(typeid);
 		var loginno = $('#loginselector').val();
 		login_no = loginno.substring(0, loginno.indexOf('-'));
 		if(typeid == '' || login_no  == ''){
@@ -133,7 +134,7 @@ $(function(){
 			url:'setparamuser.do',
 			method:'post',
 			cache:false,
-			data: {opCode: opCode, proId: proId, loginno:login_no, oldsel:oldsel, newsel:newsel},
+			data: {opCode: opCode, proId: proId, typeid:$('#typeid').val(), loginno:login_no, oldsel:oldsel, newsel:newsel},
 			dataType: "json",
 	        success: function (data){
 	        	console.log("out:"+JSON.stringify(data));

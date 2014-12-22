@@ -32,11 +32,12 @@ insert into rom_sys_popedom values('RPTCONF', 'adddocparam.do', '1');
 insert into rom_sys_popedom values('RPTCONF', 'moddocparam.do', '1');
 insert into rom_sys_popedom values('RPTCONF', 'deldocparam.do', '1');
 insert into rom_sys_popedom values('RPTCONF', 'getrptparam.do', '1');
-insert into rom_sys_popedom values('RPTCONF', '.do', '1');
-insert into rom_sys_popedom values('RPTCONF', '.do', '1');
+insert into rom_sys_popedom values('RPTCONF', 'getparamusertree.do', '1');
 insert into rom_sys_popedom values('RPTCONF', '.do', '1');
 
 insert into rom_sys_popedom values('DOC0007', 'getparamtree.do', '1');
+
+delete from rom_sys_popedom where function_code='RPTCONF' and action_name='querylogin.do'
 
 /*新增模块需要下面3个表插入数据*/
 insert into rom_sys_pro_function(pro_code, function_code, remarks)

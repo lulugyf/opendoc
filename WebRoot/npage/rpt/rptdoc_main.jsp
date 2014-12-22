@@ -38,7 +38,7 @@ var loginno="${login_no}";
 <input type="hidden" id="opCode" value="${opCode }" />
 <input type="hidden" id="typeid1" value='0' />
 
-
+<input type="hidden" id="docid" value="${doc.docid}" />
 		
 <table style="align:center;width:80%" class="myoptable">
 <tr><th>报表名称：    </th><td> ${doc.docname } </td></tr>
@@ -101,7 +101,7 @@ function initTree(data, filterflag){
 	var tree = $("#tree").fancytree("getTree");
 	tree.getRootNode().removeChildren();
 	$.each(data.data, function(i, d){
-		var newData = {key:'t_'+d.paramid, title: d.paramName, data:{pvalue: d.paramValue, enabled:false, loginno:d.loginno}};
+		var newData = {key:'t_'+d.paramid, title: d.paramName, data:{pvalue: d.paramValue, enabled:false, loginno:d.loginno,paramid:d.paramid}};
 		var p = tree.getNodeByKey('t_'+d.parentid);
 		if(p != undefined){
 			var n = p.addChildren(newData);
@@ -116,6 +116,11 @@ function initTree(data, filterflag){
 	
 	$("#tree").fancytree("getRootNode").visit(function(node){
         node.setExpanded(true);
+        $.each(data.data1, function(index, d){
+        	if(d.paramid == node.data.paramid){
+        		node.data.enabled = (d.ex_flag == '1');
+        	}
+        });
     });
 	$("#tree").fancytree("getRootNode").visit(function(node){
         if(node.data.enabled){
@@ -136,18 +141,18 @@ function selParam(param, typeid, filterflag){
 		url:'getparamtree.do',
 		method:'post',
 		cache:false,
-		data: {opCode: opCode, proId: proId, typeid:typeid, loginno: loginno},
+		data: {opCode: opCode, proId: proId, typeid:typeid, login_no: loginno, docid:$('#docid').val()},
 		dataType: "json",
         success: function (data){
         	//console.log("out:"+JSON.stringify(data));
         	if(data.ret == 0){
         		initTree(data, filterflag);
         	}else{
-        		showmsg("get data failed:"+data.ret + ":"+data.msg);
+        		console.log("get data failed:"+data.ret + ":"+data.msg);
         	}
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
-            showmsg("failed:"+errorThrown);
+            console.log("failed:"+errorThrown);
         }
 	})
 	dialog.dialog( "open" );
