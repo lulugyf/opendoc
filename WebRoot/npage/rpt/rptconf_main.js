@@ -280,7 +280,7 @@ $(function(){
 	        			}else{
 	        				trHTML = trHTML + "yes" + "</td><td>";
 	        			}
-	        			trHTML = trHTML + "<a href='javascript:;' onclick=editdocparam(this,'"+list[docparam].typeid+"','"+list[docparam].filterflag+"','"+list[docparam].remarks+"')  id='edit' >修改</a>";
+	        			trHTML = trHTML + "<a href='javascript:;' onclick=editdocparam(this,'"+list[docparam].typeid+"','"+list[docparam].filterflag+"','"+list[docparam].allowchange+"','"+list[docparam].remarks+"')  id='edit' >修改</a>";
 	        			trHTML = trHTML + "&nbsp;";
 	        			trHTML = trHTML + "<a href='javascript:;' onclick=deldocparam(this)  id='del' >删除</a>&nbsp; ";
 	        			trHTML = trHTML + "<a href='javascript:;' onclick=setparamuser('"+list[docparam].typeid+"') >设置工号关联</a>";
