@@ -232,16 +232,18 @@ public class ParamController {
 			pd.setTypeid(Integer.parseInt(request.getParameter("typeid")));
 			pd.setLoginno(request.getParameter("login_no"));
 			
-			ParamUser pu = new ParamUser();
-			pu.setDocid(Integer.parseInt(request.getParameter("docid").trim()));
-			pu.setTypeid(pd.getTypeid());
-			pu.setLoginno(pd.getLoginno());
-
 			List<ParamData> list = (List<ParamData>)dao.queryForList("rptparam.qryParamUserTree", pd);
 			j.put("data", JSONArray.fromObject(list));
 			
-			List<ParamUser> list1 = (List<ParamUser>)dao.queryForList("rptparam.qryParamUserEx", pu);
-			j.put("data1", JSONArray.fromObject(list1));
+			if(request.getParameter("docid") != null){
+				ParamUser pu = new ParamUser();
+				pu.setDocid(Integer.parseInt(request.getParameter("docid").trim()));
+				pu.setTypeid(pd.getTypeid());
+				pu.setLoginno(pd.getLoginno());
+	
+				List<ParamUser> list1 = (List<ParamUser>)dao.queryForList("rptparam.qryParamUserEx", pu);
+				j.put("data1", JSONArray.fromObject(list1));
+			}
 			
 			ret = 0;
 		}catch(Throwable e){

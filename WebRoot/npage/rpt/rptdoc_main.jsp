@@ -13,13 +13,12 @@
 <body>
 	<input type=hidden name="opCode" id="opCode" value="<%=opCode%>">
 	<input type=hidden name="proId" id="proId" value="<%=proId%>">
-<div id="operation">
-		<%@ include file="/npage/include/header.jsp"%>
-</div>	 
+ 
 
 
 <script type="text/javascript" src="<%=request.getContextPath()%>/nresources/table/js/jquery.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/njs/plugins/common.js"></script>
+
 
 <!--  for fancytree -->
 <script src="<%=request.getContextPath()%>/njs/fancytree/jquery-ui.custom.js" type="text/javascript"></script>
@@ -39,29 +38,44 @@ var loginno="${login_no}";
 <input type="hidden" id="typeid1" value='0' />
 
 <input type="hidden" id="docid" value="${doc.docid}" />
-		
-<table style="align:center;width:80%" class="myoptable">
-<tr><th>报表名称：    </th><td> ${doc.docname } </td></tr>
-<tr><th>报表URL： </th><td> ${doc.baseurl } </td></tr>
-<tr><th>备 注：</th><td> ${doc.remarks }</td></tr>
-
-<tr><td colspan="2"> 
-   <!--  <input type="button" class="b_foot" id="go" value="查看"> -->
 
 
-<form method="post" id="formdoc" action="${doc.baseurl }">
-<div style="display:none">
-<textarea type="hidden" name="serSes">${serSession }</textarea>
+<script type="text/javascript" src="<%=request.getContextPath()%>/njs/jspanel/jquery.jspanel.min.js"></script>
+<link href="<%=request.getContextPath()%>/njs/jspanel/jquery.jspanel.min.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript">
+var panel_sm1;
+$(function() {
+	panel_sm1 = $.jsPanel({
+		selector: ".panel-body",
+		title: "报表参数 设置",
+		size: { width:500, height:400 },
+		theme: "light",
+        //position: { top:50, left:200 },
+		position: "center",
+		id: 'panel_i1',
+		//controls:      { buttons: 'none' },
+		content: function(){
+			var body = $('.content').html();
+			//console.log(body);
+			$('.content').html('');
+			return body;
+		}
+
+	});
+});
+</script>
+
+<div id="operation" class="pagetitle">
+		<%@ include file="/npage/include/header.jsp"%>
 </div>
-<c:forEach items="${paramlist }" var="p">
-	<input type="hidden" name="${p.param }" id="${p.param }" />
-</c:forEach>
-<input type="submit" class="b_foot" value="查看">
-</form>
 
-</td></tr>
-<tr><td colspan="2"><span id="showmessage" style="color:red;display:none"></span></td></tr>
-</table>
+<div class=".panel-body"></div>
+
+<div  class="content" style="display:none">
+
+	
+<span id="showmessage" style="color:red;display:none"></span>
 
 <div id="operation" style="padding:0px">
 <div id="operation_table" style="margin:0px">
@@ -88,12 +102,46 @@ var loginno="${login_no}";
 </div>
 </div>
 
+<form method="post" id="formdoc" action="${doc.baseurl }" target="rptbody">
+<div style="display:none">
+<textarea type="hidden" name="serSes">${serSession }</textarea>
+</div>
+<c:forEach items="${paramlist }" var="p">
+	<input type="hidden" name="${p.param }" id="${p.param }" />
+</c:forEach>
+<table style="border:false; width:100%"><tr><td align="center">
+<input type="submit" class="b_foot" value="查看">
+</td></tr></table>
+</form>
+</div>
+
+<div class="b">
+ <iframe align="left" name="rptbody" id="rptbody" src="npage/portal/work/portal.jsp" frameborder="0" scrolling="yes" style="width:100%;height:100%;overflow:scrolling">
+		</iframe>
+</div>
+
+<style>
+.ui-dialog {
+	z-index: 1000;
+}
+</style>
 <div id="dialog-form" title="参数值选择">
 
   <div id="tree"><ul></ul></div>
 </div>
 
 <script>
+
+$(function(){
+	var d = $(document);
+	$('#rptbody').width(d.width()-12).height(d.height()-$('.pagetitle').height()-12);
+	
+});
+function showmsg(msg){
+	$("#showmessage").text(msg);
+	$("#showmessage").fadeIn().delay(5000).fadeOut();
+}
+
 var dialog = null;
 
 function initTree(data, filterflag){
@@ -148,11 +196,11 @@ function selParam(param, typeid, filterflag){
         	if(data.ret == 0){
         		initTree(data, filterflag);
         	}else{
-        		console.log("get data failed:"+data.ret + ":"+data.msg);
+        		showmsg("get data failed:"+data.ret + ":"+data.msg);
         	}
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
-            console.log("failed:"+errorThrown);
+            showmsg("failed:"+errorThrown);
         }
 	})
 	dialog.dialog( "open" );
@@ -171,7 +219,7 @@ $(function(){
 	    autoOpen: false,
 	    height: 450,
 	    width: 400,
-	    modal: true,
+	    modal: false,
 	    buttons: {
 	      "确定选择": function(){
 	    	  sel = $("#tree").fancytree("getTree").getSelectedNodes();
@@ -195,7 +243,8 @@ $(function(){
 			$('#'+pname).val(p.value);
 			//console.log(pname + "---" + p.value);
 		})
-		
+		//panel_sm1.smallify();
+		panel_sm1.minimize();
 	});
 
 });

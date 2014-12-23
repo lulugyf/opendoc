@@ -106,7 +106,7 @@ $(function(){
 			url:'getparamtree.do',
 			method:'post',
 			cache:false,
-			data: {opCode: opCode, proId: proId, typeid:typeid, loginno:login_no},
+			data: {opCode: opCode, proId: proId, typeid:typeid, login_no:login_no},
 			dataType: "json",
 	        success: function (data){
 	        	console.log("out:"+JSON.stringify(data));

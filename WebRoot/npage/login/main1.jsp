@@ -57,12 +57,12 @@
 <script src="<%=request.getContextPath()%>/njs/system/system.js" type="text/javascript"></script>
 	
 </head>
-<body class="easyui-layout" style="text-align:left">
+<body class="easyui-layout" style="text-align:left" onresize="resizebody()">
 
 	
 	
 	<!--topPanel begin-->
-	<div region="north" border="false" style="background:url(../../nresources/UI/images/framework.png) repeat-x scroll left -51px;text-align:center" id="topPanel">
+	<div region="north" id="northpane" border="false" style="background:url(../../nresources/UI/images/framework.png) repeat-x scroll left -51px;text-align:center" id="topPanel">
 	<div id="menuPanel">
 		<div class="head-logo">
 		</div>
@@ -76,7 +76,7 @@
 	
 
 		<!--  begin  navPanel -->
-		<div  region="west" split="true" title="用户功能树-<%=login_no %>" style="width:25%;padding:5px;">
+		<div  region="west" split="true" id="westdiv" title="用户功能树-<%=login_no %>" style="width:25%;padding:5px;">
 
 				<div id="navTree" class="easyui-tree">
 				</div>
@@ -85,23 +85,33 @@
 		
 		<!--workPanel begin-->
 	<div region="center" id="tabbedPanel" fit="true" border="false" class="easyui-tabs">
-		<div title="Home">
-		<iframe align="left"  class="workIframe"  id="ifram" src="../portal/work/portal.jsp" frameborder="0" scrolling="yes" style="width:75%;height:100%">
+		<div title="Home" class="tabpane">
+		<iframe align="left"  class="workIframe"  id="ifram" src="../portal/work/portal.jsp" frameborder="0">
 		</iframe>
 		</div>
 	</div>
 		<!--workPanel end-->
-		
-
-	
-	
-
-<div id="currUserId" style="display:none"></div>
 
 <script language="javascript" type="text/javascript">
 
-		
+(function($,h,c){var a=$([]),e=$.resize=$.extend($.resize,{}),i,k="setTimeout",j="resize",d=j+"-special-event",b="delay",f="throttleWindow";e[b]=250;e[f]=true;$.event.special[j]={setup:function(){if(!e[f]&&this[k]){return false}var l=$(this);a=a.add(l);$.data(this,d,{w:l.width(),h:l.height()});if(a.length===1){g()}},teardown:function(){if(!e[f]&&this[k]){return false}var l=$(this);a=a.not(l);l.removeData(d);if(!a.length){clearTimeout(i)}},add:function(l){if(!e[f]&&this[k]){return false}var n;function m(s,o,p){var q=$(this),r=$.data(this,d);r.w=o!==c?o:q.width();r.h=p!==c?p:q.height();n.apply(this,arguments)}if($.isFunction(l)){n=l;return m}else{n=l.handler;l.handler=m}}};function g(){i=h[k](function(){a.each(function(){var n=$(this),m=n.width(),l=n.height(),o=$.data(this,d);if(m!==o.w||l!==o.h){n.trigger(j,[o.w=m,o.h=l])}});g()},e[b])}})(jQuery,this);
+
+function resizebody(){
+	var p0 = $('#westdiv');
+	var p1 = $('#northpane');
+	var w = $(window);
+	$('.workIframe').each(function(i, p){
+		var x = $(p);
+		x.width(w.width()-p0.width()-15);
+		x.height(p0.height());
+	});
+}
+
 $(function(){
+	resizebody();
+	$('#westdiv').resize(resizebody);
+	
+	
 	$.ajax({
 		url:'../../getfuncmenu.do',
 		method:'post',
@@ -120,6 +130,7 @@ $(function(){
             showmsg("failed:"+errorThrown);
         }
 	})
+
 });
 
 function initTree(data){
@@ -148,12 +159,13 @@ function openTab(opCode, proId, title, targetUrl, opName)
 	if ($('#tabbedPanel').tabs('exists', title)){
 		$('#tabbedPanel').tabs('select', title);
 	} else {
-		var content = '<iframe scrolling="auto" frameborder="solid 1px" src="'+targetUrl+'" style="width:75%;height:100%;overflow:scroll;"></iframe>';
+		var content = '<iframe scrolling="auto" class="workIframe" frameborder="solid 1px" src="'+targetUrl+'" style="overflow:scroll;"></iframe>';
 		$('#tabbedPanel').tabs('add',{
 			title:title,
 			content:content,
 			closable:true
 		});
+		resizebody();
 	}
 }
 
