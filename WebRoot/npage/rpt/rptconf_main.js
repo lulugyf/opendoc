@@ -365,6 +365,10 @@ $(function(){
 		var docname = $('#docname').val();
 		var baseurl = $('#baseurl').val();
 		var remarks = $('#remarks').val();
+		if(docname == '' || baseurl == ''){
+			showmsg("报表名称和URL都不能为空!");
+			return;
+		}
 		 $.ajax({
 				url:'addrptdoc.do',
 				method:'post',

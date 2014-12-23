@@ -105,3 +105,9 @@ update t_parameters set pvalue='rptdoc_main.do,getparamtree.do' where pname='doc
 update t_docparam set allowchange=1
 
 alter table t_docparam add allowchange int comment '是否允许修改参数值，为0的话，则查看报表时不显示该参数'
+
+
+select a.paramid, a.typeid, paramValue, paramName, parentid, remarks, b.login_no as loginno
+	from t_paramdata a 
+	left outer join t_paramuser_rel b on a.paramid=b.paramid and b.login_no='abc'
+		where a.typeid=16

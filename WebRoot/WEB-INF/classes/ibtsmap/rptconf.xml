@@ -10,6 +10,7 @@
 	<typeAlias alias="DocParam" type="com.sitech.rom.rpt.bo.DocParam"/>
 	<typeAlias alias="DocGroup" type="com.sitech.rom.rpt.bo.DocGroup"/>
 	<typeAlias alias="DocFunc" type="com.sitech.rom.rpt.bo.DocFunc"/>
+	<typeAlias alias="ParamUser" type="com.sitech.rom.rpt.bo.ParamUser" />
 	
 	<select id="qryParam" parameterClass="java.lang.String" resultClass="ConfParameter">
 		SELECT pname, pvalue, remarks from t_parameters
@@ -128,6 +129,19 @@
 		SELECT docid, group_func, function_code, docname, baseurl, remarks
 		from t_doc
 		where function_code=#value#
+	</select>
+	
+	
+	<select id="qryParamData" parameterClass="ParamUser" resultClass="ParamUser">
+	select a.paramid, b.paramValue
+ from t_paramuser_rel a, t_paramdata b
+where a.login_no=#loginno# and a.paramid=b.paramid and a.typeid=#typeid#
+	</select>
+	
+	<select id="qryParamDataEx" parameterClass="ParamUser" resultClass="ParamUser">
+	select a.paramid, b.paramValue, a.ex_flag
+ from t_paramuser_rel_ex a, t_paramdata b
+where a.login_no=#loginno# and a.paramid=b.paramid and a.typeid=#typeid# and a.docid=#docid#
 	</select>
 
 </sqlMap>

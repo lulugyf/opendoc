@@ -62,7 +62,7 @@
 	
 	
 	<!--topPanel begin-->
-	<div region="north" id="northpane" border="false" style="background:url(../../nresources/UI/images/framework.png) repeat-x scroll left -51px;text-align:center" id="topPanel">
+	<div region="north" border="false" style="background:url(../../nresources/UI/images/framework.png) repeat-x scroll left -51px;text-align:center" id="topPanel">
 	<div id="menuPanel">
 		<div class="head-logo">
 		</div>
@@ -98,7 +98,6 @@
 
 function resizebody(){
 	var p0 = $('#westdiv');
-	var p1 = $('#northpane');
 	var w = $(window);
 	$('.workIframe').each(function(i, p){
 		var x = $(p);

@@ -49,10 +49,10 @@ $(function() {
 	panel_sm1 = $.jsPanel({
 		selector: ".panel-body",
 		title: "报表参数 设置",
-		size: { width:500, height:400 },
+		size: { width:500, height:600 },
 		theme: "light",
-        //position: { top:50, left:200 },
-		position: "center",
+        position: { top:40, left:15 },
+		//position: "center",
 		id: 'panel_i1',
 		//controls:      { buttons: 'none' },
 		content: function(){
@@ -91,7 +91,7 @@ $(function() {
 			<th>设定值</th>
 		</tr>
 		<c:forEach items="${paramlist }" var="p">
-		<tr>
+		<tr <c:if test="${p.allowchange == 0 }">style="display:none"</c:if>>
 			<td>${p.param }</td><td>${p.typename }</td><td>${p.default_value }</td>
 			<td><input type="text" class="param" id="P_${p.param }" value="${p.default_value }" <c:if test="${p.typeid > 0 }">readonly</c:if> />
 			  <button onclick="selParam('${p.param }', ${p.typeid}, ${p.filterflag })">...</button></td>
@@ -116,7 +116,7 @@ $(function() {
 </div>
 
 <div class="b">
- <iframe align="left" name="rptbody" id="rptbody" src="npage/portal/work/portal.jsp" frameborder="0" scrolling="yes" style="width:100%;height:100%;overflow:scrolling">
+ <iframe align="left" name="rptbody" id="rptbody" src="npage/public/blank_block.html" frameborder="0" scrolling="yes" style="width:100%;height:100%;overflow:scrolling">
 		</iframe>
 </div>
 
@@ -135,6 +135,12 @@ $(function() {
 $(function(){
 	var d = $(document);
 	$('#rptbody').width(d.width()-12).height(d.height()-$('.pagetitle').height()-12);
+	
+	if(${paramCount} == 0){
+		//没有可修改的参数， 则直接提交显示报表页面
+		$('#formdoc').submit();
+		panel_sm1.smallify();
+	}
 	
 });
 function showmsg(msg){
@@ -183,6 +189,8 @@ function initTree(data, filterflag){
 
 var g_pname = "";
 function selParam(param, typeid, filterflag){
+	if(typeid == 0)
+		return;
 	g_pname = param;
 	//console.log('selParam:'+param + " ---"+typeid + " " + filterflag);
 	$.ajax({
