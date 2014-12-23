@@ -1,0 +1,74 @@
+/*==============================================================*/
+/* Table: etl_host_msg      数据源Host配置表                    */
+/*==============================================================*/
+-- drop table
+drop table if exists etl_host_msg;
+-- Create table
+create table etl_host_msg
+(
+order_id  int primary key,             #连接序号
+serv_ip	  varchar(20),                 #数据库IP
+serv_name varchar(20),                 #主机名
+serv_user varchar(20),                 #主机用户名
+serv_pwd  varchar(20),                 #主机密码
+db_type 	varchar(10),                 #源数据库类型
+db_name	  varchar(20),                 #数据库名
+db_port	  int,                         #数据库端口
+db_user 	varchar(20),                 #数据库用户名
+db_pwd 	  varchar(20),                 #数据库密码
+data_dir  varchar(50)                  #导出数据文件路径
+);
+insert into etl_host_msg values
+(1,'192.168.0.113','redtree0','rpt','rpt123','MYSQL','bidb',3306,'rpt','rpt123','/home/rpt/work/zhanghj/mysql/data');
+insert into etl_host_msg values
+(1,'192.168.0.112','redtree1','administrator','Redtree123','ORACLE','orcl',3306,'rpt','rpt123','/');
+
+/*==============================================================*/
+/* Table: etl_job_msg      作业配置表                   */
+/*==============================================================*/
+-- drop table
+drop table if exists etl_job_msg;
+-- Create table
+create table etl_job_msg
+(
+job_id	      int primary key,         #作业ID，从1001开始编号
+job_name	    varchar(20),             #作业名称
+job_mode      char(1),                 #作业类型，日作业：D，月作业：M，实时作业：S
+job_run_freq	int,                     #运行频次  0：不限制，其余数字代表最多运行次数，如果是定时，一般配置为1，实时配置为0
+job_run_mode	char(1),                 #定时方式  1:定时，2：实时   目前不用
+job_enable	  char(1),                 #可否运行标志 0：不可运行，1：可运行
+job_type	    char(1),                 #运行类型  0:全量，1：增量
+job_run_time	varchar(14),             #配置作业开始运行时间，如果是日作业，格式为：103000,即上午10：30，月作业格式为01103000，即每月1号上午10:30，如果是实时，则为间隔时间，以秒为单位
+h_order_id    int,                     #作业对应的数据库主机连接配置
+s_tab         varchar(20),             #导出的数据源表
+d_tab         varchar(20),             #导入的目的表
+etl_sql       varchar(2000)            #导出语句
+);
+
+insert into etl_job_msg values
+(1001,'测试表','D',0,'1','1','0','103000',1,'s_all_data','d_all_data','select/a#b#c#d#e#f#g#h#i#j#l#m/from/s_all_data');
+insert into etl_job_msg values
+(1002,'测试表','D',0,'1','1','0','103000',2,'s_all_data_o','d_all_data_o','select/a#b#to_char(c,''yyyymmddhh24miss'')/as/c#d#e#f#g#h#i/from/s_all_data_o');
+insert into etl_job_msg values
+(1003,'测试表','S',0,'1','1','0','60',2,'s_all_data_o','d_all_data_o','select/a#b#to_char(c,''yyyymmddhh24miss'')/as/c#d#e#f#g#h#i/from/s_all_data_o/where/a=''c''');
+insert into etl_job_msg values
+(1004,'测试表','M',0,'1','1','0','23103000',1,'s_all_data','d_all_data','select/a#b#c#d#e#f#g#h#i#j#l#m/from/s_all_data');
+
+/*==============================================================*/
+/* Table: etl_job_log      作业日志表                   */
+/*==============================================================*/
+-- drop table
+drop table if exists etl_job_log;
+-- Create table
+create table etl_job_log
+(
+job_seq      varchar(20) primary key,       #作业执行序列
+op_date      varchar(8),                    #作业执行日期yyyymmdd
+job_id       int,                           #作业ID
+start_time   varchar(14),                   #作业开始时间
+end_time     varchar(14),                   #作业结束时间
+run_status   char(1),                       #作业运行状态，0：等待运行，1：开始导出，2：导出成功，3：导出失败，4，开始导入，5：导入成功，6：导入失败
+run_msg      varchar(2000)                  #作业运行情况说明          
+);
+insert into etl_job_log values
+('2014121213344418291','20141212',1001,'20141212101010','20141212101010','1','成功');
