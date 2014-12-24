@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -225,6 +226,15 @@ public class ParamController {
 		response.setContentType("application/json,charset=utf8");
 		JSONObject j = new JSONObject();
 		int ret= -1;
+		
+		String op = request.getParameter("op");
+		if("refresh_token_time".equals(op)){
+			 // 更新token的访问时间， 避免超时导致弹出登录页面
+			ServletContext ctx = session.getServletContext();
+			ctx.setAttribute("sersess_time", System.currentTimeMillis());
+			j.put("ret", 0);
+			return j.toString(4);
+		}
 		
 		try{
 		

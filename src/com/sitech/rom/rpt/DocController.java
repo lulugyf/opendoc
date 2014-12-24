@@ -112,7 +112,8 @@ public class DocController {
 				ctx.setAttribute("sersess", serSession);
 			}else{
 				serSession = (String)ctx.getAttribute("sersess");
-				ctx.setAttribute("sersess_time", System.currentTimeMillis()); //每次取也更新一下时间
+				//ctx.setAttribute("sersess_time", System.currentTimeMillis()); //每次取也更新一下时间
+				//更新放到 getparamtree.do 里面， 客户端在转向报表页面的时候通过 op=refresh_token_time提交一次
 			}
 			
 		}catch(Throwable e){

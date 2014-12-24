@@ -247,6 +247,7 @@ $(function(){
 		})
 		//panel_sm1.smallify();
 		panel_sm1.minimize();
+		setTimeout(refresh_token_time, 1000);
 	});
 	
 	if(paramcount == 0){
@@ -256,6 +257,20 @@ $(function(){
 
 });
 
+function refresh_token_time(){
+	// 更新token的访问时间， 避免超时导致弹出登录页面
+	$.ajax({
+		url:'getparamtree.do',
+		method:'post',
+		cache:false,
+		data: {opCode: opCode, proId: proId, op:"refresh_token_time"},
+		dataType: "json",
+        success: function (data){
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+        }
+	})
+}
 
 </script>
 </body>
