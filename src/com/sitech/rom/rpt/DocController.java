@@ -1,5 +1,6 @@
 package com.sitech.rom.rpt;
 
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -45,7 +46,8 @@ public class DocController {
 		// 取出的值存放在 default_value 字段中, 多个值以，分隔
 		int paramcount = 0; //允许修改值的参数个数, 如果为0， 则页面下载完后直接打开报表页面
 		for(DocParam dp: plist){
-			if("1".equals(dp.getAllowchange())){
+			//System.out.printf("%s: [%s]  %s\n", dp.getParam(), dp.getAllowchange(), "1".equals(dp.getAllowchange()));
+			if(dp.getAllowchange() == 1){
 				paramcount ++;
 				continue;
 			}
@@ -82,11 +84,11 @@ public class DocController {
 		request.setAttribute("paramlist", plist);
 		request.setAttribute("login_no", login_no);
 		request.setAttribute("paramCount", paramcount);
-		request.setAttribute("serSession", getsersess(session));
+		request.setAttribute("serSession", getsersess(request, session));
 		return "rpt/rptdoc_main";
 	}
 	
-	public String getsersess( HttpSession session){
+	public String getsersess(HttpServletRequest request, HttpSession session){
 		String serSession = "";
 		try{
 			ServletContext ctx = session.getServletContext();
@@ -94,13 +96,18 @@ public class DocController {
 			
 			if(tt == null || System.currentTimeMillis()-((Long)tt).longValue() > 30*60*1000){
 				// 暂定30分钟内有效
-				String user = DaoUtil.getParameter(dao, "sap.user");
-				String pass = DaoUtil.getParameter(dao, "sap.password");
-				String cmsport = DaoUtil.getParameter(dao, "sap.cmsport");
-				//IEnterpriseSession sess = CrystalEnterprise.getSessionMgr().logon (user, pass, cmsport, "secEnterprise");
-				//		"test", "1qaz2wsx", "redtree1:6400", "secEnterprise"); //"username", "password", "<cms>:<port>", "secEnterprise");
-				//serSession =  sess.getSerializedSession(); //"---";
-				serSession = "---";
+				
+				if(request.getRealPath("path").indexOf(":\\worksrc\\ws2") > 0){
+					//for test purpose
+					serSession = "---";
+				}else{
+					String user = DaoUtil.getParameter(dao, "sap.user");
+					String pass = DaoUtil.getParameter(dao, "sap.password");
+					String cmsport = DaoUtil.getParameter(dao, "sap.cmsport");
+					IEnterpriseSession sess = CrystalEnterprise.getSessionMgr().logon (user, pass, cmsport, "secEnterprise");
+	//						"test", "1qaz2wsx", "redtree1:6400", "secEnterprise"); //"username", "password", "<cms>:<port>", "secEnterprise");
+					serSession =  sess.getSerializedSession();
+				}
 				ctx.setAttribute("sersess_time", System.currentTimeMillis());
 				ctx.setAttribute("sersess", serSession);
 			}else{

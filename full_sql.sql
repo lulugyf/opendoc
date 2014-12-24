@@ -567,9 +567,9 @@ CREATE TABLE IF NOT EXISTS `t_doc` (
 -- Dumping data for table rom.t_doc: ~1 rows (approximately)
 /*!40000 ALTER TABLE `t_doc` DISABLE KEYS */;
 INSERT INTO `t_doc` (`docid`, `group_func`, `function_code`, `docname`, `baseurl`, `remarks`) VALUES
-	(8, 'DOCG0007', 'DOC0007', '华北区收入', 'http://1.1.1.1:8080/url11', 'hello remarks'),
+	(8, 'DOCG0007', 'DOC0007', '华北区收入', 'http://localhost:8081/rom/npage/test/test1.jsp', 'hello remarks'),
 	(16, 'DOCG0006', 'DOC0009', '测试报表', 'http://1.1.1.1:123/url11222', '戴菲菲'),
-	(17, 'DOCG0007', 'DOC0010', '2222', 'http://1.1.1.1:123/url11222', 'vvvv');
+	(17, 'DOCG0007', 'DOC0010', '2222', 'http://localhost:8081/rom/npage/test/test1.jsp', 'vvvv');
 /*!40000 ALTER TABLE `t_doc` ENABLE KEYS */;
 
 
@@ -592,7 +592,7 @@ INSERT INTO `t_docparam` (`docid`, `param`, `default_value`, `typeid`, `filterfl
 	(8, 'sRegion', '11', 16, '0', 'test111', 1),
 	(8, 'sYear', '2005', 0, '0', '数据年份', 1),
 	(16, 'user', '', 0, '0', '000', 1),
-	(17, 'depid', '', 11, '1', '查看部门数据', 1),
+	(17, 'depid', '', 11, '1', 'undefined', 0),
 	(8, 'sRegion1', '', 10, '1', 'test', 1);
 /*!40000 ALTER TABLE `t_docparam` ENABLE KEYS */;
 
@@ -700,12 +700,11 @@ CREATE TABLE IF NOT EXISTS `t_paramuser_rel` (
   PRIMARY KEY (`paramid`,`login_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table rom.t_paramuser_rel: ~2 rows (approximately)
+-- Dumping data for table rom.t_paramuser_rel: ~7 rows (approximately)
 /*!40000 ALTER TABLE `t_paramuser_rel` DISABLE KEYS */;
 INSERT INTO `t_paramuser_rel` (`typeid`, `paramid`, `login_no`) VALUES
 	(13, 13, 'abc'),
 	(13, 14, 'abc'),
-	(16, 22, 'abc'),
 	(16, 23, 'abc'),
 	(16, 24, 'abc'),
 	(16, 25, 'abc'),
@@ -726,11 +725,12 @@ CREATE TABLE IF NOT EXISTS `t_paramuser_rel_ex` (
   KEY `idx1_t_paramuser_rel_ex` (`docid`,`typeid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='参数值与登录用户(ROM_SYS_LOGIN) 及 报表（t_doc）关系表 ， 这个与t_paramuser_rel相对而言的例外设置， 有这个配置时， 可对默认的关系做补充';
 
--- Dumping data for table rom.t_paramuser_rel_ex: ~0 rows (approximately)
+-- Dumping data for table rom.t_paramuser_rel_ex: ~2 rows (approximately)
 /*!40000 ALTER TABLE `t_paramuser_rel_ex` DISABLE KEYS */;
 INSERT INTO `t_paramuser_rel_ex` (`typeid`, `docid`, `paramid`, `login_no`, `ex_flag`) VALUES
 	(10, 8, 32, 'abc', '1'),
-	(10, 8, 33, 'abc', '1');
+	(10, 8, 33, 'abc', '1'),
+	(11, 17, 37, 'abc', '1');
 /*!40000 ALTER TABLE `t_paramuser_rel_ex` ENABLE KEYS */;
 
 

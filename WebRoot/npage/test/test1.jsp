@@ -19,22 +19,21 @@
   
   <body style="border:5px solid #0000ff">
 
-   
+<h1>Request Parameters:</h1>
    <ul>
-  <li>hello 123</li>
-  <li>hello 123</li>
-  <li>hello 123</li>
-  <li>hello 123</li>
-  <li>hello 123</li>
-  <li>hello 123</li>
-  <li>hello 123</li>
-  <li>hello 123</li>
-  <li>hello 123</li>
-  <li>hello 123</li>
+   <%
+ 		java.util.Enumeration enu = request.getParameterNames();
+		while(enu.hasMoreElements()){
+			String p = (String)enu.nextElement();
+			String v = request.getParameter(p);
+			out.println("<li>"+p+" = "+ v+"</li>");
+		}  
+   %>
+
  
  	</ul>
 	
-	some content here
+	some content here <%=request.getRealPath("path")%>
   </body>
 
 </html>

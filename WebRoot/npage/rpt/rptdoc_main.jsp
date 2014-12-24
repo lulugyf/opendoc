@@ -30,6 +30,7 @@
 var opCode="<%=opCode%>";
 var proId="<%=proId%>";
 var loginno="${login_no}";
+var paramcount = "${paramCount}";
 
 </script>
 
@@ -40,8 +41,8 @@ var loginno="${login_no}";
 <input type="hidden" id="docid" value="${doc.docid}" />
 
 
-<script type="text/javascript" src="<%=request.getContextPath()%>/njs/jspanel/jquery.jspanel.min.js"></script>
-<link href="<%=request.getContextPath()%>/njs/jspanel/jquery.jspanel.min.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="<%=request.getContextPath()%>/njs/jspanel/jquery.jspanel.js"></script>
+<link href="<%=request.getContextPath()%>/njs/jspanel/jquery.jspanel.css" rel="stylesheet" type="text/css">
 
 <script type="text/javascript">
 var panel_sm1;
@@ -49,7 +50,7 @@ $(function() {
 	panel_sm1 = $.jsPanel({
 		selector: ".panel-body",
 		title: "报表参数 设置",
-		size: { width:500, height:600 },
+		size: { width:500, height:400 },
 		theme: "light",
         position: { top:40, left:15 },
 		//position: "center",
@@ -135,13 +136,6 @@ $(function() {
 $(function(){
 	var d = $(document);
 	$('#rptbody').width(d.width()-12).height(d.height()-$('.pagetitle').height()-12);
-	
-	if(${paramCount} == 0){
-		//没有可修改的参数， 则直接提交显示报表页面
-		$('#formdoc').submit();
-		panel_sm1.smallify();
-	}
-	
 });
 function showmsg(msg){
 	$("#showmessage").text(msg);
@@ -254,6 +248,11 @@ $(function(){
 		//panel_sm1.smallify();
 		panel_sm1.minimize();
 	});
+	
+	if(paramcount == 0){
+		//没有可修改的参数， 则直接提交显示报表页面
+		$('#formdoc').submit();
+	}
 
 });
 

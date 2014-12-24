@@ -95,6 +95,7 @@ select * from t_doc
 select * from t_docparam
 select * from t_paramtype
 select * from t_parameters
+select * from t_paramuser_rel
 select * from t_paramuser_rel_ex
 
 
@@ -111,3 +112,11 @@ select a.paramid, a.typeid, paramValue, paramName, parentid, remarks, b.login_no
 	from t_paramdata a 
 	left outer join t_paramuser_rel b on a.paramid=b.paramid and b.login_no='abc'
 		where a.typeid=16
+		
+select a.paramid, b.paramValue
+ from t_paramuser_rel a, t_paramdata b
+where a.login_no='abc' and a.paramid=b.paramid and a.typeid=16
+
+select a.paramid, b.paramValue, a.ex_flag
+ from t_paramuser_rel_ex a, t_paramdata b
+where a.login_no='abc' and a.paramid=b.paramid and a.typeid=10 and a.docid=8
