@@ -193,8 +193,8 @@ $(function(){
 		
 <table width="100%" class="myoptable">
 <tr><th>参数值：    </th><td> <input type="hidden" id="paramid" value="0">
-					<input type="text" id="paramValue" value=""></td></tr>
-<tr><th>参数名称： </th><td> <input type="text" id="paramName" value=""> </td></tr>
+					<input type="text" id="paramValue" value=""> <button onclick="$('#paramName').val($('#paramValue').val())">v</button></td></tr>
+<tr><th>参数名称： </th><td> <input type="text" id="paramName" value=""> <button onclick="$('#paramValue').val($('#paramName').val())">^</button></td></tr>
 <tr><th>备 注：</th><td> <input type="text" id="remarks2" value=""></td></tr>
 <tr><td colspan="2"> 
 	<input type="button" class="b_foot" id="addchild" value="添加下级">

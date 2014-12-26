@@ -53,31 +53,37 @@ public class DocController {
 			}
 			if(dp.getTypeid() == 0)
 				continue; //手工输入的类型， 直接使用默认值
-			ParamUser pu = new ParamUser();
-			pu.setDocid(doc.getDocid());
-			pu.setLoginno(login_no);
-			pu.setTypeid(dp.getTypeid());
-			List<ParamUser> l1 = (List<ParamUser>)dao.queryForList("rptconf.qryParamData", pu);
-			List<ParamUser> l2 = (List<ParamUser>)dao.queryForList("rptconf.qryParamDataEx", pu);
-			StringBuilder sb = new StringBuilder();
-			for(ParamUser p: l1){
-				boolean found_excl = false;
-				for(ParamUser p1: l2){ //need to check if it excluded
-					if(p.getParamid() == p1.getParamid()){
-						if("0".equals(p1.getEx_flag())){
-							found_excl = true;
+			if("".equals(dp.getDefault_value()) || dp.getDefault_value() == null){
+				ParamUser pu = new ParamUser();
+				pu.setDocid(doc.getDocid());
+				pu.setLoginno(login_no);
+				pu.setTypeid(dp.getTypeid());
+				List<ParamUser> l1 = (List<ParamUser>)dao.queryForList("rptconf.qryParamData", pu);
+				List<ParamUser> l2 = (List<ParamUser>)dao.queryForList("rptconf.qryParamDataEx", pu);
+				StringBuilder sb = new StringBuilder();
+				for(ParamUser p: l1){
+					boolean found_excl = false;
+					for(ParamUser p1: l2){ //need to check if it excluded
+						if(p.getParamid() == p1.getParamid()){
+							if("0".equals(p1.getEx_flag().trim())){
+								found_excl = true;
+							}
 						}
 					}
+					if(!found_excl)
+						sb.append(p.getParamValue()).append(',');
 				}
-				if(!found_excl)
-					sb.append(p.getParamValue()).append(',');
-			}
-			for(ParamUser p: l2){
-				sb.append(p.getParamValue()).append(',');
-			}
-			if(sb.length() > 0){
-				sb.deleteCharAt(sb.length()-1);
-				dp.setDefault_value(sb.toString());
+				for(ParamUser p: l2){
+					if("1".equals(p.getEx_flag().trim()))
+						sb.append(p.getParamValue()).append(',');
+				}
+				if(sb.length() > 0){
+					sb.deleteCharAt(sb.length()-1);
+					dp.setDefault_value(sb.toString());
+					System.out.println(dp.getParam() + "::"+sb.toString());
+				}else{
+					System.out.println(dp.getParam() + " [with no value]");
+				}
 			}
 		}
 		

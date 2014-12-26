@@ -95,7 +95,7 @@ $(function() {
 		<tr <c:if test="${p.allowchange == 0 }">style="display:none"</c:if>>
 			<td>${p.param }</td><td>${p.typename }</td><td>${p.default_value }</td>
 			<td><input type="text" class="param" id="P_${p.param }" value="${p.default_value }" <c:if test="${p.typeid > 0 }">readonly</c:if> />
-			  <button onclick="selParam('${p.param }', ${p.typeid}, ${p.filterflag })">...</button></td>
+			  <button onclick="selParam('${p.param }', ${p.typeid}, ${p.filterflag })" class="b_foot">...</button></td>
 		</tr>
 		</c:forEach>
 	</table>
