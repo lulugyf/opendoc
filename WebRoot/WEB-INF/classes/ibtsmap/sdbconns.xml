@@ -12,108 +12,92 @@
 	
 	<sql id="where-dbconns">
 		<dynamic prepend=" WHERE ">
-			<isPropertyAvailable property="label" prepend="and">
-				<isNotNull property="label">
-					<isNotEmpty property="label">
-						label = #label#
+			<isGreaterThan property="order_id" compareValue="0">
+			order_id=#order_id#
+			</isGreaterThan>
+			<isPropertyAvailable property="serv_ip" prepend="and">
+				<isNotNull property="serv_ip">
+					<isNotEmpty property="serv_ip">
+						serv_ip = #serv_ip#
 					</isNotEmpty>
 				</isNotNull>
 			</isPropertyAvailable>
-			<isPropertyAvailable property="host" prepend="and">
-				<isNotNull property="host">
-					<isNotEmpty property="host">
-						host = #host#
+			<isPropertyAvailable property="serv_name" prepend="and">
+				<isNotNull property="serv_name">
+					<isNotEmpty property="serv_name">
+						serv_name = #serv_name#
 					</isNotEmpty>
 				</isNotNull>
 			</isPropertyAvailable>
-		<isPropertyAvailable property="db" prepend="and">
-			<isNotNull property="db">
-				<isNotEmpty property="db">
-					db = #db#
+		<isPropertyAvailable property="serv_user" prepend="and">
+			<isNotNull property="serv_user">
+				<isNotEmpty property="serv_user">
+					serv_user = #serv_user#
 				</isNotEmpty>
 			</isNotNull>
 		</isPropertyAvailable>
-		<isPropertyAvailable property="dbtype" prepend="and">
-			<isNotNull property="dbtype">
-				<isNotEmpty property="dbtype">
-					dbtype = #dbtype#
+		<isPropertyAvailable property="db_type" prepend="and">
+			<isNotNull property="db_type">
+				<isNotEmpty property="db_type">
+					db_type = #db_type#
 				</isNotEmpty>
 			</isNotNull>
 		</isPropertyAvailable>
-				</dynamic>
+	  </dynamic>
 	</sql>
 
 	<select id="qryConns" parameterClass="DBConn"
 		resultClass="DBConn">
 		select
-		label, host, user, pswd, db, dbtype, remarks
-		from t_dbconns
+		order_id, serv_ip, serv_name, serv_user, serv_pwd, db_type, db_name,db_port,db_user,db_pwd,data_dir
+		from etl_host_msg
 		<include refid="where-dbconns"/>
-		order by label, host
+		order by serv_ip, serv_user
 	</select>
+	
+	<insert id="insertConns" parameterClass="DBConn">
+		INSERT INTO etl_host_msg (
+		order_id,
+		serv_ip,
+		serv_name,
+		serv_user,
+		serv_pwd,
+		db_type,
+		db_name,
+		db_port,
+		db_user,
+		db_pwd,
+		data_dir
+		) VALUES (
+		#order_id#,
+		#serv_ip#,
+		#serv_name#,
+		#serv_user#,
+		#serv_pwd#,
+		#db_type#,
+		#db_name#,
+		#db_port#,
+		#db_user#,
+		#db_pwd#,
+		#data_dir#
+		)
+	</insert>
+	
+	<update id="updateDBConn" parameterClass="DBConn">
+		update etl_host_msg set
+		  serv_ip=#serv_ip#, serv_name=#serv_name#, serv_user=#serv_user#, serv_pwd=#serv_pwd#, db_type=#db_type#, 
+		  db_name=#db_name#,db_port=#db_port#, db_user=#db_user#, db_pwd=#db_pwd#, data_dir=#data_dir#
+		WHERE order_id = #order_id#
+	</update>
+	
+	<delete id="deleteConns" parameterClass="java.lang.String">
+		DELETE FROM etl_host_msg
+		WHERE order_id = #order_id#
+	</delete>
 	
 	<select id="qryDBTypes" resultClass="DBType">
 	select dbtype from t_dbtypes
 	</select>
-
-
-
-	<update id="updateConns" parameterClass="java.util.Map">
-		update t_dbconns
-		<dynamic prepend=" SET ">
-			<isNotNull property="host" prepend=",">
-				host = #host#
-			</isNotNull>
-			<isNotNull property="user" prepend=",">
-				user = #user#
-			</isNotNull>
-			<isNotNull property="pswd" prepend=",">
-				pswd = #pswd#
-			</isNotNull>
-			<isNotNull property="db" prepend=",">
-				db = #db#
-			</isNotNull>
-			<isNotNull property="dbtype" prepend=",">
-				dbtype = #dbtype#
-			</isNotNull>
-			<isNotNull property="remarks" prepend=",">
-				remarks = #remarks#
-			</isNotNull>
-		</dynamic>
-		WHERE label = #label#
-	</update>
-	
-	<update id="updateDBConn" parameterClass="DBConn">
-		update t_dbconns set
-		  host=#host#, user=#user#, pswd=#pswd#, db=#db#, dbtype=#dbtype#, 
-		  remarks=#remarks#
-		WHERE label = #label#
-	</update>
-
-	<delete id="deleteConns" parameterClass="java.lang.String">
-		DELETE FROM t_dbconns
-		WHERE label = #label#
-	</delete>
-
-	<insert id="insertConns" parameterClass="DBConn">
-		INSERT INTO t_dbconns (
-		label,
-		host,
-		user,
-		pswd,
-		db,
-		dbtype,
-		remarks
-		) VALUES (
-		#label# ,
-		#host# ,
-		#user# ,
-		#pswd# ,
-		#db# ,
-		#dbtype#,
-		#remarks#
-		)
-	</insert>
 	
 	<select id="select_test"
 	parameterClass="QueryAll"
