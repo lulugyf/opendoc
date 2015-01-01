@@ -20,51 +20,112 @@ String sys=Constants.PROD_SYSTEM;
 			<div class="input">
 				<table>
 					<tr>
-						<th><font color="red">*数据库标签</font></th>
+						<th>作业名称</th>
 						<td>
-							<input type="text" name="label" id="label" class="required isCharLengthOf" v_maxlength="64" v_minlength="0"/>
+							<input type="text" name="job_name" id="job_name" class="required isCharLengthOf" v_maxlength="64" v_minlength="0"/>
 						</td>
-						<th><font color="red">*类型</font></th>
+						<th>对应数据库</th>
 						<td>
-							<select name="dbtype" id="dbtype">
-						    <c:forEach items="${typelist }" var="item">
-			   			<option value="${item.dbtype }">${item.dbtype }</option>
-			   			</c:forEach>
+							<select name="h_order_id" id="h_order_id">
+								<option value ="">--请选择--</option>
+								<c:forEach items="${DBConnList }" var="item">
+					   				<option value="${item.order_id }">${item.serv_ip }</option>
+					   			</c:forEach>
 						    </select>				
 						</td>
 					</tr>
 					<tr>
-						
-						<th><font color="red">*主机</font></th>
+						<th>作业类型</th>
 						<td>
-							<input type="text" name="host" id="host" class="required isCharLengthOf" v_maxlength="64" v_minlength="0"/>
+							<select name="job_mode" id="job_mode" onchange="selectRunTime(this.value);">
+								<option value ="">--请选择--</option>
+						    	<option value ="D">日作业</option>
+						    	<option value ="M">月作业</option>
+						    	<option value ="S">实时作业</option>
+						    </select>				
 						</td>
-						<th><font color="red">*用户</font></th>
+						<th>作业运行时间</th>
 						<td>
-							<input type="text" name="user" id="user" class="required isCharLengthOf" v_maxlength="64" v_minlength="0"/>							
-						</td>
-					</tr> 
-					<tr>
-						<th><font color="red">密码</font></th>
-						<td>
-							<input type="password" name="pswd" id="pswd" class="required isCharLengthOf" v_maxlength="64" v_minlength="0"/>
-						</td>
-						<th>数据库</th>
-						<td>
-							<input type="text" name="db" id="db"/>							
+						 	<div id="jobRunTime" style="display:none" ><input type="text" name="job_run_time" id="job_run_time" onkeyup="value=value.replace(/[^\d]/g,'')" />秒</div>
+							<select name="job_run_time_M" id="job_run_time_M" style="WIDTH: 60px;display:none">
+								<option value ="">--</option>
+								<c:forEach items="${jobRunTimeMList }" var="item">
+					   				<option value="${item }">${item }日</option>
+					   			</c:forEach>
+						    </select>
+						    <select name="job_run_time_H" id="job_run_time_H" style="WIDTH: 60px;display:none">
+								<option value ="">--</option>
+								<c:forEach items="${jobRunTimeHList }" var="item">
+					   				<option value="${item }">${item }时</option>
+					   			</c:forEach>
+						    </select>
+						    <select name="job_run_time_m" id="job_run_time_m" style="WIDTH: 60px;display:none">
+								<option value ="">--</option>
+								<c:forEach items="${jobRunTimemList }" var="item">
+					   				<option value="${item }">${item }分</option>
+					   			</c:forEach>
+						    </select>
+						    <select name="job_run_time_S" id="job_run_time_S" style="WIDTH: 60px;display:none">
+								<option value ="">--</option>
+								<c:forEach items="${jobRunTimemList }" var="item">
+					   				<option value="${item }">${item }秒</option>
+					   			</c:forEach>
+						    </select>
 						</td>
 					</tr>
 					<tr>
-					<th>备注</th>
+						<th>定时方式</th>
+						<td>
+							<select name="job_run_mode" id="job_run_mode">
+								<option value ="">--请选择--</option>
+						    	<option value ="1">定时</option>
+						    	<option value ="2">实时</option>
+						    </select>				
+						</td>
+						<th>运行频次</th>
+						<td>
+							<input type="text" name="job_run_freq" id="job_run_freq" onkeyup="value=value.replace(/[^\d]/g,'')" class="required isCharLengthOf" v_maxlength="64" v_minlength="0"/>							
+						</td>
+					</tr> 
+					<tr>
+						<th>可否运行</th>
+						<td>
+							<select name="job_enable" id="job_enable">
+								<option value ="">--请选择--</option>
+						    	<option value ="0">不可运行</option>
+						    	<option value ="1">可运行</option>
+						    </select>				
+						</td>
+						<th>运行类型</th>
+						<td>
+							<select name="job_type" id="job_type">
+								<option value ="">--请选择--</option>
+						    	<option value ="0">全量</option>
+						    	<option value ="1">增量</option>
+						    </select>				
+						</td>
+					</tr>
+					<tr>
+						<th>数据源表</th>
+						<td>
+							<input type="text" name="s_tab" id="s_tab" class="required isCharLengthOf" v_maxlength="64" v_minlength="0"/>							
+						</td>
+						<th>目的表</th>
+						<td>
+							<input type="text" name="d_tab" id="d_tab" class="required isCharLengthOf" v_maxlength="64" v_minlength="0"/>							
+						</td>
+					</tr> 
+					<tr>
+					<th>导出语句</th>
 						<td colspan="3">
-							<input type="text" name="remarks" id="remarks"/>							
+							<textarea name="etl_sql" id="etl_sql" rows="4" cols="60"></textarea>							
 						</td>
 					</tr>
 				</table>
 			</div>
 			<div id="operation_button">
 				<input type="button" name="su" onClick="addDBConnSubmit()" class="b_foot" value="确定" />
-				<input type="reset" name="re" onClick="javascript:document.forms('frm').reset();" class="b_foot" value="重置" />
+				<input type="reset" name="re" onClick="doReset()" class="b_foot" value="重置" />
 				<input type="button" name="close" onClick="parent.doSrchSubmit();parent.removeDivWin('divWin');" class="b_foot" value="关闭"/>
 			</div>
 			<div align="center">
@@ -74,6 +135,7 @@ String sys=Constants.PROD_SYSTEM;
 	</div>
 </div>
 <%@ include file="/npage/include/footer.jsp"%>
+<script src="<%=request.getContextPath()%>/npage/rpt/task/task.js" type="text/javascript"></script>
 <script>
 $(document).ready(function () {
 	//关闭弹出页面后，刷新主页面数据--begin
@@ -89,7 +151,7 @@ function addDBConnSubmit(){
     if(!checksubmit(frm)){
 		return false;
 	}
-	document.frm.action='<%=request.getContextPath()%>/addDBConn.do';
+	document.frm.action='<%=request.getContextPath()%>/addTask.do';
 	document.frm.submit();
 	
 }

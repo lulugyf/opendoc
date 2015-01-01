@@ -17,55 +17,69 @@ String sys=Constants.PROD_SYSTEM;
 		<form action="" method="post" name="frm">
 			<input type=hidden name="opCode" id="opCode" value="<%=opCode%>">
 			<input type=hidden name="proId" id="proId" value="<%=proId%>">
-			<input type=hidden name="label" id="label" value="${db.label}">
+			<input type=hidden name="order_id" id="order_id" value="${db.order_id}">
 			<div class="input">
 				<table>
 					<tr>
-						<th><font color="red">*数据库标签</font></th>
+						<th>数据库IP</th>
 						<td>
-							${db.label}
+							<input type="text" name="serv_ip" id="serv_ip" class="required isCharLengthOf" v_maxlength="64" v_minlength="0"/>
 						</td>
-						<th><font color="red">*类型</font></th>
+						<th>主机名</th>
 						<td>
-							<select name="dbtype" id="dbtype">
+							<input type="text" name="serv_name" id="serv_name" class="required isCharLengthOf" v_maxlength="64" v_minlength="0"/>
+						</td>
+					</tr>
+					<tr>
+						
+						<th>主机用户名</th>
+						<td>
+							<input type="text" name="serv_user" id="serv_user" class="required isCharLengthOf" v_maxlength="64" v_minlength="0"/>
+						</td>
+						<th>主机密码</th>
+						<td>
+							<input type="password" name="serv_pwd" id="serv_pwd" class="required isCharLengthOf" v_maxlength="64" v_minlength="0"/>							
+						</td>
+					</tr> 
+					<tr>
+						<th>源数据库类型</th>
+						<td>
+							<select name="db_type" id="db_type">
 						    <c:forEach items="${typelist }" var="item">
 			   			<option value="${item.dbtype }">${item.dbtype }</option>
 			   			</c:forEach>
 						    </select>				
 						</td>
-					</tr>
-					<tr>
-						
-						<th><font color="red">*主机</font></th>
+						<th>数据库名</th>
 						<td>
-							<input type="text" name="host" id="host" class="required isCharLengthOf" v_maxlength="64" v_minlength="0"/>
-						</td>
-						<th><font color="red">*用户</font></th>
-						<td>
-							<input type="text" name="user" id="user" class="required isCharLengthOf" v_maxlength="64" v_minlength="0"/>							
-						</td>
-					</tr> 
-					<tr>
-						<th><font color="red">密码</font></th>
-						<td>
-							<input type="password" name="pswd" id="pswd" class="required isCharLengthOf" v_maxlength="64" v_minlength="0"/>
-						</td>
-						<th>数据库</th>
-						<td>
-							<input type="text" name="db" id="db"/>							
+							<input type="text" name="db_name" id="db_name"/>							
 						</td>
 					</tr>
 					<tr>
-					<th>备注</th>
-						<td colspan="3">
-							<input type="text" name="remarks" id="remarks"/>							
+						<th>数据库端口</th>
+						<td>
+							<input type="text" name="db_port" id="db_port" onkeyup="value=value.replace(/[^\d]/g,'')" class="required isCharLengthOf" v_maxlength="64" v_minlength="0"/>
+						</td>
+						<th>数据库用户名</th>
+						<td>
+							<input type="text" name="db_user" id="db_user"/>							
+						</td>
+					</tr>
+					<tr>
+						<th>数据库密码</th>
+						<td>
+							<input type="password" name="db_pwd" id="db_pwd" class="required isCharLengthOf" v_maxlength="64" v_minlength="0"/>
+						</td>
+						<th>导出路径</th>
+						<td>
+							<input type="text" name="data_dir" id="data_dir"/>							
 						</td>
 					</tr>
 				</table>
 			</div>
 			<div id="operation_button">
 				<input type="button" name="su" onClick="frmSubmit()" class="b_foot" value="确定" />
-				<input type="button" name="re" onClick="resetFrm()" class="b_foot" value="重置" />
+				<input type="reset" name="re" onClick="javascript:document.forms('frm').reset();" class="b_foot" value="重置" />
 				<input type="button" name="close" onClick="parent.doSrchSubmit();parent.removeDivWin('divWin');" class="b_foot" value="关闭"/>
 			</div>
 			<div align="center">
@@ -79,12 +93,16 @@ String sys=Constants.PROD_SYSTEM;
 $(document).ready(function () {
 	
 	//处理下拉列表选中
-	$("#host").val("${db.host}");
-	$("#user").val("${db.user}");
-	$("#pswd").val("${db.pswd}");
-	$("#db").val("${db.db}");
-	$("#dbtype").val("${db.dbtype}");
-	$("#remarks").val("${db.remarks}")
+	$("#serv_ip").val("${db.serv_ip}");
+	$("#serv_name").val("${db.serv_name}");
+	$("#serv_user").val("${db.serv_user}");
+	$("#serv_pwd").val("${db.serv_pwd}");
+	$("#db_type").val("${db.db_type}");
+	$("#db_name").val("${db.db_name}");
+	$("#db_port").val("${db.db_port}");
+	$("#db_user").val("${db.db_user}");
+	$("#db_pwd").val("${db.db_pwd}");
+	$("#data_dir").val("${db.data_dir}");
 	
     //关闭弹出页面后，刷新主页面数据--begin
     $('#close').click(function(){
@@ -97,10 +115,6 @@ $(document).ready(function () {
 	$proCode=$('#proCode').html();
 	getPro();
 });
-
-function resetFrm(){
-	document.forms('frm').reset();
-}
 
 function frmSubmit(){
     if(!checksubmit(frm)){

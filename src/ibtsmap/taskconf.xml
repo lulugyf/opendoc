@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="taskconf">
+	<typeAlias alias="DBConn" type="com.sitech.rom.rpt.bo.DBConn" />
+	<typeAlias alias="TaskConf" type="com.sitech.rom.rpt.bo.TaskConf" />
+	<typeAlias alias="TaskResult" type="com.sitech.rom.rpt.bo.TaskResult" />
+	<typeAlias alias="QueryAll" type="com.sitech.rom.rpt.bo.QueryAll" />
+
+	
+	<sql id="where-taskConf">
+	   where 1=1 and h_order_id = order_id
+		<dynamic  prepend="and">
+			<isPropertyAvailable property="job_id" prepend="and">
+				<isGreaterThan property="job_id" compareValue="0">
+					job_id = #job_id#
+				</isGreaterThan>
+			</isPropertyAvailable>
+			<isPropertyAvailable property="job_name" prepend="and">
+				<isNotNull property="job_name">
+					<isNotEmpty property="job_name">
+						job_name = #job_name#
+					</isNotEmpty>
+				</isNotNull>
+			</isPropertyAvailable>
+			<isPropertyAvailable property="job_mode" prepend="and">
+				<isNotNull property="job_mode">
+					<isNotEmpty property="job_mode">
+						job_mode = #job_mode#
+					</isNotEmpty>
+				</isNotNull>
+			</isPropertyAvailable>
+			<isPropertyAvailable property="job_run_freq" prepend="and">
+				<isGreaterThan property="job_run_freq" compareValue="0">
+					job_run_freq = #job_run_freq#
+				</isGreaterThan>
+			</isPropertyAvailable>
+			<isPropertyAvailable property="job_run_mode" prepend="and">
+				<isNotNull property="job_run_mode">
+					<isNotEmpty property="job_run_mode">
+						job_run_mode = #job_run_mode#
+					</isNotEmpty>
+				</isNotNull>
+			</isPropertyAvailable>
+			<isPropertyAvailable property="job_enable" prepend="and">
+				<isNotNull property="job_enable">
+					<isNotEmpty property="job_enable">
+						job_enable = #job_enable#
+					</isNotEmpty>
+				</isNotNull>
+			</isPropertyAvailable>
+			<isPropertyAvailable property="job_type" prepend="and">
+				<isNotNull property="job_type">
+					<isNotEmpty property="job_type">
+						job_type = #job_type#
+					</isNotEmpty>
+				</isNotNull>
+			</isPropertyAvailable>
+			<isPropertyAvailable property="job_run_time" prepend="and">
+				<isNotNull property="job_run_time">
+					<isNotEmpty property="job_run_time">
+						job_run_time = #job_run_time#
+					</isNotEmpty>
+				</isNotNull>
+			</isPropertyAvailable>
+			<isPropertyAvailable property="h_order_id" prepend="and">
+				<isGreaterThan property="h_order_id" compareValue="0">
+					h_order_id = #h_order_id#
+				</isGreaterThan>
+			</isPropertyAvailable>
+			<isPropertyAvailable property="s_tab" prepend="and">
+				<isNotNull property="s_tab">
+					<isNotEmpty property="s_tab">
+						s_tab = #s_tab#
+					</isNotEmpty>
+				</isNotNull>
+			</isPropertyAvailable>
+			<isPropertyAvailable property="d_tab" prepend="and">
+				<isNotNull property="d_tab">
+					<isNotEmpty property="d_tab">
+						d_tab = #d_tab#
+					</isNotEmpty>
+				</isNotNull>
+			</isPropertyAvailable>
+	  </dynamic>
+	</sql>
+
+	<select id="qryTaskConf" parameterClass="TaskConf" resultClass="TaskConf">
+		select
+		job_id, job_name, job_mode, job_run_freq, job_run_mode, job_enable, job_type,job_run_time,h_order_id,serv_ip,s_tab,d_tab,etl_sql
+		from etl_job_msg,etl_host_msg
+		<include refid="where-taskConf"/>
+		order by job_id
+	</select>
+	
+	<insert id="insertTask" parameterClass="TaskConf">
+		INSERT INTO etl_job_msg (
+		job_id,
+		job_name,
+		job_mode,
+		job_run_freq,
+		job_run_mode,
+		job_enable,
+		job_type,
+		job_run_time,
+		h_order_id,
+		s_tab,
+		d_tab,
+		etl_sql
+		) VALUES (
+		#job_id# ,
+		#job_name# ,
+		#job_mode# ,
+		#job_run_freq# ,
+		#job_run_mode# ,
+		#job_enable#,
+		#job_type# ,
+		#job_run_time# ,
+		#h_order_id#,
+		#s_tab#,
+		#d_tab#,
+		#etl_sql#
+		)
+	</insert>
+	
+	<update id="updateTask" parameterClass="TaskConf">
+		update etl_job_msg set
+		  job_name=#job_name#, job_mode=#job_mode#, job_run_freq=#job_run_freq#, job_run_mode=#job_run_mode#, job_enable=#job_enable#, 
+		  job_type=#job_type#,job_run_time=#job_run_time#, h_order_id=#h_order_id#, s_tab=#s_tab#, d_tab=#d_tab#, 
+		  etl_sql=#etl_sql#
+		WHERE job_id = #job_id#
+	</update>
+
+	<delete id="deleteTask" parameterClass="java.lang.String">
+		DELETE FROM etl_job_msg
+		WHERE job_id = #job_id#
+	</delete>
+	
+	<select id="qryTaskResult" parameterClass="TaskResult" resultClass="TaskResult">
+		select
+		job_seq, DATE_FORMAT(op_date,'%Y-%m-%d') as op_date, t.job_id, t.job_name, DATE_FORMAT(start_time,'%Y-%m-%d %H:%i:%s') as start_time, DATE_FORMAT(end_time,'%Y-%m-%d %H:%i:%s') as end_time, run_status,run_msg
+		from etl_job_msg t,etl_job_log r 
+		where 1=1 and t.job_id = r.job_id
+			<isPropertyAvailable property="job_id" prepend="and">
+				<isGreaterThan property="job_id" compareValue="0">
+					t.job_id = #job_id#
+				</isGreaterThan>
+			</isPropertyAvailable>
+			<isPropertyAvailable property="op_date" prepend="and">
+				<isNotNull property="op_date">
+					<isNotEmpty property="op_date">
+						op_date = #op_date#
+					</isNotEmpty>
+				</isNotNull>
+			</isPropertyAvailable>
+			<isPropertyAvailable property="run_status" prepend="and">
+				<isNotNull property="run_status">
+					<isNotEmpty property="run_status">
+						run_status = #run_status#
+					</isNotEmpty>
+				</isNotNull>
+			</isPropertyAvailable>
+			<isPropertyAvailable property="start_time" prepend="and">
+				<isNotNull property="start_time">
+					<isNotEmpty property="start_time">
+						DATE_FORMAT(op_date,'%Y-%m-%d') >= #start_time#
+					</isNotEmpty>
+				</isNotNull>
+			</isPropertyAvailable>
+			<isPropertyAvailable property="end_time" prepend="and">
+				<isNotNull property="end_time">
+					<isNotEmpty property="end_time">
+						#end_time# >= DATE_FORMAT(op_date,'%Y-%m-%d')
+					</isNotEmpty>
+				</isNotNull>
+			</isPropertyAvailable>
+		order by job_id
+	</select>
+	
+	
+	<select id="select_test"
+	parameterClass="QueryAll"
+	 resultClass="RomSysPopedom">
+	SELECT
+		FUNCTION_CODE AS functionCode,
+		ACTION_NAME AS actionName,
+		OPERATION_CODE AS operationCode	
+	FROM ROM_SYS_POPEDOM 
+	<dynamic >
+		<isNotNull property="query">
+	 where action_name like #query#
+		or function_code like #query#
+		</isNotNull>
+	</dynamic>
+	</select>
+	
+</sqlMap>

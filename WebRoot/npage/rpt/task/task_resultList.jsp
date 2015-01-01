@@ -11,19 +11,16 @@
 <body>
 <div id="operation" style="padding:0px">
 <div id="operation_table" style="margin:0px">
-<div class="title"> <div class="text">数据源配置列表</div></div>  
+<div class="title"> <div class="text">任务结果列表</div></div>  
 <div class="list11">
 	<table id="mTable1">
 		<tr>
-			<th>数据库IP</th>
-			<th>主机名</th>
-			<th>主机用户名</th>
-			<th>源数据库类型</th>
-			<th>数据库名</th>
-			<th>数据库端口</th>
-			<th>数据库用户名</th>
-			<th>导出路径</th>
-			<th>操作</th>
+			<th>作业名称</th>
+			<th>作业执行日期</th>
+			<th>开始时间</th>
+			<th>结束时间</th>
+			<th>运行状态</th>
+			<th>运行情况</th>
 		</tr>
 		<% 
 
@@ -32,23 +29,20 @@
 		%>
 		    <c:forEach items="${rlist }" var="item">
 		   		<tr>
-			   		<td>${item.serv_ip }</td>
-			   		
-			   		<td>${item.serv_name }</td>
+			   		<td>${item.job_name }</td>
+			   		<td>${item.op_date}</td>
+			   		<td>${item.start_time }</td>
+			   		<td>${item.end_time}</td>
 			   		<td>
-				   		${item.serv_user }
+			   			<c:if test="${item.run_status == '0'}" >等待运行</c:if>
+				   		<c:if test="${item.run_status == '1'}">开始导出</c:if>
+				   		<c:if test="${item.run_status == '2'}" >导出成功</c:if>
+				   		<c:if test="${item.run_status == '3'}">导出失败</c:if>
+				   		<c:if test="${item.run_status == '4'}" >开始导入</c:if>
+				   		<c:if test="${item.run_status == '5'}">导入成功</c:if>
+				   		<c:if test="${item.run_status == '6'}" >导入失败</c:if>
 			   		</td>
-			   		<td>${item.db_type}</td>
-			   		<td>${item.db_name}</td>
-			   		<td>${item.db_port}</td>
-			   		<td>${item.db_user}</td>
-			   		<td>${item.data_dir}</td>
-			   		<td>
-			   		   
-		   		    <input type="button" class="butCha" name="edit" style="display:none" title="编辑" onclick="editRow('${item.order_id}')"/>
-		   		    <input type="button" class="butDel" name="del" style="display:none" title="删除" onclick="showDialog('是否删除?',3,'retT=delRow(\'${item.order_id}\')');"/>  
-			   		    
-			   		</td>
+			   		<td>${item.run_msg}</td>
 		   		</tr>
 		   	 </c:forEach>
 	</table>
@@ -75,14 +69,14 @@ $(document).ready(function () {
 });
 
 //编辑当前行内容
-function editRow(order_id){
-	parent.openDivWin("<%=request.getContextPath()%>/gotoUpdateDBConn.do?proId=<%=proId%>&opCode=<%=opCode%>&order_id=" + order_id ,"修改数据库连接","800","300");
+function editRow(job_id){
+	parent.openDivWin("<%=request.getContextPath()%>/gotoUpdateTask.do?proId=<%=proId%>&opCode=<%=opCode%>&job_id=" + job_id ,"修改任务配置","800","300");
 	parent.refreshByClose();
 }
 //删除行
-function delRow(order_id){
-	var packet = new AJAXPacket("<%=request.getContextPath()%>/delDBConn.do");
-	packet.data.add("order_id" ,order_id);
+function delRow(job_id){
+	var packet = new AJAXPacket("<%=request.getContextPath()%>/delTask.do");
+	packet.data.add("job_id" ,job_id);
 	packet.data.add("proId" ,"<%=proId%>");
 	packet.data.add("opCode" ,"<%=opCode%>");
 	core.ajax.sendPacket(packet,doDelRow);
@@ -93,12 +87,12 @@ function doDelRow(packet){
 	var retMsg = packet.data.findValueByName("retMsg");
 	
   	if(retCode=='1'){
-  	    parent.parent.showDialog("连接删除成功！",2);
+  	    parent.parent.showDialog("任务删除成功！",2);
   	    parent.doSrchSubmit();
   	}else if(retCode=='noright'){
   	    parent.parent.showDialog("您没有权限进行此操作！",0);
   	}else{
-  	    parent.parent.showDialog("连接删除失败！"+retMsg,0);
+  	    parent.parent.showDialog("任务删除失败！"+retMsg,0);
   	}
 }
 

@@ -1,22 +1,29 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
-<%@ include file="/npage/include/public_title_name.jsp" %>
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %>  
+<%@ include file="/npage/include/public_title_name.jsp"%>
+<%@ page import="com.sitech.rom.util.*" %>
+<%
+String sys=Constants.PROD_SYSTEM;
+ %>
 <html>
 <head>
-<title>任务管理</title>
+<title>修改任务配置</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+ 
 </head>
 <body>
-	<form name="srchFrm" target="ifm" method="post">
-		<input type=hidden name="opCode" id="opCode" value="<%=opCode%>">
-		<input type=hidden name="proId" id="proId" value="<%=proId%>">
-<div id="operation">
-		<%@ include file="/npage/include/header.jsp"%>
-</div>	 
-				<table class="myoptable">
-					<th>作业名称</th>
+   <div id="operation">
+	<div id="operation_table">
+		<form action="" method="post" name="frm">
+			<input type=hidden name="opCode" id="opCode" value="<%=opCode%>">
+			<input type=hidden name="proId" id="proId" value="<%=proId%>">
+			<input type=hidden name="job_id" id="job_id" value="${task.job_id}">
+			<div class="input">
+				<table>
+					<tr>
+						<th>作业名称</th>
 						<td>
-							<input type="text" name="job_name" id="job_name" v_maxlength="64" v_minlength="0"/>
+							<input type="text" name="job_name" id="job_name" class="required isCharLengthOf" v_maxlength="64" v_minlength="0"/>
 						</td>
 						<th>对应数据库</th>
 						<td>
@@ -78,7 +85,7 @@
 						</td>
 						<th>运行频次</th>
 						<td>
-							<input type="text" name="job_run_freq" id="job_run_freq" onkeyup="value=value.replace(/[^\d]/g,'')" v_maxlength="64" v_minlength="0"/>							
+							<input type="text" name="job_run_freq" id="job_run_freq" onkeyup="value=value.replace(/[^\d]/g,'')" class="required isCharLengthOf" v_maxlength="64" v_minlength="0"/>							
 						</td>
 					</tr> 
 					<tr>
@@ -102,78 +109,89 @@
 					<tr>
 						<th>数据源表</th>
 						<td>
-							<input type="text" name="s_tab" id="s_tab" v_maxlength="64" v_minlength="0"/>							
+							<input type="text" name="s_tab" id="s_tab" class="required isCharLengthOf" v_maxlength="64" v_minlength="0"/>							
 						</td>
 						<th>目的表</th>
 						<td>
-							<input type="text" name="d_tab" id="d_tab" v_maxlength="64" v_minlength="0"/>							
+							<input type="text" name="d_tab" id="d_tab" class="required isCharLengthOf" v_maxlength="64" v_minlength="0"/>							
+						</td>
+					</tr> 
+					<tr>
+					<th>导出语句</th>
+						<td colspan="3">
+							<textarea name="etl_sql" id="etl_sql" rows="4" cols="60"></textarea>							
 						</td>
 					</tr>
-					<tr>
-						<td colspan="4" style="text-align:center">
-							<input type="button" class="b_foot" value="查询" onclick="doSrchSubmit()"/>&nbsp;&nbsp;
-							<input type="button" class="b_foot" value="重置" onclick="doReset()"/>&nbsp;&nbsp;
-							<input type="button" class="b_foot" id="add" style="display:none" value="新增" onclick="addTask()"/>
-					  </td>
-					</tr>
 				</table>
-
-			<iframe name="ifm" src="" style="width:100%;height:400px;" frameborder="0"></iframe>
-
-		<%@ include file="/npage/include/footer.jsp" %>
-	</form>
-						
-</body>
-<!-- 自动补全引入js -->
-<script type="text/javascript" src="<%=request.getContextPath()%>/njs/plugins/actb/common.js"></script>
-<script type="text/javascript" src="<%=request.getContextPath()%>/njs/plugins/actb/myactb.js"></script>
+			</div>
+			<div id="operation_button">
+				<input type="button" name="su" onClick="frmSubmit()" class="b_foot" value="确定" />
+				<input type="button" name="re" onClick="doReset()" class="b_foot" value="重置" />
+				<input type="button" name="close" onClick="parent.doSrchSubmit();parent.removeDivWin('divWin');" class="b_foot" value="关闭"/>
+			</div>
+			<div align="center">
+			    <font color="red"><span id="operInfo">${operInfo}</span></font>
+			</div>
+		</form>
+	</div>
+</div>
+<%@ include file="/npage/include/footer.jsp"%>
 <script src="<%=request.getContextPath()%>/npage/rpt/task/task.js" type="text/javascript"></script>
-<script language="javascript" type="text/javascript">
-/***********显示隐藏功能权限对应按钮 begin***************/
+<script>
 $(document).ready(function () {
-    getOpersForPage();
-});
-
-var param='?';
-function getOpersForPage(){
-	var opersForPage = '${opersForPage}';
-    if(opersForPage!='' && opersForPage!='NULL'){
-        var opers = opersForPage.split(':')[1].split(';');
-        for(var i=0; i<opers.length; i++){
-            if(opers[i]=='1'){
-                $('#add').css('display','');
-            }else if(opers[i]=='2'){
-                param=param+'edit=Y&';
-            }else if(opers[i]=='3'){
-                param=param+'del=Y&';
-            }else if(opers[i]=='4'){
-                param=param+'pope=Y&';
-            }
-        }
-    }
-}
-/***********显示隐藏功能权限对应按钮 end***************/
-
-//查询表单提交
-function doSrchSubmit(){
-    document.forms['srchFrm'].action="<%=request.getContextPath()%>/tasklist.do"+param;
-    document.forms['srchFrm'].submit();
-}
-
-//增加关联模块，打开弹出窗口
-function addTask(){
-	openDivWin("<%=request.getContextPath()%>/gotoAddTask.do?proId=<%=proId%>&opCode=<%=opCode%>","新增任务配置","800","300");
-	refreshByClose();
-}
-//list页面弹出窗口的关闭事件执行
-function refreshByClose(){
-    $(".window .close:last").click(function(){
+	
+	//处理下拉列表选中
+	$("#job_name").val("${task.job_name}");
+	$("#job_mode").val("${task.job_mode}");
+	$("#job_run_freq").val("${task.job_run_freq}");
+	$("#job_run_mode").val("${task.job_run_mode}");
+	$("#job_enable").val("${task.job_enable}");
+	$("#job_type").val("${task.job_type}");
+	$("#job_run_time").val("${task.job_run_time}");
+	$("#h_order_id").val("${task.h_order_id}");
+	$("#s_tab").val("${task.s_tab}");
+	$("#d_tab").val("${task.d_tab}");
+	$("#etl_sql").val("${task.etl_sql}");
+	
+	selectRunTime("${task.job_mode}");
+	
+	$("#job_run_time_M").val("${task.job_run_time_M}");
+	$("#job_run_time_H").val("${task.job_run_time_H}");
+	$("#job_run_time_m").val("${task.job_run_time_m}");
+	$("#job_run_time_S").val("${task.job_run_time_S}");
+	
+    //关闭弹出页面后，刷新主页面数据--begin
+    $('#close').click(function(){
 		try{
-		    doSrchSubmit();
+		    parent.doSrchSubmit();
 	    }catch(e){}
 	});
+	//--end
+	$('#proName').val($('#proCode :selected').text());
+	$proCode=$('#proCode').html();
+	getPro();
+});
+
+function frmSubmit(){
+    if(!checksubmit(frm)){
+		return false;
+	}
+	document.frm.action='<%=request.getContextPath()%>/updateTask.do';
+	document.frm.submit();
 }
 
-
+//超级管理员只能选择后台管理功能，普通管理员不能选择后台管理功能
+function getPro(){
+    $('#proCode').html($proCode);
+    if($('#roleType').val()=='0'){
+    	$('#proCode').val('<%=sys%>');
+    	$('#proCode').attr('disabled','true');
+    	validateField($('#proCode').get(0));
+    }else{
+        $('#proCode').attr('disabled','');
+        $("#proCode option[value='<%=sys%>']").remove();
+    }
+}
 </script>
+</body>
 </html>
