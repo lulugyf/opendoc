@@ -43,6 +43,25 @@
 				</isNotEmpty>
 			</isNotNull>
 		</isPropertyAvailable>
+		<isPropertyAvailable property="db_name" prepend="and">
+			<isNotNull property="db_name">
+				<isNotEmpty property="db_name">
+					db_name = #db_name#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="db_port" prepend="and">
+			<isGreaterThan property="db_port" compareValue="0">
+			db_port=#db_port#
+			</isGreaterThan>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="db_user" prepend="and">
+			<isNotNull property="db_user">
+				<isNotEmpty property="db_user">
+					db_user = #db_user#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
 	  </dynamic>
 	</sql>
 

@@ -23,5 +23,6 @@
 	<sqlMap resource="ibtsmap/rptparam.xml"/>
 	<sqlMap resource="ibtsmap/login.xml"/>
 	<sqlMap resource="ibtsmap/rptconf.xml"/>
+	<sqlMap resource="ibtsmap/taskconf.xml"/>
  
 </sqlMapConfig>
