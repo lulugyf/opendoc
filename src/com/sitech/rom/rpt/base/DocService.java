@@ -185,15 +185,19 @@ public class DocService {
 	
 	public JSON getDocTree(IMyBaseDao dao){
 		String basefunc = DaoUtil.getParameter(dao, "doc.basefunc");
-		
-		List<DocGroup> lgrp = (List<DocGroup>)dao.queryForList("rptconf.qryDocGroup", "DOCG%");
-		List<Doc> ldoc = (List<Doc>)dao.queryForList("rptconf.qryDoc");
 		JSONObject root = new JSONObject();
-		root.put("group_func", basefunc);
-		root.put("group_name", "Root");
-		JSONArray j = setGroupTree(basefunc, lgrp, ldoc);
-		if(j!= null){
-			root.put("children", j);
+		
+		try{
+			List<DocGroup> lgrp = (List<DocGroup>)dao.queryForList("rptconf.qryDocGroup", "DOCG%");
+			List<Doc> ldoc = (List<Doc>)dao.queryForList("rptconf.qryDoc");
+			root.put("group_func", basefunc);
+			root.put("group_name", "Root");
+			JSONArray j = setGroupTree(basefunc, lgrp, ldoc);
+			if(j!= null){
+				root.put("children", j);
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
 		}
 		return root;
 	}

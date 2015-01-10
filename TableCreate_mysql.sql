@@ -430,6 +430,8 @@ create table t_parameters(
 	remarks varchar(64)
 )DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- bo服务器的地址 以及用户名密码配置， 以 sapbo.为前缀的key, value的格式为：  server:port;user;password
+
 insert into t_parameters values('sap.user', 'test1', 'sap登录用户名');
 insert into t_parameters values('sap.password', '1qaz2wsx', 'sap登录密码');
 insert into t_parameters values('sap.cmsport', 'redtree1:6400', 'sap的cms地址');
@@ -450,9 +452,13 @@ create table t_doc(
 	function_code  VARCHAR(64) comment '对应功能树的代码',
 	docname varchar(60) comment '报表名称',
 	baseurl varchar(256) comment 'url of open document, include document id',
+	
+	boid int null comment '对应 t_boserver 中的boid',
+	opendocid varchar(64) null comment 'sap文档id',
 	remarks varchar(60) comment '备注'
 )DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 create index idx1_t_doc on t_doc(function_code);
+
 
 /*报表参数， 需要在报表展示的url中拼入的参数*/
 drop table if exists t_docparam;
@@ -467,3 +473,111 @@ create table t_docparam(
 )DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 create index idx_docparam1 on t_docparam(docid);
 
+
+
+
+/*==============================================================*/
+/* Table: etl_host_msg      数据源Host配置表                    */
+/*==============================================================*/
+-- drop table
+drop table if exists etl_host_msg;
+-- Create table
+create table etl_host_msg
+(
+order_id  int primary key comment '连接序号',
+serv_ip	  varchar(20) comment '数据库IP',
+serv_name varchar(20) comment '主机名',
+serv_user varchar(20) comment '主机用户名',
+serv_pwd  varchar(20) comment '主机密码',
+db_type 	varchar(10) comment '源数据库类型',
+db_name	  varchar(20) comment '数据库名',
+db_port	  int comment '数据库端口',
+db_user 	varchar(20) comment '数据库用户名',
+db_pwd 	  varchar(20) comment '数据库密码',
+data_dir  varchar(50) comment '导出数据文件路径'
+) DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+/*==============================================================*/
+/* Table: etl_job_msg      作业配置表                   */
+/*==============================================================*/
+-- drop table
+drop table if exists etl_job_msg;
+-- Create table
+create table etl_job_msg
+(
+job_id	      int primary key comment '作业ID，从1001开始编号',
+job_name	    varchar(20) comment '作业名称',
+job_mode      char(1) comment '作业类型，日作业：D，月作业：M，实时作业：S',
+job_run_freq	int comment '运行频次  0：不限制，其余数字代表最多运行次数，如果是定时，一般配置为1，实时配置为0',
+job_run_mode	char(1) comment '定时方式  1:定时，2：实时   目前不用',
+job_enable	  char(1) comment '可否运行标志 0：不可运行，1：可运行',
+job_type	    char(1) comment '运行类型  0:全量，1：增量',
+job_run_time	varchar(14) comment '配置作业开始运行时间，如果是日作业，格式为：103000,即上午10：30，月作业格式为01103000，即每月1号上午10:30，如果是实时，则为间隔时间，以秒为单位',
+h_order_id    int comment '作业对应的数据库主机连接配置',
+s_tab         varchar(20) comment '导出的数据源表',
+d_tab         varchar(20) comment '导入的目的表',
+etl_sql       varchar(2000) comment '导出语句'
+)DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+/*==============================================================*/
+/* Table: etl_job_log      作业日志表                   */
+/*==============================================================*/
+-- drop table
+drop table if exists etl_job_log;
+-- Create table
+create table etl_job_log
+(
+job_seq      varchar(20) primary key comment '作业执行序列',
+op_date      varchar(8) comment '作业执行日期yyyymmdd',
+job_id       int comment '作业ID',
+start_time   varchar(14) comment '作业开始时间',
+end_time     varchar(14) comment '作业结束时间',
+run_status   char(1) comment '作业运行状态，0：等待运行，1：开始导出，2：导出成功，3：导出失败，4，开始导入，5：导入成功，6：导入失败',
+run_msg      varchar(2000) comment '作业运行情况说明 '         
+)DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- etl配置部分
+insert into rom_sys_popedom values('2204', 'taskresult.do', '1');
+insert into rom_sys_popedom values('2204', 'taskresultList.do', '1');
+insert into rom_sys_popedom values('2202', 'gotoAddTask.do', '1');
+insert into rom_sys_popedom values('2202', 'addTask.do', '1');
+insert into rom_sys_popedom values('2202', 'gotoUpdateTask.do', '1');
+insert into rom_sys_popedom values('2202', 'updateTask.do', '1');
+insert into rom_sys_popedom values('2202', 'delTask.do', '1');
+insert into rom_sys_popedom values('2205', 'gotoUpdateDBConn.do', '1');
+
+
+
+
+
+---------------------------------
+----  update  2015-1-10
+alter table t_doc add	boid int null comment '对应 t_boserver 中的boid';
+alter table t_doc add	opendocid varchar(64) null comment 'sap文档id';
+/*
+增加配置模块
+RPTCFG 下： BOCONF (BO服务器配置)
+权限配置：
+addBOServer.do 	BOCONF 	1	
+boserverList.do 	BOCONF 	新增 	
+boservermain.do 	BOCONF 	新增 	
+delBOServer.do 	BOCONF 	新增 	
+gotoAddBOServer.do 	BOCONF 	新增 	
+gotoUpdateBOServer.do 	BOCONF 	新增 	
+updateBOServer.do 	BOCONF 	新增
+*/
+
+/*
+  BO服务器配置参数， 包括密码验证服务器端口
+*/
+create table t_boserver(
+  boid int primary key,
+  boname varchar(64) comment '命名',
+  authaddr varchar(64) comment '密码验证地址, 如： redtree1:6400',
+  username varchar(64) comment '用户名',
+  password varchar(64) comment '密码',
+  opendocaddr varchar(64) comment '文档地址端口, 如 redtree1:8080',
+  remarks varchar(60)  comment '备注'
+)DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

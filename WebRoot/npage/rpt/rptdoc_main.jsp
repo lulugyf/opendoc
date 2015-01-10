@@ -3,14 +3,12 @@
 <%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %>  
 <html>
 <head>
-<title>报表参数管理</title>
+<title>报表展示</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-
-  
   <link href="<%=request.getContextPath()%>/njs/jqueryui/jquery-ui.css" rel="stylesheet" type="text/css">
 </head>
-<body>
+<body style="border:0px solid #ff0000" onresize="resizebody()">
 	<input type=hidden name="opCode" id="opCode" value="<%=opCode%>">
 	<input type=hidden name="proId" id="proId" value="<%=proId%>">
  
@@ -65,11 +63,14 @@ $(function() {
 
 	});
 });
-</script>
 
-<div id="operation" class="pagetitle">
-		<%@ include file="/npage/include/header.jsp"%>
-</div>
+function resizebody(){
+	var w1 = $('body').width();
+	var w2 = $('#rptbody').width();
+	//console.log("w1:"+w1 + " w2:"+w2);
+	$('#rptbody').width(w1);
+}
+</script>
 
 <div class=".panel-body"></div>
 

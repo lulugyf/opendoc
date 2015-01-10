@@ -24,5 +24,6 @@
 	<sqlMap resource="ibtsmap/login.xml"/>
 	<sqlMap resource="ibtsmap/rptconf.xml"/>
 	<sqlMap resource="ibtsmap/taskconf.xml"/>
+	<sqlMap resource="ibtsmap/boserver.xml"/>
  
 </sqlMapConfig>

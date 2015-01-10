@@ -37,7 +37,20 @@ insert into rom_sys_popedom values('RPTCONF', 'setparamuserex.do', '1');
 
 insert into rom_sys_popedom values('DOC0007', 'getparamtree.do', '1');
 
-delete from rom_sys_popedom where function_code='RPTCONF' and action_name='getparamusertree.do'
+-- etl配置部分
+insert into rom_sys_popedom values('2204', 'taskresult.do', '1');
+insert into rom_sys_popedom values('2204', 'taskresultList.do', '1');
+insert into rom_sys_popedom values('2202', 'gotoAddTask.do', '1');
+insert into rom_sys_popedom values('2202', 'addTask.do', '1');
+insert into rom_sys_popedom values('2202', 'gotoUpdateTask.do', '1');
+insert into rom_sys_popedom values('2202', 'updateTask.do', '1');
+insert into rom_sys_popedom values('2202', 'delTask.do', '1');
+insert into rom_sys_popedom values('2205', 'gotoUpdateDBConn.do', '1');
+
+select * from etl_job_msg
+
+
+delete from rom_sys_popedom where function_code='2204' and action_name='addTask.do'
 
 /*新增模块需要下面3个表插入数据*/
 insert into rom_sys_pro_function(pro_code, function_code, remarks)
@@ -101,6 +114,7 @@ select * from t_paramuser_rel_ex
 
 insert into t_paramtype values(0, '[手工输入]', 'String', '初始化生成你');
 
+insert into t_parameters values('sapbo.redtree', 'redtree1:6400;test1;1qaz2wsx', 'bo登录参数');
 update t_parameters set pvalue='rptdoc_main.do,getparamtree.do' where pname='doc.popedoms'
 
 update t_docparam set allowchange=1
@@ -115,8 +129,15 @@ select a.paramid, a.typeid, paramValue, paramName, parentid, remarks, b.login_no
 		
 select a.paramid, b.paramValue
  from t_paramuser_rel a, t_paramdata b
-where a.login_no='abc' and a.paramid=b.paramid and a.typeid=16
+where a.login_no='abc' and a.paramid=b.paramid and a.typeid=11
 
 select a.paramid, b.paramValue, a.ex_flag
  from t_paramuser_rel_ex a, t_paramdata b
-where a.login_no='abc' and a.paramid=b.paramid and a.typeid=10 and a.docid=8
+where a.login_no='abc' and a.paramid=b.paramid and a.typeid=11 and a.docid=17
+
+insert into etl_job_log values
+('2014121213344418291','20141212',1001,'20141212101010','20141212101010','1','成功');
+
+select * from rom_sequence
+select * from t_doc
+update t_doc set boid=373

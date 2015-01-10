@@ -197,6 +197,8 @@ function initRptTree(nodep, chld){
 				function_code:doc.function_code,
 				group_func:doc.group_func,
 				baseurl:doc.baseurl,
+				boid:doc.boid,
+				opendocid:doc.opendocid,
 				remarks:doc.remarks}};
 			nodep.addChildren(newData);
 		}
@@ -213,6 +215,8 @@ $(function(){
 				$('#docid').val(n.key);
 				$('#docname').val(n.title);
 				$('#baseurl').val(n.data.baseurl);
+				$('#boid').val(n.data.boid);
+				$('#opendocid').val(n.data.opendocid);
 				$('#function_code').text(n.data.function_code);
 				$('#remarks').val(n.data.remarks);
 				//document.getElementById ("docparam").style.display='block';
@@ -364,6 +368,8 @@ $(function(){
 		
 		var docname = $('#docname').val();
 		var baseurl = $('#baseurl').val();
+		var boid = $('#boid').val();
+		var opendocid = $('#opendocid').val();
 		var remarks = $('#remarks').val();
 		if(docname == '' || baseurl == ''){
 			showmsg("报表名称和URL都不能为空!");
@@ -373,13 +379,13 @@ $(function(){
 				url:'addrptdoc.do',
 				method:'post',
 				cache:false,
-				data: {opCode: opCode, proId: proId, docname:docname, baseurl:baseurl, remarks:remarks, group_func:group_func},
+				data: {opCode: opCode, proId: proId, docname:docname, baseurl:baseurl, remarks:remarks, group_func:group_func, boid:boid, opendocid:opendocid},
 				dataType: "json",
 		        success: function (data){
 		        	console.log("addrptdoc.do:"+JSON.stringify(data));
 		        	if(data.ret == 0){
 		        		var newData = {key:data.docid, title: docname, folder:false, data:{type:"doc", 
-		        			function_code:data.function_code, baseurl:baseurl, remarks:remarks}};
+		        			function_code:data.function_code, baseurl:baseurl, boid:boid, opendocid:opendocid, remarks:remarks}};
 		        		if(node.data.type == 'doc')
 		        			node = node.getParent();
 		        		node.addChildren(newData);//.setActive(true);
@@ -430,14 +436,20 @@ $(function(){
 		}
 		
 		var docid = $('#docid').val();
+		if(docid == ''){
+			showmsg('请先选择报表节点');
+			return;
+		}
 		var docname = $('#docname').val();
 		var baseurl = $('#baseurl').val();
+		var boid = $('#boid').val();
+		var opendocid = $('#opendocid').val();
 		var remarks = $('#remarks').val();
 		 $.ajax({
 				url:'modrptdoc.do',
 				method:'post',
 				cache:false,
-				data: {opCode: opCode, proId: proId, docid:docid, docname:docname, baseurl:baseurl, remarks:remarks},
+				data: {opCode: opCode, proId: proId, docid:docid, docname:docname, baseurl:baseurl, remarks:remarks, boid:boid, opendocid:opendocid},
 				dataType: "json",
 		        success: function (data){
 		        	console.log(JSON.stringify(data));
@@ -445,7 +457,11 @@ $(function(){
 		        		node.setTitle($('#docname').val());
 		        		node.data.baseurl = baseurl;
 		        		node.data.remarks = remarks;
-		        		$('#docname').val('');
+		        		node.data.boid = boid;
+		        		node.data.opendocid = opendocid;
+		        		clearDocFields();
+		        		//$('#docname').val('');
+		        		//$('#docid').val('');
 		        	}
 		        },
 		        error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -516,6 +532,12 @@ $(function(){
 	});
 	
 });
+
+function clearDocFields(){
+	$.each(['docid', 'baseurl', 'remarks', 'opendocid', 'docname'], function(idx, v){
+		$('#'+v).val('');
+	});
+}
 
 var tb=document.getElementById('datatable');//获得表格
 

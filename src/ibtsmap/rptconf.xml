@@ -21,18 +21,15 @@
 	
 	<!--  查询报表文档数据 -->
 	<select id="qryDoc" parameterClass="Doc" resultClass="Doc">
-		SELECT docid, group_func, a.function_code, docname, baseurl, remarks
-		from t_doc a
+		SELECT docid, group_func, a.function_code, docname, baseurl, a.remarks, a.boid, boname, opendocid
+		from t_doc a, t_boserver b where a.boid=b.boid
 		<dynamic>
-		<isParameterPresent prepend="where ">
-			<isGreaterThan property="docid" compareValue="0">
-			docid=#docid#
+		<isParameterPresent>
+			<isGreaterThan property="docid" compareValue="0" prepend="and ">
+			   docid=#docid#
 			</isGreaterThan>
-			<isNotNull property="group_func">
-			<isGreaterThan property="docid" compareValue="0">
-			   and
-			</isGreaterThan>
-			group_func=#group_func#
+			<isNotNull property="group_func" prepend="and ">
+			   group_func=#group_func#
 			</isNotNull>
 		</isParameterPresent>
 		</dynamic>
@@ -40,8 +37,8 @@
 	</select>
 	
 	<insert id="addDoc" parameterClass="Doc">
-	insert into t_doc(docid, group_func, function_code, docname, baseurl, remarks)
-		values(#docid#, #group_func#, #function_code#, #docname#, #baseurl#, #remarks#)
+	insert into t_doc(docid, group_func, function_code, docname, baseurl, remarks, boid, opendocid)
+		values(#docid#, #group_func#, #function_code#, #docname#, #baseurl#, #remarks#, #boid#, #opendocid#)
 	</insert>
 	
 	<delete id="delDoc" parameterClass="java.lang.Integer">
@@ -50,7 +47,7 @@
 	
 	<update id="modDoc" parameterClass="Doc">
 		update t_doc set
-			docname=#docname#, baseurl=#baseurl#, remarks=#remarks#
+			docname=#docname#, baseurl=#baseurl#, remarks=#remarks#, boid=#boid#, opendocid=#opendocid#
 			where docid=#docid#
 	</update>
 	

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="boserver">
+	<typeAlias alias="BOServer" type="com.sitech.rom.rpt.bo.BOServer" />
+
+	
+	<sql id="where-boserver">
+	   where 1=1
+		<dynamic  prepend="and">
+			<isPropertyAvailable property="boid" prepend="and">
+				<isGreaterThan property="boid" compareValue="0">
+					boid = #boid#
+				</isGreaterThan>
+			</isPropertyAvailable>
+			<isPropertyAvailable property="boname" prepend="and">
+				<isNotNull property="boname">
+					<isNotEmpty property="boname">
+						boname = #boname#
+					</isNotEmpty>
+				</isNotNull>
+			</isPropertyAvailable>
+			<isPropertyAvailable property="username" prepend="and">
+				<isNotNull property="username">
+					<isNotEmpty property="username">
+						username = #username#
+					</isNotEmpty>
+				</isNotNull>
+			</isPropertyAvailable>
+			<isPropertyAvailable property="authaddr" prepend="and">
+				<isNotNull property="authaddr">
+					<isNotEmpty property="authaddr">
+						authaddr = #authaddr#
+					</isNotEmpty>
+				</isNotNull>
+			</isPropertyAvailable>
+			<isPropertyAvailable property="opendocaddr" prepend="and">
+				<isNotNull property="opendocaddr">
+					<isNotEmpty property="opendocaddr">
+						opendocaddr = #opendocaddr#
+					</isNotEmpty>
+				</isNotNull>
+			</isPropertyAvailable>
+	  </dynamic>
+	</sql>
+
+	<select id="qryBOServer" parameterClass="BOServer" resultClass="BOServer">
+		select
+		  boid, boname, authaddr, username, password, opendocaddr, remarks
+		from t_boserver
+		<include refid="where-boserver"/>
+		order by boid
+	</select>
+	
+	<insert id="insertBOServer" parameterClass="BOServer">
+		INSERT INTO t_boserver (
+			boid, boname, authaddr, username, password, opendocaddr, remarks
+		) VALUES (
+		 #boid#, #boname#, #authaddr#, #username#, #password#, #opendocaddr#, #remarks#
+		)
+	</insert>
+	
+	<update id="updateBOServer" parameterClass="BOServer">
+		UPDATE t_boserver set
+		  boname=#boname#, authaddr=#authaddr#, username=#username#, password=#password#, opendocaddr=#opendocaddr#, 
+		  remarks=#remarks#
+		WHERE boid = #boid#
+	</update>
+
+	<delete id="deleteBOServer" parameterClass="java.lang.Integer">
+		DELETE FROM t_boserver
+		WHERE boid = #boid#
+	</delete>
+	
+	
+	
+</sqlMap>

@@ -82,7 +82,13 @@ $(function(){
 <table width="100%" height="100%" class="myoptable">
 <tr><th>报表名称：    </th><td> <input type="hidden" id="docid" value="0">
 					<input type="text" id="docname"></td></tr>
-<tr><th>URL： </th><td> <input type="text" size="60" id="baseurl"> </td></tr>
+<tr style="display:none"><th>URL： </th><td> <input type="text" size="60" id="baseurl"> </td></tr>
+<tr><th>文档ID： </th><td> <input type="text" size="60" id="opendocid"> </td></tr>
+<tr><th>BO服务器： </th><td> <select id="boid">
+<c:forEach items="${bolist }" var="item">
+  	<option value="${item.boid }">${item.boname }</option>
+</c:forEach>
+</select> </td></tr>
 <tr><th>备 注：</th><td> <input type="text" id="remarks"></td></tr>
 <tr><th>功能代码：</th><td> <span id="function_code" title="自动生成" ></span></td></tr>
 <tr><td colspan="2"> 

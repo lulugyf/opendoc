@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sitech.rom.rpt.base.DaoUtil;
 import com.sitech.rom.rpt.base.IMyBaseDao;
+import com.sitech.rom.rpt.bo.BOServer;
 import com.sitech.rom.rpt.bo.Doc;
 import com.sitech.rom.rpt.bo.DocParam;
 import com.sitech.rom.rpt.bo.ParamUser;
@@ -40,6 +41,7 @@ public class DocController {
 		String login_no = (String)session.getAttribute("loginNo");
 		Doc doc = (Doc)dao.queryForObject("rptconf.qryDocByFunc", func);
 		request.setAttribute("doc", doc);
+		
 		
 		List<DocParam> plist = (List<DocParam>)dao.queryForList("rptconf.qryDocParam", doc.getDocid());
 		//如果参数中有不允许修改的， 则需要把选定的关联数据取出来(包括 t_paramuser_rel 和 t_paramuser_rel_ex)， 如果没有， 则是应用默认值
@@ -90,15 +92,23 @@ public class DocController {
 		request.setAttribute("paramlist", plist);
 		request.setAttribute("login_no", login_no);
 		request.setAttribute("paramCount", paramcount);
-		request.setAttribute("serSession", getsersess(request, session));
+		request.setAttribute("serSession", getsersess(request, session, doc.getDocid()));
 		return "rpt/rptdoc_main";
 	}
 	
-	public String getsersess(HttpServletRequest request, HttpSession session){
+	public String getsersess(HttpServletRequest request, HttpSession session, int docid){
 		String serSession = "";
+		String tm = docid+"-sersess_time";
+		String se = docid + "-sersess";
 		try{
+			
+			BOServer bo = new BOServer();
+			bo.setBoid(docid);
+			bo = (BOServer)dao.queryForObject("boserver.qryBOServer", bo); //获取BO配置，包括验证地址和用户名密码
+
+			
 			ServletContext ctx = session.getServletContext();
-			Object tt = ctx.getAttribute("sersess_time");
+			Object tt = ctx.getAttribute(tm);
 			
 			if(tt == null || System.currentTimeMillis()-((Long)tt).longValue() > 30*60*1000){
 				// 暂定30分钟内有效
@@ -107,15 +117,15 @@ public class DocController {
 					//for test purpose
 					serSession = "---";
 				}else{
-					String user = DaoUtil.getParameter(dao, "sap.user");
-					String pass = DaoUtil.getParameter(dao, "sap.password");
-					String cmsport = DaoUtil.getParameter(dao, "sap.cmsport");
+					String user = bo.getUsername(); //DaoUtil.getParameter(dao, "sap.user");
+					String pass = bo.getPassword(); //DaoUtil.getParameter(dao, "sap.password");
+					String cmsport = bo.getAuthaddr(); //DaoUtil.getParameter(dao, "sap.cmsport");
 					IEnterpriseSession sess = CrystalEnterprise.getSessionMgr().logon (user, pass, cmsport, "secEnterprise");
 	//						"test", "1qaz2wsx", "redtree1:6400", "secEnterprise"); //"username", "password", "<cms>:<port>", "secEnterprise");
 					serSession =  sess.getSerializedSession();
 				}
-				ctx.setAttribute("sersess_time", System.currentTimeMillis());
-				ctx.setAttribute("sersess", serSession);
+				ctx.setAttribute(tm, System.currentTimeMillis());
+				ctx.setAttribute(se, serSession);
 			}else{
 				serSession = (String)ctx.getAttribute("sersess");
 				//ctx.setAttribute("sersess_time", System.currentTimeMillis()); //每次取也更新一下时间

@@ -27,6 +27,7 @@ import com.sitech.rom.common.dto.RomSysFunction;
 import com.sitech.rom.common.dto.RomSysPopedom;
 import com.sitech.rom.rpt.base.DocService;
 import com.sitech.rom.rpt.base.IMyBaseDao;
+import com.sitech.rom.rpt.bo.BOServer;
 import com.sitech.rom.rpt.bo.Doc;
 import com.sitech.rom.rpt.bo.DocGroup;
 import com.sitech.rom.rpt.bo.DocParam;
@@ -56,6 +57,7 @@ public class ConfController {
 		request.setAttribute("paramtypelist", dao.queryForList("rptparam.qryType"));
 		request.setAttribute("datatypelist", ParamType.getDataTypeList());
 		request.setAttribute("loginlist", dao.queryForList("rptparam.selUser"));
+		request.setAttribute("bolist", dao.queryForList("boserver.qryBOServer"));
 		return "rpt/rptconf_main";
 	}
 
@@ -195,9 +197,19 @@ public class ConfController {
 			Doc doc = new Doc();
 
 			doc.setGroup_func(request.getParameter("group_func"));
-			doc.setBaseurl(request.getParameter("baseurl"));
+//			doc.setBaseurl(request.getParameter("baseurl"));
 			doc.setDocname(request.getParameter("docname"));
 			doc.setRemarks(request.getParameter("remarks"));
+			
+			BOServer bo = new BOServer();
+			bo.setBoid(Integer.parseInt(request.getParameter("boid")));
+			bo = (BOServer)dao.queryForObject("boserver.qryBOServer", bo);
+			String baseurl = String.format("http://%s/BOE/OpenDocument/opendoc/openDocument.jsp?sIDType=CUID&iDocID=%s&buttonrefresh=hide", 
+					bo.getOpendocaddr(), request.getParameter("opendocid"));
+			doc.setBaseurl(baseurl);
+			
+			doc.setBoid(bo.getBoid());
+			doc.setOpendocid(request.getParameter("opendocid"));
 			docsvc.addDoc(doc);
 			j.put("docid", doc.getDocid());
 			j.put("function_code", doc.getFunction_code());
@@ -220,9 +232,19 @@ public class ConfController {
 		try{
 			Doc doc = new Doc();
 			doc.setDocid(Integer.parseInt(request.getParameter("docid")));
-			doc.setBaseurl(request.getParameter("baseurl"));
+			//doc.setBaseurl(request.getParameter("baseurl"));
 			doc.setDocname(request.getParameter("docname"));
 			doc.setRemarks(request.getParameter("remarks"));
+			
+			BOServer bo = new BOServer();
+			bo.setBoid(Integer.parseInt(request.getParameter("boid")));
+			bo = (BOServer)dao.queryForObject("boserver.qryBOServer", bo);
+			String baseurl = String.format("http://%s/BOE/OpenDocument/opendoc/openDocument.jsp?sIDType=CUID&iDocID=%s&buttonrefresh=hide", 
+					bo.getOpendocaddr(), request.getParameter("opendocid"));
+			doc.setBaseurl(baseurl);
+			
+			doc.setBoid(Integer.parseInt(request.getParameter("boid")));
+			doc.setOpendocid(request.getParameter("opendocid"));
 			docsvc.modDoc(doc);
 			ret = 0;
 		}catch(Throwable e){

@@ -7,9 +7,30 @@ public class Doc {
 	private String function_name;
 	private String docname;
 	private String baseurl;
+	private int boid;
+	private String boname;
+	private String opendocid;
 	private String remarks;
 	
 	
+	public String getBoname() {
+		return boname;
+	}
+	public void setBoname(String boname) {
+		this.boname = boname;
+	}
+	public String getOpendocid() {
+		return opendocid;
+	}
+	public void setOpendocid(String opendocid) {
+		this.opendocid = opendocid;
+	}
+	public int getBoid() {
+		return boid;
+	}
+	public void setBoid(int boid) {
+		this.boid = boid;
+	}
 	public String getFunction_name() {
 		return function_name;
 	}
