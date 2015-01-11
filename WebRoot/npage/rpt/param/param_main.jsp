@@ -24,134 +24,12 @@
 <script src="<%=request.getContextPath()%>/njs/fancytree/jquery.fancytree.js" type="text/javascript"></script>
 <link href="<%=request.getContextPath()%>/njs/fancytree/skin-win7/ui.fancytree.css" rel="stylesheet" type="text/css">
 
+<link href="<%=request.getContextPath()%>/njs/jqueryui/jquery-ui.css" rel="stylesheet" type="text/css">
+
 
 <script type="text/javascript">
 var opCode="<%=opCode%>";
 var proId="<%=proId%>";
-$(function(){
-	btnHover();//主按钮鼠标经过样式
-
-	$("#addtype").click(function(){
-		if($('#addtypediv:visible').length > 0){
-			$('#addtypediv').hide('slow');
-		}else{
-			$('#typeid1').val('0');
-			$('#addtypediv').show('slow', function(){
-				$('#name1').focus();
-			});
-		}
-	});
-	
-	// 修改， 从option中取出参数还原到form表单里
-	$("#modtype").click(function(){
-		if($('#addtypediv:visible').length > 0){
-			$('#addtypediv').hide('slow');
-		}else{
-			var opt = $("#typeselector option:selected");
-			if(opt.val() == " "){
-				alert("select a option first!");
-				return
-			}
-			$('#typeid1').val(opt.val());
-			var txt = opt.text();
-			var p1 = txt.indexOf('('), p2 = txt.indexOf(')');
-			$('#name1').val(txt.substring(0,p1));
-			$('#datatype1').val(txt.substring(p1+1, p2));
-			$('#remarks1').val(txt.substring(p2+2));
-			$('#addtypediv').show('slow', function(){
-				$('#name1').focus();
-			});
-		}
-	});
-	
-	$('#deltype').click(function(){
-		//$("#typeselector option:selected").remove();
-		var typeid = $("#typeselector option:selected").val();
-		$.ajax({
-			url:'addparamtype.do',
-			method:'post',
-			cache:false,
-			data: {opCode: opCode, proId: proId, optype:"delete", typeid:typeid},
-			dataType: "json",
-	        success: function (data){
-	        	console.log(JSON.stringify(data));
-	        	if(data.ret == 0){
-	        		if(data.typeid > 0){
-	        			if(data.optype == 'delete'){
-	        				$("#typeselector option[value='"+data.typeid+"']").remove();
-	        			}
-	        		}
-	        	}
-	        },
-	        error: function (XMLHttpRequest, textStatus, errorThrown) {
-	            showmsg("failed:"+errorThrown);
-	        }
-		});
-	});
-	
-	
-	
-	$('#subtype1').click(function(e){
-		var flds = ['typeid', 'name', 'datatype', 'remarks'];
-		var d = {opCode: opCode, proId: proId};
-		flds.forEach(function(n){ d[n]=$('#'+n+'1').val(); });
-		console.log("post=="+JSON.stringify(d));
-		$.ajax({
-			url:'addparamtype.do',
-			method:'post',
-			cache:false,
-			data: d,
-			dataType: "json",
-	        success: function (data){
-	        	console.log(JSON.stringify(data));
-	        	if(data.ret == 0){
-	        		if(data.typeid > 0){
-	        			if(data.optype == 'update'){
-	        				var txt = data.name+"("+data.datatype+")-"+data.remarks;
-	        				console.log("---"+txt);
-	        				$("#typeselector option[value='"+data.typeid+"']").text(txt);
-	        			}else if(data.optype == 'delete'){
-	        				$("#typeselector option[value='"+data.typeid+"']").remove();
-	        			}else{
-	        				$('#typeselector').append('<option value="'+data.typeid+'">'+data.name+'('+data.datatype+')-'+data.remarks+'</option>')
-	        			}
-	        		}
-	        	}
-	        },
-	        error: function (XMLHttpRequest, textStatus, errorThrown) {
-	            showmsg("failed:"+errorThrown);
-	        }
-		});
-		$.each(flds, function(i,n){$('#'+n+'1').val('');}); 
-		$('#addtypediv').hide('fast');
-		return false;
-	});
-	
-	$('#typeselector').change(function(e){
-		console.log("type changed:"+$(this).val());
-		var val = $(this).val();
-		if(parseInt(val) <= 0)
-			return;
-		$.ajax({
-			url:'getparamdata.do',
-			method:'post',
-			cache:false,
-			data: {opCode: opCode, proId: proId, typeid:val},
-			dataType: "json",
-	        success: function (data){
-	        	console.log("out:"+JSON.stringify(data));
-	        	if(data.ret == 0){
-	        		initTree(data);
-	        	}
-	        },
-	        error: function (XMLHttpRequest, textStatus, errorThrown) {
-	            showmsg("failed:"+errorThrown);
-	        }
-		})
-	});
-	
-});
-
 
 </script>
 
@@ -164,6 +42,9 @@ $(function(){
 	<a href="#" id="deltype">删除类型</a>
 	<a href="#" id="modtype">修改类型</a>
 	<a href="#" id="addtype">新增类型</a>
+	
+	&nbsp;&nbsp;&nbsp;
+	<label >搜索：</label> <input id="typesearch">
 </div>
 <hr />
 <div id="addtypediv" style="display:none; border:1px dotted gray">
@@ -212,6 +93,135 @@ $(function(){
 	<div>Focused node: <span id="echoFocused">-</span></div>	  -->			
 
 <script type="text/javascript">
+
+$(function(){
+	btnHover();//主按钮鼠标经过样式
+
+	$("#addtype").click(function(){
+		if($('#addtypediv:visible').length > 0){
+			$('#addtypediv').hide('slow');
+		}else{
+			$('#typeid1').val('0');
+			$('#addtypediv').show('slow', function(){
+				$('#name1').focus();
+			});
+		}
+	});
+	
+	// 修改， 从option中取出参数还原到form表单里
+	$("#modtype").click(function(){
+		if($('#addtypediv:visible').length > 0){
+			$('#addtypediv').hide('slow');
+		}else{
+			var opt = $("#typeselector option:selected");
+			if(opt.val() == " "){
+				alert("select a option first!");
+				return
+			}
+			$('#typeid1').val(opt.val());
+			var txt = opt.text();
+			var p1 = txt.indexOf('('), p2 = txt.indexOf(')');
+			$('#name1').val(txt.substring(0,p1));
+			$('#datatype1').val(txt.substring(p1+1, p2));
+			$('#remarks1').val(txt.substring(p2+2));
+			$('#addtypediv').show('slow', function(){
+				$('#name1').focus();
+			});
+		}
+	});
+	
+	$('#deltype').click(function(){
+		//$("#typeselector option:selected").remove();
+		var typeid = $("#typeselector option:selected").val();
+		$.ajax({
+			url:'addparamtype.do',
+			method:'post',
+			cache:false,
+			data: {opCode: opCode, proId: proId, optype:"delete", typeid:typeid},
+			dataType: "json",
+	        success: function (data){
+	        	//console.log(JSON.stringify(data));
+	        	if(data.ret == 0){
+	        		if(data.typeid > 0){
+	        			if(data.optype == 'delete'){
+	        				$("#typeselector option[value='"+data.typeid+"']").remove();
+	        			}
+	        		}
+	        	}
+	        },
+	        error: function (XMLHttpRequest, textStatus, errorThrown) {
+	            showmsg("failed:"+errorThrown);
+	        }
+		});
+	});
+	
+	
+	
+	$('#subtype1').click(function(e){
+		var flds = ['typeid', 'name', 'datatype', 'remarks'];
+		var d = {opCode: opCode, proId: proId};
+		flds.forEach(function(n){ d[n]=$('#'+n+'1').val(); });
+		//console.log("post=="+JSON.stringify(d));
+		$.ajax({
+			url:'addparamtype.do',
+			method:'post',
+			cache:false,
+			data: d,
+			dataType: "json",
+	        success: function (data){
+	        	//console.log(JSON.stringify(data));
+	        	if(data.ret == 0){
+	        		if(data.typeid > 0){
+	        			if(data.optype == 'update'){
+	        				var txt = data.name+"("+data.datatype+")-"+data.remarks;
+	        				//console.log("---"+txt);
+	        				$("#typeselector option[value='"+data.typeid+"']").text(txt);
+	        			}else if(data.optype == 'delete'){
+	        				$("#typeselector option[value='"+data.typeid+"']").remove();
+	        			}else{
+	        				$('#typeselector').append('<option value="'+data.typeid+'">'+data.name+'('+data.datatype+')-'+data.remarks+'</option>')
+	        			}
+	        		}
+	        	}
+	        },
+	        error: function (XMLHttpRequest, textStatus, errorThrown) {
+	            showmsg("failed:"+errorThrown);
+	        }
+		});
+		$.each(flds, function(i,n){$('#'+n+'1').val('');}); 
+		$('#addtypediv').hide('fast');
+		return false;
+	});
+	
+	$('#typeselector').change(function(e){
+		//console.log("type changed:"+$(this).val());
+		var val = $(this).val();
+		if(parseInt(val) <= 0)
+			return;
+		getParamData(val);
+	});
+	
+});
+
+function getParamData(typeid){
+	$.ajax({
+		url:'getparamdata.do',
+		method:'post',
+		cache:false,
+		data: {opCode: opCode, proId: proId, typeid:typeid},
+		dataType: "json",
+        success: function (data){
+        	//console.log("out:"+JSON.stringify(data));
+        	if(data.ret == 0){
+        		initTree(data);
+        	}
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            showmsg("failed:"+errorThrown);
+        }
+	})
+}
+
 var id_seed = 1;
 $(function(){
 	// Initialize the tree inside the <div>element.
@@ -265,7 +275,7 @@ $(function(){
 		}
 		if($('#paramid').val().indexOf('t_')!=0){
 			showmsg("请先选择一个节点！");
-			console.log("not a valid paramid:"+$('#paramid').val());
+			//console.log("not a valid paramid:"+$('#paramid').val());
 			return;
 		}
 		
@@ -289,7 +299,7 @@ $(function(){
 		}
 		if($('#paramid').val().indexOf('t_')!=0){
 			showmsg("select a node first!!");
-			console.log("not a valid paramid:"+$('#paramid').val());
+			//console.log("not a valid paramid:"+$('#paramid').val());
 			return;
 		}
 		var tree = $("#tree").fancytree("getTree");
@@ -319,7 +329,7 @@ function addNode(isSibling){
 	}
 	var tree = $("#tree").fancytree("getTree");
     var node = tree.getActiveNode();
-    console.log('====='+node);
+    //console.log('====='+node);
     if(!node) {
     	showmsg("请先选择一个节点！");
     	return;
@@ -348,14 +358,14 @@ function addNode(isSibling){
 function modifyData(data, callback){
 	data.opCode = opCode;
 	data.proId = proId;
-	console.log("postdata:"+JSON.stringify(data));
+	//console.log("postdata:"+JSON.stringify(data));
 	$.ajax({
 		url: "addparamdata.do",
 		data: data,
 		method: "post",
 		dataType: "json",
 		success: function (dd){
-        	console.log("out:"+JSON.stringify(dd));
+        	//console.log("out:"+JSON.stringify(dd));
         	if(dd.ret == 0){
         		callback(dd); //只有成功的时候调用回调函数
         	}else{
@@ -385,7 +395,7 @@ function initTree(data){
 		if(p != undefined){
 			p.addChildren(newData);
 		}else{
-			console.log("parent not found:"+d.parentid);
+			//console.log("parent not found:"+d.parentid);
 		}
 	});
 	
@@ -393,6 +403,23 @@ function initTree(data){
         node.setExpanded(true);
     });
 }
+
+var availableType = [
+<c:forEach items="${typelist }" var="item">
+	"${item.typeid }-${item.name}",
+</c:forEach>
+          ''];
+
+$("#typesearch").autocomplete({
+    source: availableType,
+    select: function(event, ui){
+ 	   var s = ui.item.value;
+ 	   var typeid = s.substring(0, s.indexOf('-'));
+ 	   //var typename = s.substring(s.indexOf('-')+1);
+ 	   $('#typeselector').val(typeid);
+ 	  getParamData(typeid);
+    }
+  });
 </script>
 
 <%//@ include file="/npage/include/footer.jsp" %>

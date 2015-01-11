@@ -57,20 +57,7 @@
 </div>
 </td></tr></table>
 
-<table id="datatable" class="display" width="100%" cellspacing="0">
-    <thead>
-        <tr>
-        <th>工号</th>
-            <th>用户名</th>
-            <th>参数类型</th>
-            <th>参数值</th>
-            <th>参数名称</th>
-        </tr>
-    </thead>
-</table>
 
-<%//@ include file="/npage/include/footer.jsp" %>
-		
 
 <script type="text/javascript">
 var opCode="<%=opCode%>";
@@ -109,7 +96,6 @@ $(function(){
 			data: {opCode: opCode, proId: proId, typeid:typeid, login_no:login_no},
 			dataType: "json",
 	        success: function (data){
-	        	console.log("out:"+JSON.stringify(data));
 	        	if(data.ret == 0){
 	        		initTree(data);
 	        	}else{
@@ -137,7 +123,6 @@ $(function(){
 			data: {opCode: opCode, proId: proId, typeid:$('#typeid').val(), loginno:login_no, oldsel:oldsel, newsel:newsel},
 			dataType: "json",
 	        success: function (data){
-	        	console.log("out:"+JSON.stringify(data));
 	        	if(data.ret == 0){
 	        		showmsg("数据修改成功! 增删数量:"+data.affected);
 	        		if(data.affected > 0){
@@ -187,7 +172,7 @@ function initTree(data){
 				oldsel += d.paramid + ',';
 			}
 		}else{
-			console.log("parent not found:"+d.parentid);
+			//console.log("parent not found:"+d.parentid);
 		}
 	});
 	
@@ -196,55 +181,6 @@ function initTree(data){
     });
 }
 
-$(document).ready(function() {
-	btnHover();//主按钮鼠标经过样式
-    var table = $('#datatable').dataTable( {
-        "processing": true,
-        "serverSide": true,
-        "bSort": false,
-        "language": {
-			 "paginate": {
-			      "first": "第一页",
-			      "last":"最后一页",
-			      "next":"下一页",
-			      "previous":"上一页"
-			 },
-			 "info": "记录从  _START_ 到  _END_ ",
-			 "search":"搜 索",
-			 "lengthMenu": '每页显示记录数   <select>'+
-			             '<option value="10">10</option>'+
-			             '<option value="20">20</option>'+
-			             '</select>'
-        },
-        "columns": [
-                    { "data": "loginno" },
-                    { "data": "loginname" },
-                    { "data": "typename" },
-                    { "data": "paramValue" },
-                    { "data": "paramName" }
-                  ],
-        "ajax": {
-            "url": "getparamusr.do",
-            "type": "POST",
-            "data":{"opCode": "<%=opCode%>", "proId":"<%=proId%>"}
-        }
-    } );
-    
-    $('#datatable tbody').on( 'click', 'tr', function () {
-        if ( $(this).hasClass('selected') ) {
-            $(this).removeClass('selected');
-        }
-        else {
-            table.$('tr.selected').removeClass('selected');
-            $(this).addClass('selected');
-        }
-    } );
- 
-    $('#button').click( function () {
-        table.row('.selected').remove().draw( false );
-    } );
-
-} );
 </script>
 					
 </body>

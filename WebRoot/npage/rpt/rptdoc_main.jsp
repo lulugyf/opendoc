@@ -21,6 +21,7 @@
 <!--  for fancytree -->
 <script src="<%=request.getContextPath()%>/njs/fancytree/jquery-ui.custom.js" type="text/javascript"></script>
 <script src="<%=request.getContextPath()%>/njs/fancytree/jquery.fancytree.js" type="text/javascript"></script>
+<script src="<%=request.getContextPath()%>/njs/fancytree/jquery.fancytree.filter.js" type="text/javascript"></script>
 <link href="<%=request.getContextPath()%>/njs/fancytree/skin-win7/ui.fancytree.css" rel="stylesheet" type="text/css">
 
 
@@ -128,6 +129,9 @@ function resizebody(){
 }
 </style>
 <div id="dialog-form" title="参数值选择">
+  <label>过滤:</label>
+    <input name="search" placeholder="Filter...">
+    <button id="btnResetSearch">&times;</button>
 
   <div id="tree"><ul></ul></div>
 </div>
@@ -212,12 +216,41 @@ $(function(){
 	$('#tree').fancytree({
 		lines:true,
 		checkbox:true,
-		selectMode:1,
+		selectMode:2,
+		extensions: ["filter"],
+		quicksearch: true,
+		filter: {
+	        mode: "hide",
+	        autoApply: true
+	      },
 		beforeSelect: function(event, data) {
 			//console.log("===:"+data.node.data.loginno);
 			return data.node.data.enabled;
 		}
 	});
+	
+	var tree1 = $("#tree").fancytree("getTree");
+	$("input[name=search]").keyup(function(e){
+	      var n,
+	        leavesOnly = false, //$("#leavesOnly").is(":checked"),
+	        match = $(this).val();
+
+	      if(e && e.which === $.ui.keyCode.ESCAPE || $.trim(match) === ""){
+	        $("button#btnResetSearch").click();
+	        return;
+	      }
+
+	      n = tree1.filterNodes(match, leavesOnly);
+	      $("button#btnResetSearch").attr("disabled", false);
+	      // console.log("(" + n + " matches)");
+	    }).focus();
+
+    $("button#btnResetSearch").click(function(e){
+	      $("input[name=search]").val("");
+	      //$("span#matches").text("");
+	      tree1.clearFilter();
+	    }).attr("disabled", true);
+
 	dialog = $( "#dialog-form" ).dialog({
 	    autoOpen: false,
 	    height: 450,
@@ -227,7 +260,13 @@ $(function(){
 	      "确定选择": function(){
 	    	  sel = $("#tree").fancytree("getTree").getSelectedNodes();
 	    	  if(sel.length > 0){
-	    		  $("#P_"+g_pname).val(sel[0].data.pvalue);
+	    		  v = '';
+	    		  for(var i=0;i<sel.length; i++){
+	    			  if(v != '')
+	    				  v += ',';
+	    			  v += sel[i].data.pvalue;
+	    		  }
+	    		  $("#P_"+g_pname).val(v);
 	    	  }
 	    	  dialog.dialog( "close" );
 	  	    //console.log("=====:"+sel.length);

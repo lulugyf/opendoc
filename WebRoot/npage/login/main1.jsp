@@ -30,18 +30,6 @@
 	<script type="text/javascript" src="<%=request.getContextPath()%>/njs/easyui/jquery.easyui.min.js"></script>
 
 <style>
-#navPanel {
-    background: none repeat scroll 0 0 #f3f8f9;
-    border: 1px solid #257abb;
-    display: inline;
-    float: left;
-    margin-right: 4px;
-    margin-top: -1px;
-    overflow: hidden;
-    float: left;
-    height: 99%;
-    width: 198px;
-}
 #tabbedPanel {
     background: none repeat scroll 0 0 #f3f8f9;
     border: 1px solid #257abb;
@@ -70,17 +58,16 @@
 	<!--topPanel end-->
 		
 
-<div data-options="region:'west',collapsed:false,split:true" id="westdiv" title="用户功能树-<%=login_no %>" style="width:180px;padding:5px;">
+<div data-options="region:'west',collapsed:false,split:true" id="westdiv" title="用户功能树-<%=login_no %>" style="width:200px;padding:5px;">
 		<div id="navTree" class="easyui-tree">
 		</div>
 </div>
-		<!--  end navPanel -->
 		
 		<!--workPanel begin-->
 	<div data-options="region:'center', fit:true" id="tabbedPanel" style="border: false" class="easyui-tabs">
-		<div title="Home" class="tabpane">
-		<iframe class="workIframe" id="ifram" src="../portal/work/portal.jsp" style="align:left;frameborder:0">
-		</iframe>
+		<div title="Home" class="tabpane" style="width:400px;height:300px;border:0px solid #ff0000">
+		<iframe class="workIframe" id="ifram" src="../portal/work/portal.jsp" style="align:left;border:0px solid #0000ff"> </iframe>
+		
 		</div>
 	</div>
 
@@ -88,64 +75,6 @@
 
 <script language="javascript" type="text/javascript">
 
-(function($,h,c){var a=$([]),e=$.resize=$.extend($.resize,{}),i,k="setTimeout",j="resize",d=j+"-special-event",b="delay",f="throttleWindow";e[b]=250;e[f]=true;$.event.special[j]={setup:function(){if(!e[f]&&this[k]){return false}var l=$(this);a=a.add(l);$.data(this,d,{w:l.width(),h:l.height()});if(a.length===1){g()}},teardown:function(){if(!e[f]&&this[k]){return false}var l=$(this);a=a.not(l);l.removeData(d);if(!a.length){clearTimeout(i)}},add:function(l){if(!e[f]&&this[k]){return false}var n;function m(s,o,p){var q=$(this),r=$.data(this,d);r.w=o!==c?o:q.width();r.h=p!==c?p:q.height();n.apply(this,arguments)}if($.isFunction(l)){n=l;return m}else{n=l.handler;l.handler=m}}};function g(){i=h[k](function(){a.each(function(){var n=$(this),m=n.width(),l=n.height(),o=$.data(this,d);if(m!==o.w||l!==o.h){n.trigger(j,[o.w=m,o.h=l])}});g()},e[b])}})(jQuery,this);
-
-
-
-
-function resizebody(){
-	var p0 = $('#westdiv');
-	var w = $(window);
-	
-	if($('#westdiv:visible').length == 0){ //nav div collapsed
-		$('.workIframe').each(function(i, p){
-			var x = $(p);
-			x.width(w.width()-34);
-			x.height(p0.height());
-		});
-	}else{
-		$('.workIframe').each(function(i, p){
-			var x = $(p);
-			x.width(w.width()-p0.width()-24);
-			x.height(p0.height());
-		});
-	}
-	//console.log("resize..."+$('#westdiv:visible').length);
-}
-
-$(function(){
-	resizebody();
-	$('#westdiv').resize(resizebody);
-
-	$('body').layout('panel','west').panel({
-		onCollapse:function(){
-			resizebody();
-		},
-		onExpand:function(){
-			resizebody();
-		}
-	});
-	
-	$.ajax({
-		url:'../../getfuncmenu.do',
-		method:'post',
-		cache:false,
-		data: {loginno:""},
-		dataType: "json",
-        success: function (data){
-        	//console.log("out:"+JSON.stringify(data));
-        	if(data.ret == 0){
-        		initTree(data);
-        	}else{
-        		showmsg("get data failed:"+data.ret + ":"+data.msg);
-        	}
-        },
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-            showmsg("failed:"+errorThrown);
-        }
-	})
-
-});
 
 function initTree(data){
 	$('#navTree').tree('append', {
@@ -182,6 +111,68 @@ function openTab(opCode, proId, title, targetUrl, opName)
 		resizebody();
 	}
 }
+
+(function($,h,c){var a=$([]),e=$.resize=$.extend($.resize,{}),i,k="setTimeout",j="resize",d=j+"-special-event",b="delay",f="throttleWindow";e[b]=250;e[f]=true;$.event.special[j]={setup:function(){if(!e[f]&&this[k]){return false}var l=$(this);a=a.add(l);$.data(this,d,{w:l.width(),h:l.height()});if(a.length===1){g()}},teardown:function(){if(!e[f]&&this[k]){return false}var l=$(this);a=a.not(l);l.removeData(d);if(!a.length){clearTimeout(i)}},add:function(l){if(!e[f]&&this[k]){return false}var n;function m(s,o,p){var q=$(this),r=$.data(this,d);r.w=o!==c?o:q.width();r.h=p!==c?p:q.height();n.apply(this,arguments)}if($.isFunction(l)){n=l;return m}else{n=l.handler;l.handler=m}}};function g(){i=h[k](function(){a.each(function(){var n=$(this),m=n.width(),l=n.height(),o=$.data(this,d);if(m!==o.w||l!==o.h){n.trigger(j,[o.w=m,o.h=l])}});g()},e[b])}})(jQuery,this);
+
+
+
+
+function resizebody(){
+	var p0 = $('#westdiv');
+	var w = $(window);
+	var wwidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth; //$(window).innerWidth();
+	
+	if($('#westdiv:visible').length == 0){ //nav div collapsed
+		$('.workIframe').each(function(i, p){
+			var x = $(p);
+			x.width(wwidth-34);
+			x.height(p0.height());
+		});
+	}else{
+		$('.workIframe').each(function(i, p){
+			var x = $(p);
+			x.width(wwidth-p0.width()-24);
+			x.height(p0.height());
+		});
+	}
+	//var p = $('#ifram');
+	//console.log("ifram width:"+p.width() + " window.width:"+wwidth);
+}
+
+$(function(){
+	resizebody();
+	$('#westdiv').resize(resizebody);
+
+	$('body').layout('panel','west').panel({
+		onCollapse:function(){
+			resizebody();
+		},
+		onExpand:function(){
+			resizebody();
+		}
+	});
+	
+	$.ajax({
+		url:'../../getfuncmenu.do',
+		method:'post',
+		cache:false,
+		data: {loginno:""},
+		dataType: "json",
+        success: function (data){
+        	//console.log("out:"+JSON.stringify(data));
+        	if(data.ret == 0){
+        		initTree(data);
+        	}else{
+        		showmsg("get data failed:"+data.ret + ":"+data.msg);
+        	}
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            showmsg("failed:"+errorThrown);
+        }
+	})
+
+});
+
 
 
 

@@ -408,7 +408,7 @@ public class ParamController {
 				for(RomSysFunction func: funcList){
 					JSONObject jo = new JSONObject();
 					String k = procode + "-"+ func.getFunctionCode();
-					System.out.println("====:"+k);
+					//System.out.println("====:"+k);
 					
 					jo.put("id", k);
 					jo.put("text", func.getFunctionName());

@@ -148,7 +148,7 @@ $(function(){
 </table>
 		
 <div id="dialog-form" title="参数与工号关联例外设置">
-<label for="login_no_name">工号：</label> <input id="login_no_name"> <br/>
+<label for="login_no_name">工号：</label> <input id="login_no_name"> 输入工号部分字符模糊匹配<br/>
 <input type="hidden" id="login_no" />
 <input type="hidden" id="param_typeid" />
   <div id="paramtree"><ul></ul></div>

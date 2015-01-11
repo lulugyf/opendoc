@@ -1602,8 +1602,8 @@ var jsPanel;
 
         } catch (e) {
 
-            console.log(e);
-            console.log('The element you want to append the jsPanel to does not exist!');
+            //console.log(e);
+            //console.log('The element you want to append the jsPanel to does not exist!');
             option.selector = 'body';
             jsPparent = $('body');
             jsPparentTagname = 'body';
