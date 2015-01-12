@@ -105,19 +105,19 @@
 	</update>
 	
 	<insert id="addDocParam" parameterClass="DocParam">
-		insert into t_docparam(docid, param, default_value, typeid, filterflag, allowchange, remarks)
-			values(#docid#, #param#, #default_value#, #typeid#, #filterflag#, #allowchange#, #remarks#)
+		insert into t_docparam(paramid,docid,pnametype, param, default_value, typeid, filterflag, allowchange, remarks)
+			values(#paramid#, #docid#, #pnametype#, #param#, #default_value#, #typeid#, #filterflag#, #allowchange#, #remarks#)
 	</insert>
 	<delete id="delDocParam" parameterClass="DocParam">
-		delete from t_docparam where docid=#docid# and param=#param#
+		delete from t_docparam where paramid=#paramid#
 	</delete>
 	<update id="modDocParam" parameterClass="DocParam">
-		update t_docparam set default_value=#default_value#,
+		update t_docparam set default_value=#default_value#,pnametype=#pnametype#,param=#param#,
 			typeid=#typeid#, filterflag=#filterflag#, allowchange=#allowchange#, remarks=#remarks#
-			where docid=#docid# and param=#param#
+			where paramid=#paramid#
 	</update>
 	<select id="qryDocParam" parameterClass="java.lang.Integer" resultClass="DocParam">
-		select docid, param, default_value, a.typeid, filterflag, allowchange, a.remarks, b.name as typename
+		select paramid, docid, pnametype, param, default_value, a.typeid, filterflag, allowchange, a.remarks, b.name as typename
 		from t_docparam a left outer join t_paramtype b on a.typeid=b.typeid
 		where docid=#value#
 	</select>

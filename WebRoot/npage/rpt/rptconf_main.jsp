@@ -104,9 +104,15 @@ $(function(){
 <tr><td valign="top" >
 <div style="display:none" id="docparam">
 <table style="width:100%" class="myoptable" >
-<tr><th>参数名称：    </th><td> <input type="hidden" id="docid" />
-	<input type="hidden" id="param_orig" />
-					<input type="text" id="param"></td></tr>
+<input type="hidden" id="paramid" />
+<input type="hidden" id="docid" />
+<tr><th>参数名称类型： </th><td> <select id="pnametype">
+			   			<option value="lsS">单值</option>
+			   			<option value="lsM">多值</option>
+			   			<option value="lsR">范围</option>
+						</select> 
+					</td></tr>
+<tr><th>参数名称：    </th><td> <input type="text" id="param"></td></tr>
 <tr><th width="15%">参数默认值： </th><td> <input type="text" id="default_value" /> </td></tr>
 <tr><th>参数类型： </th><td><select name="typeid" id="typeid">
 						    <c:forEach items="${paramtypelist }" var="item">
@@ -139,7 +145,7 @@ $(function(){
 <input type="hidden" id="rownum" value=""/>
 		<table id="datatable" class="myoptable" width="90%" cellspacing="0">
 		<tr>
-			<td>参数名称</td><td>参数默认值</td><td>参数类型</td><td>是否过滤</td>
+			<td>参数名称类型</td><td>参数名称</td><td>参数默认值</td><td>参数类型</td><td>是否过滤</td>
 			<td>是否可改</td><td><input type="button" class="b_foot" onclick="$('#docparam').show()" value="添加参数" /></td></tr>
 		</table>
 		

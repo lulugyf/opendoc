@@ -283,6 +283,7 @@ public class ConfController {
 		try{
 			DocParam dp = new DocParam();
 			dp.setDocid(Integer.parseInt(request.getParameter("docid")));
+			dp.setPnametype(request.getParameter("pnametype"));
 			dp.setParam(request.getParameter("param"));
 			dp.setDefault_value(request.getParameter("default_value"));
 			dp.setFilterflag(Integer.parseInt(request.getParameter("filterflag")));
@@ -309,7 +310,9 @@ public class ConfController {
 		int ret= -1;
 		try{
 			DocParam dp = new DocParam();
+			dp.setParamid(Integer.parseInt(request.getParameter("paramid")));
 			dp.setDocid(Integer.parseInt(request.getParameter("docid")));
+			dp.setPnametype(request.getParameter("pnametype"));
 			dp.setParam(request.getParameter("param"));
 			dp.setDefault_value(request.getParameter("default_value"));
 			dp.setFilterflag(Integer.parseInt(request.getParameter("filterflag")));
@@ -335,6 +338,7 @@ public class ConfController {
 		int ret= -1;
 		try{
 			DocParam dp = new DocParam();
+			dp.setParamid(Integer.parseInt(request.getParameter("paramid")));
 			dp.setDocid(Integer.parseInt(request.getParameter("docid")));
 			dp.setParam(request.getParameter("param"));
 			docsvc.delDocParam(dp);

@@ -2,8 +2,10 @@ package com.sitech.rom.rpt.bo;
 
 public class DocParam {
 
+	private int paramid;
 	private int docid;
 	private String param;
+	private String pnametype;
 	private String default_value;
 	private int typeid;
 	private int filterflag;
@@ -61,6 +63,18 @@ public class DocParam {
 	}
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
+	}
+	public int getParamid() {
+		return paramid;
+	}
+	public void setParamid(int paramid) {
+		this.paramid = paramid;
+	}
+	public String getPnametype() {
+		return pnametype;
+	}
+	public void setPnametype(String pnametype) {
+		this.pnametype = pnametype;
 	}
 	
 

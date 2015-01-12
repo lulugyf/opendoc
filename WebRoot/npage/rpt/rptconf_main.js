@@ -273,7 +273,17 @@ $(function(){
 	        		//$("#datatable").append(thHTML);//在table最后面添加一行
 	        		var list = data.data;
 	        		for(var docparam in list){
-	        			var trHTML = "<tr><td>"+list[docparam].param+"</td><td>"+list[docparam].default_value+"</td><td>"+list[docparam].typename+"</td><td>";
+	        			var trHTML = "<tr><td>";
+	        			if(list[docparam].pnametype == 'lsS'){
+	        				trHTML = trHTML + "单值" + "</td><td>" ;
+	        			}else if(list[docparam].pnametype == 'lsM'){
+	        				trHTML = trHTML + "多值" + "</td><td>";
+	        			}else if(list[docparam].pnametype == 'lsR'){
+	        				trHTML = trHTML + "范围" + "</td><td>" ;
+	        			}else{
+	        				trHTML = trHTML + "&nbsp;" + "</td><td>" ;
+	        			}
+	        			trHTML = trHTML+list[docparam].param+"</td><td>"+list[docparam].default_value+"</td><td>"+list[docparam].typename+"</td><td>";
 	        			if(list[docparam].filterflag == 0){
 	        				trHTML = trHTML + "no" + "</td><td>" ;
 	        			}else{
@@ -284,9 +294,9 @@ $(function(){
 	        			}else{
 	        				trHTML = trHTML + "yes" + "</td><td>";
 	        			}
-	        			trHTML = trHTML + "<a href='javascript:;' onclick=editdocparam(this,'"+list[docparam].typeid+"','"+list[docparam].filterflag+"','"+list[docparam].allowchange+"','"+list[docparam].remarks+"')  id='edit' >修改</a>";
+	        			trHTML = trHTML + "<a href='javascript:;' onclick=editdocparam(this,'"+list[docparam].paramid+"','"+list[docparam].pnametype+"','"+list[docparam].typeid+"','"+list[docparam].filterflag+"','"+list[docparam].allowchange+"','"+list[docparam].remarks+"')  id='edit' >修改</a>";
 	        			trHTML = trHTML + "&nbsp;";
-	        			trHTML = trHTML + "<a href='javascript:;' onclick=deldocparam(this)  id='del' >删除</a>&nbsp; ";
+	        			trHTML = trHTML + "<a href='javascript:;' onclick=deldocparam(this,'"+list[docparam].paramid+"')  id='del' >删除</a>&nbsp; ";
 	        			trHTML = trHTML + "<a href='javascript:;' onclick=setparamuser('"+list[docparam].typeid+"') >设置工号关联</a>";
 	        			trHTML = trHTML + "</td></tr>";
 		        		$("#datatable").append(trHTML);//在table最后面添加一行
@@ -474,6 +484,7 @@ $(function(){
 	$('#adddocparam').click(function(){
 		var docid = $('#docid').val();
 		var param = $('#param').val();
+		var pnametype = $('#pnametype').val();
 		var default_value = $('#default_value').val();
 		var typeid = $('#typeid').val();
 		var filterflag = $('#filterflag').val();
@@ -484,7 +495,7 @@ $(function(){
 				url:'adddocparam.do',
 				method:'post',
 				cache:false,
-				data: {opCode: opCode, proId: proId, docid:docid, param:param, default_value:default_value,typeid:typeid, filterflag:filterflag, allowchange:allowchange,remarks:remarks},
+				data: {opCode: opCode, proId: proId, docid:docid,pnametype:pnametype, param:param, default_value:default_value,typeid:typeid, filterflag:filterflag, allowchange:allowchange,remarks:remarks},
 				dataType: "json",
 		        success: function (data){
 		        	if(data.ret == 0){
@@ -501,12 +512,10 @@ $(function(){
 	
 	$('#moddocparam').click(function(){
 		
+		var paramid = $('#paramid').val();
 		var docid = $('#docid').val();
+		var pnametype = $('#pnametype').val();
 		var param = $('#param').val();
-		if(param != $('#param_orig').val()){
-			showmsg("不允许修改参数名称，如果确实要修改，请删除后添加！");
-			return;
-		}
 		var default_value = $('#default_value').val();
 		var typeid = $('#typeid').val();
 		var filterflag = $('#filterflag').val();
@@ -516,7 +525,7 @@ $(function(){
 				url:'moddocparam.do',
 				method:'post',
 				cache:false,
-				data: {opCode: opCode, proId: proId, docid:docid, param:param, default_value:default_value,typeid:typeid, filterflag:filterflag, allowchange:allowchange, remarks:remarks},
+				data: {opCode: opCode, proId: proId, paramid:paramid, docid:docid, pnametype:pnametype, param:param, default_value:default_value,typeid:typeid, filterflag:filterflag, allowchange:allowchange, remarks:remarks},
 				dataType: "json",
 		        success: function (data){
 		        	console.log("moddocparam:"+JSON.stringify(data));
@@ -541,16 +550,17 @@ function clearDocFields(){
 
 var tb=document.getElementById('datatable');//获得表格
 
-function editdocparam(label,typeid,filterflag,allowchange, paramremark){
+function editdocparam(label,paramid,pnametype,typeid,filterflag,allowchange, paramremark){
 	var rowIndex = label.parentNode.parentNode.rowIndex; //获得表格行的索引号
 	
     var row = tb.rows[rowIndex]; //获得行
     $("#rownum").attr("value",rowIndex);
-    var param = row.cells[0].innerHTML;
-    var default_value = row.cells[1].innerHTML;
+    var param = row.cells[1].innerHTML;
+    var default_value = row.cells[2].innerHTML;
     
+    document.getElementById('paramid').value = paramid;
+    document.getElementById('pnametype').value = pnametype;
     document.getElementById('param').value = param;
-    $('#param_orig').val(param);
     document.getElementById('default_value').value = default_value;
     document.getElementById('typeid').value = typeid;
     document.getElementById('filterflag').value = filterflag;
@@ -560,16 +570,16 @@ function editdocparam(label,typeid,filterflag,allowchange, paramremark){
     $('#docparam').show();
 }
 
-function deldocparam(label){
+function deldocparam(label,paramid){
 	var docid = $('#docid').val();
 	var rowIndex = label.parentNode.parentNode.rowIndex; //获得表格行的索引号
     var row = tb.rows[rowIndex]; //获得行
-    var param = row.cells[0].innerHTML;
+    var param = row.cells[1].innerHTML;
 	$.ajax({
 		url:'deldocparam.do',
 		method:'post',
 		cache:false,
-		data: {opCode: opCode, proId: proId, docid:docid, param:param},
+		data: {opCode: opCode, proId: proId,paramid:paramid, docid:docid, param:param},
 		dataType: "json",
         success: function (data){
         	console.log(JSON.stringify(data));

@@ -203,6 +203,8 @@ public class DocService {
 	}
 	
 	public void addDocParam(DocParam dp){
+		long paramid = DaoUtil.nextval(dao, "t_docparam");
+		dp.setParamid((int)paramid);
 		dao.insert("rptconf.addDocParam", dp);
 	}
 	public void modDocParam(DocParam dp){
