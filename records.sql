@@ -138,6 +138,6 @@ where a.login_no='abc' and a.paramid=b.paramid and a.typeid=11 and a.docid=17
 insert into etl_job_log values
 ('2014121213344418291','20141212',1001,'20141212101010','20141212101010','1','成功');
 
-select * from rom_sequence
-select * from t_doc
+select * from rom_opera_code 
+delete from rom_opera_code where opera_code>4
 update t_doc set boid=373
