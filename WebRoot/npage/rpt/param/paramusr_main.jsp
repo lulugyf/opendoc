@@ -15,6 +15,7 @@
 <script src="<%=request.getContextPath()%>/njs/fancytree/jquery-ui.custom.js" type="text/javascript"></script>
 <script src="<%=request.getContextPath()%>/njs/fancytree/jquery.fancytree.js" type="text/javascript"></script>
 <link href="<%=request.getContextPath()%>/njs/fancytree/skin-win7/ui.fancytree.css" rel="stylesheet" type="text/css">
+<link href="<%=request.getContextPath()%>/njs/jqueryui/jquery-ui.css" rel="stylesheet" type="text/css">
 
 </head>
 <body>
@@ -26,19 +27,24 @@
 		<%@ include file="/npage/include/header.jsp"%>
 </div>
 
-<table style="border:0px; width:100%"><tr><td valign="top" style="width:30%">
+<table style="border:0px; width:100%"><tr><td valign="top" style="width:40%">
 	<table class="myoptable" >
+	
+	<tr><th>参数类型:</th><td> <select id="typeselector"><option value=" "/>
+      <c:forEach items="${typelist }" var="item">
+	   <option value="${item.typeid }">${item.name }(${item.datatype})-${item.remarks}</option>
+	  </c:forEach>
+	</select> 
+	<input id="typesearch" placeholder="searching..." size="6"/>
+	</td></tr>
 	
 	<tr><th>选择工号:</th><td> <select id="loginselector"><option value=""/>
       <c:forEach items="${userlist }" var="item">
 	   <option value="${item}">${item}</option>
 	  </c:forEach>
-	</select> </td></tr>
-	<tr><th>参数类型:</th><td> <select id="typeselector"><option value=" "/>
-      <c:forEach items="${typelist }" var="item">
-	   <option value="${item.typeid }">${item.name }(${item.datatype})-${item.remarks}</option>
-	  </c:forEach>
-	</select> </td></tr>
+	</select> 
+	<input id="usersearch" placeholder="searching..." size="6"/>
+	</td></tr>
 		<tr>
 			<td colspan="2" style="text-align:center; align:left">
 				<input type="button" class="b_foot" id="editparamuser" value="编 辑 " /> &nbsp;&nbsp; 
@@ -181,6 +187,36 @@ function initTree(data){
     });
 }
 
+
+var availableType = [
+<c:forEach items="${typelist }" var="item">
+	"${item.typeid }-${item.name}",
+</c:forEach>
+          ''];
+
+var availableUser = [
+<c:forEach items="${userlist }" var="item">
+	"${item}",
+</c:forEach>
+          ''];
+$("#typesearch").autocomplete({
+    source: availableType,
+    select: function(event, ui){
+ 	   var s = ui.item.value;
+ 	   var typeid = s.substring(0, s.indexOf('-'));
+ 	   $('#typeselector').val(typeid);
+ 	   $("#typesearch").val('');
+    }
+  });
+$("#usersearch").autocomplete({
+    source: availableUser,
+    select: function(event, ui){
+ 	   var s = ui.item.value;
+ 	   //var login = s.substring(0, s.indexOf('-'));
+ 	   $('#loginselector').val(s);
+ 	  $("#usersearch").val('');
+    }
+  });
 </script>
 					
 </body>

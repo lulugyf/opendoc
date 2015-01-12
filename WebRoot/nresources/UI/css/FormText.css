@@ -1750,7 +1750,7 @@ width:100%;
 border-collapse:collapse;
 color: #366FA9;
 }
-.myoptable td, #myoptable th 
+.myoptable td, .myoptable th 
 {
 font-size:1.0em;
 border:1px solid #c0d4db;

@@ -559,6 +559,7 @@ alter table t_doc add	opendocid varchar(64) null comment 'sap文档id';
 /*
 增加配置模块
 RPTCFG 下： BOCONF (BO服务器配置)
+INSERT INTO `rom_sys_function` VALUES ('BOCONF', 'BO服务器配置', '../boservermain.do', '0', 'RPTCFG', '1;2;3;', NULL, NULL, '1');
 权限配置：
 addBOServer.do 	BOCONF 	1	
 boserverList.do 	BOCONF 	新增 	

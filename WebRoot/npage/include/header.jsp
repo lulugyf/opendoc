@@ -3,7 +3,7 @@
 	<div id="title">
 		<div class="title_leftBorder"> 
 		   <div class="title_rightBorder"></div>
-		   <span class="shadow"><%= opName%></span><%= opName %>
+		   <span class="shadow"><%= opName.substring(0, opName.lastIndexOf('-'))%></span><%= opName.substring(0, opName.lastIndexOf('-')) %>
  
 	    </div> 
 	</div>
