@@ -138,6 +138,9 @@ where a.login_no='abc' and a.paramid=b.paramid and a.typeid=11 and a.docid=17
 insert into etl_job_log values
 ('2014121213344418291','20141212',1001,'20141212101010','20141212101010','1','成功');
 
-select * from rom_opera_code 
-delete from rom_opera_code where opera_code>4
+select * from rom_sys_function where function_code='BOCONF'
+delete from t_paramtype where typeid=0
 update t_doc set boid=373
+
+INSERT INTO `rom_sys_function` VALUES ('BOCONF', 'BO服务器配置', '../boservermain.do', '0', 'RPTCFG', '1;2;3;', NULL, NULL, '1');
+select * from t_paramtype

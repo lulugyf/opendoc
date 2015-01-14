@@ -582,3 +582,11 @@ create table t_boserver(
   opendocaddr varchar(64) comment '文档地址端口, 如 redtree1:8080',
   remarks varchar(60)  comment '备注'
 )DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+delete from t_paramtype where typeid=0;
+
+truncate table t_docparam;
+ALTER TABLE `t_docparam`
+ADD COLUMN `paramid`  int(10) NOT NULL FIRST ,
+ADD COLUMN `pnametype`  varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL COMMENT '拼在参数名称前面的值，lsS：单值,，lsM：多值 ，lsR：范围' AFTER `docid`,
+ADD PRIMARY KEY (`paramid`);

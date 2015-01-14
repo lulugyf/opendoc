@@ -51,7 +51,7 @@ public class ParamController {
 	public String paramMain(HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) {
 		
-		List<ParamType> typelist = dao.queryForList("rptparam.qryType");
+		List<ParamType> typelist = (List<ParamType>)dao.queryForList("rptparam.qryType");
 		request.setAttribute("typelist", typelist);
 		request.setAttribute("datatypelist", ParamType.getDataTypeList());
 		return "rpt/param/param_main";
@@ -343,9 +343,10 @@ public class ParamController {
 		String login_no = request.getParameter("loginno");
 		String typeid = request.getParameter("typeid");
 		String newsel = request.getParameter("newsel");
+		String morelogins = request.getParameter("morelogins");
 		
 		try{
-			int affected = parSvc.updateParamUser(Integer.parseInt(typeid), login_no, newsel);
+			int affected = parSvc.updateParamUser(Integer.parseInt(typeid), login_no, newsel, morelogins);
 			ret = 0;
 			j.put("affected", affected);
 		}catch(Throwable e){

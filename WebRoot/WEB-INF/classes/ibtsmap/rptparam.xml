@@ -12,9 +12,8 @@
 	<select id="qryType" parameterClass="java.lang.Integer"
 		resultClass="ParamType">
 		select typeid, name, datatype, remarks 
-		from t_paramtype 
-		where typeid!=0
-		<dynamic prepend=" and ">
+		from t_paramtype
+		<dynamic prepend=" where ">
 			<isPropertyAvailable property="value"> typeid=#value# </isPropertyAvailable>
 		</dynamic>
 		 order by typeid

@@ -95,9 +95,9 @@ function resizebody(){
 		</tr>
 		<c:forEach items="${paramlist }" var="p">
 		<tr <c:if test="${p.allowchange == 0 }">style="display:none"</c:if>>
-			<td>${p.param }</td><td>${p.typename }</td><td>${p.default_value }</td>
-			<td><input type="text" class="param" id="P_${p.param }" value="${p.default_value }" <c:if test="${p.typeid > 0 }">readonly</c:if> />
-			  <button onclick="selParam('${p.param }', ${p.typeid}, ${p.filterflag })" class="b_foot">...</button></td>
+			<td>${p.pnametype }${p.param }</td><td>${p.typename }</td><td>${p.default_value }</td>
+			<td><input type="text" class="param" id="P_${p.pnametype }${p.param }" value="${p.default_value }" <c:if test="${p.typeid > 0 }">readonly</c:if> />
+			  <button onclick="selParam('${p.pnametype }${p.param }', ${p.typeid}, ${p.filterflag })" class="b_foot">...</button></td>
 		</tr>
 		</c:forEach>
 	</table>
@@ -110,7 +110,7 @@ function resizebody(){
 <textarea type="hidden" name="serSes">${serSession }</textarea>
 </div>
 <c:forEach items="${paramlist }" var="p">
-	<input type="hidden" name="${p.param }" id="${p.param }" />
+	<input type="hidden" name="${p.pnametype }${p.param }" id="${p.pnametype }${p.param }" />
 </c:forEach>
 <table style="border:false; width:100%"><tr><td align="center">
 <input type="submit" class="b_foot" value="查看">

@@ -115,6 +115,7 @@ $(function(){
 <tr><th>参数名称：    </th><td> <input type="text" id="param"></td></tr>
 <tr><th width="15%">参数默认值： </th><td> <input type="text" id="default_value" /> </td></tr>
 <tr><th>参数类型： </th><td><select name="typeid" id="typeid">
+					<option value="0">[手工输入]</option>
 						    <c:forEach items="${paramtypelist }" var="item">
 			   			<option value="${item.typeid }">${item.name }</option>
 			   				</c:forEach>

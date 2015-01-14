@@ -14,23 +14,33 @@ public class ParamService {
 	@Resource
 	private IMyBaseDao dao;
 	
-	public int updateParamUser(int typeid, String login_no, String newsel){
-		
+	public int updateParamUser(int typeid, String login_no, String newsel, String morelogins){
+		if(morelogins != null){
+			morelogins = morelogins + login_no;
+		}else{
+			morelogins = login_no;
+		}
 		String[] sel_n = newsel.split("\\,");
 		int affected = 0;
 
 		ParamUser pu = new ParamUser();
-		pu.setLoginno(login_no);
-		pu.setTypeid(typeid);
-		dao.delete("rptparam.delParamUser", pu);
-
-		for(String n: sel_n){
-			if("".equals(n)) continue;
-			
-			pu.setParamid(Integer.parseInt(n));
-			dao.insert("rptparam.addParamUser", pu);
-			affected ++;
+		
+		for(String lg: morelogins.split("\\,")){
+			if("".equals(lg))
+				continue;
+			pu.setLoginno(lg);
+			pu.setTypeid(typeid);
+			dao.delete("rptparam.delParamUser", pu);
+	
+			for(String n: sel_n){
+				if("".equals(n)) continue;
+				
+				pu.setParamid(Integer.parseInt(n));
+				dao.insert("rptparam.addParamUser", pu);
+				affected ++;
+			}
 		}
+		
 		return affected;
 	}
 	
