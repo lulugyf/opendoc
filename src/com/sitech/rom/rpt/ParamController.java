@@ -381,12 +381,12 @@ public class ParamController {
 	public String getfuncmenu(HttpServletRequest request,
 			HttpServletResponse response, HttpSession session){
 		
-		response.setContentType("application/json,charset=utf8");
 		JSONObject j = new JSONObject();
 		int ret= -1;
+		String loginNo = null;
 		
 		try{
-			String loginNo = session.getAttribute("loginNo").toString();
+			loginNo = session.getAttribute("loginNo").toString();
 			List<RomProCode> proList = dao.queryForList("login.selectRomProCode");
 			
 			JSONArray ja = new JSONArray();
@@ -432,7 +432,67 @@ public class ParamController {
 		}
 		
 		j.put("ret", ret);
-		return j.toString(4);
+		String rr = "";
+		
+		String retType = request.getParameter("type");
+		if("html".equals(retType)){
+			System.out.printf("=====hello\n");
+			response.setContentType("text/plain,charset=utf8");
+			try{
+				if("admin".equals(loginNo))
+					rr = json2Html(j.getJSONArray("data")
+							.getJSONObject(0).getJSONArray("children"));
+				else
+					rr = json2Html(j.getJSONArray("data")
+						.getJSONObject(0).getJSONArray("children")
+						.getJSONObject(0).getJSONArray("children"));
+				//System.out.println(rr);
+			}catch(Exception ex){
+				ex.printStackTrace();
+			}
+			
+		}else{
+			response.setContentType("application/json,charset=utf8");
+			rr = j.toString(4);
+		}
+				
+		return rr;
+	}
+	
+	private void htmlAddChildren(StringBuffer sb, JSONArray ja){
+		sb.append("<ul style='display:none;'>\n");
+		for(int i=0; i<ja.size(); i++){
+			JSONObject  j = ja.getJSONObject(i);
+			if(j.containsKey("children")){
+				sb.append("<li> <a class='active' href='#sub2'>").append(j.getString("text")).append("</a>");
+				htmlAddChildren(sb, j.getJSONArray("children"));
+			}else{
+				String call = "void()";
+				if(j.containsKey("attr_action"))
+					call = String.format("openTab('%s', '%s', '%s', '%s')", 
+						j.getString("text"), j.getString("attr_proid"), 
+						j.getString("attr_opcode"), j.getString("attr_action"));
+				sb.append("<li class='leaf'><a href='#' onclick=\"").append(call).append("\"><em>")
+					.append(j.getString("text")).append("</em></a>");
+			}
+			sb.append("</li>\n");
+		}
+		sb.append("</ul>\n");
+	}
+	private String json2Html(JSONArray ja){
+		StringBuffer sb = new StringBuffer();
+		sb.append("<ul>\n");
+		for(int i=0; i<ja.size(); i++){
+			JSONObject  j = ja.getJSONObject(i);
+			sb.append("<li> <a class='active' href='#sub1'>").append(j.getString("text")).append("</a>");
+			if(j.containsKey("children")){
+				htmlAddChildren(sb, j.getJSONArray("children"));
+			}
+			sb.append("</li>\n");
+		}
+		
+		sb.append("</ul>\n");
+		return sb.toString();
 	}
 	
 	@ResponseBody

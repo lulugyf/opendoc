@@ -1,5 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ include file="/npage/include/public_title_name.jsp" %>
+<%
+String opCode  = request.getParameter("opCode");
+String proId   = request.getParameter("proId"); 
+%>
 <%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %>  
 <html>
 <head>
@@ -8,91 +11,138 @@
 
 </head>
 <body>
-	
-		<input type=hidden name="opCode" id="opCode" value="<%=opCode%>">
-		<input type=hidden name="proId" id="proId" value="<%=proId%>">
-<div id="operation">
-		<%@ include file="/npage/include/header.jsp"%>
-</div>	 
+
+ 
 
 
-<script type="text/javascript" src="<%=request.getContextPath()%>/nresources/table/js/jquery.js"></script>
-<script type="text/javascript" src="<%=request.getContextPath()%>/njs/plugins/common.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/nresources/table/js/jquery.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/njs/plugins/common.js"></script>
 
 <!--  for fancytree -->
-<script src="<%=request.getContextPath()%>/njs/fancytree/jquery-ui.custom.js" type="text/javascript"></script>
-<script src="<%=request.getContextPath()%>/njs/fancytree/jquery.fancytree.js" type="text/javascript"></script>
-<link href="<%=request.getContextPath()%>/njs/fancytree/skin-win7/ui.fancytree.css" rel="stylesheet" type="text/css">
+<script src="${pageContext.request.contextPath}/njs/fancytree/jquery-ui.custom.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/njs/fancytree/jquery.fancytree.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/njs/fancytree/jquery.fancytree.wide.js" type="text/javascript"></script>
+<link href="${pageContext.request.contextPath}/njs/fancytree/skin-win7/ui.fancytree.css" rel="stylesheet" type="text/css">
 
-<link href="<%=request.getContextPath()%>/njs/jqueryui/jquery-ui.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/njs/jqueryui/jquery-ui.css" rel="stylesheet" type="text/css">
+
 
 
 <script type="text/javascript">
 var opCode="<%=opCode%>";
 var proId="<%=proId%>";
 
+var availableType = [
+<c:forEach items="${typelist }" var="item">
+	"${item.typeid }-${item.name}",
+</c:forEach>
+          ''];
+
 </script>
 
-<div id='xx'>
-	<label for="typeselector">参数类型:</label> <select id="typeselector"><option value=" "/>
+<div class="pz_ser" id='xx'>
+<ul>
+	<li class="text">参数类型: </li>
+	<li class="input">  <select id="typeselector"><option value=" "/>
       <c:forEach items="${typelist }" var="item">
 	   <option value="${item.typeid }">${item.name }(${item.datatype})-${item.remarks}</option>
 	  </c:forEach>
-	</select> 
-	<a href="#" id="deltype">删除类型</a>
-	<a href="#" id="modtype">修改类型</a>
-	<a href="#" id="addtype">新增类型</a>
+	</select> </li>
+	<li class="sub"><input type="button" id="deltype" value="删除类型"/></li>
+	<li class="sub"><input type="button" id="modtype" value="修改类型"/> </li>
+	<li class="sub"><input type="button" id="addtype" value="新增类型"/> </li>
 	
-	&nbsp;&nbsp;&nbsp;
-	<label >搜索：</label> <input id="typesearch">
+
+	<li class="input"> <input type="text" id="typesearch"/></li>
+	</ul>
 </div>
 <hr />
 <div id="addtypediv" style="display:none; border:1px dotted gray">
 <input type="hidden" id="opCode" value="${opCode }" />
 <input type="hidden" id="typeid1" value='0' />
 
-<div class="optable">
-<table width="100%">
-<tr><th>类型名称：</th><td> <input type="text" id="name1"></td></tr>
-<tr><th>数据类型： </th><td> <select id="datatype1">${datatypelist }</select> </td></tr>
-<tr><th>备 注：</th><td> <input type="text" id="remarks1"></td></tr>
-<tr><td colspan="2" align="center"> <input type="button" class="b_foot" id="subtype1" value="确定"></td></tr>
+<div class="cs_form_div">
+<table width="75%" align="right">
+<tr><td class="blue" align="right">类型名称：</td><td> <input type="text" id="name1"></td></tr>
+<tr><td class="blue" align="right">数据类型： </td><td> <select id="datatype1">${datatypelist }</select> </td></tr>
+<tr><td class="blue" align="right">备 注：</td> <td> <input type="text" id="remarks1"></td></tr>
+<tr><td></td><td> <input type="button" class="bb_right_sub1" id="subtype1" value="确定"></td></tr>
 </table>
 </div>
 </div>
 
-<table style="border:0px; width:100%">
-<tr><td style="width:400px" valign="top">
-<div id="tree" style="width:400px">
+<div class="home_cont">
+
+
+<!--左边菜单-->
+<div id="tree" style="float:left;width:75%;overflow-y:scroll;overflow-x:hidden">
 		<ul>
 			<li id="t_0">Root</li>
 		</ul>
 </div>
 	
-</td><td valign="top">
 
+ <div class="cs_cont_wiap fr">
+    <div class="blankH14"></div>
+    <div align="center">
 		
-<table width="100%" class="myoptable">
-<tr><th>参数值：    </th><td> <input type="hidden" id="paramid" value="0">
-					<input type="text" id="paramValue" value=""> <button onclick="$('#paramName').val($('#paramValue').val())">v</button></td></tr>
-<tr><th>参数名称： </th><td> <input type="text" id="paramName" value=""> <button onclick="$('#paramValue').val($('#paramName').val())">^</button></td></tr>
-<tr><th>备 注：</th><td> <input type="text" id="remarks2" value=""></td></tr>
-<tr><td colspan="2"> 
-	<input type="button" class="b_foot" id="addchild" value="添加下级">
-	<input type="button" class="b_foot" id="addsibling" value="添加同级">
-	<input type="button" class="b_foot" id="moddata" value="修改">
-	<input type="button" class="b_foot" id="deldata" value="删除">
+<table style="width:90%;border:0px;cellspacing:4px; cellpadding:0px">
+<tr><td width="33%" height="36" align="right" class="blue">参数值：    </td>
+<td width="67%" height="36" align="left"> <input type="hidden" id="paramid" value="0">
+	<input type="text" id="paramValue" style="width:80%;"> 
+	
+</td></tr>
+<tr><td height="36" align="right" class="blue">名称： </td>
+<td height="36" align="left"> 
+  <input type="text" id="paramName" style="width:80%;"> 
+ 
+</td></tr>
+<tr><td height="36" align="right" valign="top" class="blue">备 注：</td>
+<td height="36" align="left" valign="top"> 
+	<textarea name="" cols="" rows="" style="width:80%; height:154px;" id="remarks2"></textarea>
+	</td></tr>
+<tr>
+<td height="36" align="right">&nbsp;</td>
+<td height="36" align="left"> 
+
+	<input type="hidden" id="sel_real_op_type" />
+	<input type="hidden" id="sel_op_type" /> 
+
+
+	<input type="button" class="bb_right_sub1" id="save_mod" value="保 存"> <br/>
+
+
 </td></tr>
 <tr><td colspan="2"><span id="showmessage" style="color:red;display:none"></span></td></tr>
 </table>
 
+</div>
+</div>
+</div>
 
-</td></tr></table>
 
-	<!-- <div>Active node: <span id="echoActive">-</span></div>
-	<div>Focused node: <span id="echoFocused">-</span></div>	  -->			
+
+
+<link href="xpage/style/page_style.css" rel="stylesheet" type="text/css">
+<link href="xpage/style/conf_style.css" rel="stylesheet" type="text/css">
+
+<style type="text/css">
+
+.fancytree-title .tool1 {
+	color: red;
+	position: absolute;
+	top:0;
+	right: 20px;
+	overflow: hidden;
+	display: none
+}
+
+
+</style>
+
 
 <script type="text/javascript">
+
 
 $(function(){
 	btnHover();//主按钮鼠标经过样式
@@ -222,99 +272,31 @@ function getParamData(typeid){
 	})
 }
 
-var id_seed = 1;
-$(function(){
-	// Initialize the tree inside the <div>element.
-	// The tree structure is read from the contained <ul> tag.
-	$("#tree").fancytree({
-		checkbox: false,
-		activate: function(event, data) {
-			var n = data.node;
-			$('#paramid').val(n.key);
-			$('#paramName').val(n.title);
-			$('#paramValue').val(n.data.pvalue);
-			$('#remarks2').val(n.data.remarks);
-			
-			//if( data.node.url )
-			//	window.open(data.node.url, data.node.target);
-		},
-		deactivate: function(event, data) {
-			//$("#echoSelected").text("-");
-		},
-		focus: function(event, data) {
-			//$("#echoFocused").text(data.node.title);
-		},
-		blur: function(event, data) {
-			//$("#echoFocused").text("-");
-		},
-		lazyLoad: function(event, data){
-			// Simulate a slow ajax request
-			/*var dfd = new $.Deferred()
-			data.result = dfd;
-			window.setTimeout(function(){
-				dfd.resolve([
-					{ title: 'Lazy node 1', lazy: true },
-					{ title: 'Simple node 2', select: true }
-				]);
-			}, 1500); */
-		}
-	});
-	
-	$('#addchild').click(function(){
-		addNode(false);
+
+
+
+function delNode(){
+	var nid = $('#paramid').val();
+	if(nid == 't_0'){
+		showmsg("这个节点不能删除！");
+		return;
+	}
+	if(nid.indexOf('t_')!=0){
+		showmsg("select a node first!!");
+		return;
+	}
+	var tree = $("#tree").fancytree("getTree");
+	if(tree.getNodeByKey(nid).countChildren(false) > 0){
+		showmsg("还有子节点， 不能删除！");
+		return;
+	}
+	modifyData({optype:"delete", paramid:nid.substring(2) }, function(dd){
+		var node = tree.getNodeByKey('t_'+dd.paramid);
+		if(node) 
+			node.remove();			
 	});
 
-	$('#addsibling').click(function(){
-		addNode(true);
-	});
-	
-	$('#moddata').click(function(){
-		if($('#paramid').val() == 't_0'){
-			showmsg("这个节点不能修改！");
-			return;
-		}
-		if($('#paramid').val().indexOf('t_')!=0){
-			showmsg("请先选择一个节点！");
-			//console.log("not a valid paramid:"+$('#paramid').val());
-			return;
-		}
-		
-		var data = {optype:"update", paramid:0,paramName:$('#paramName').val(), paramValue:$('#paramValue').val(),
-	    		remarks:$('#remarks2').val(), paramid:$('#paramid').val().substring(2)};
-		modifyData(data, function(dd){
-			var tree = $("#tree").fancytree("getTree");
-			//var node = tree.getActiveNode();
-			var node = tree.getNodeByKey('t_'+dd.paramid);
-			node.setTitle($('#paramName').val());
-			node.data.pvalue = $('#paramValue').val();
-			node.data.remarks = $('#remarks2').val();			
-		});
-
-	});
-
-	$('#deldata').click(function(){
-		if($('#paramid').val() == 't_0'){
-			showmsg("这个节点不能删除！");
-			return;
-		}
-		if($('#paramid').val().indexOf('t_')!=0){
-			showmsg("select a node first!!");
-			//console.log("not a valid paramid:"+$('#paramid').val());
-			return;
-		}
-		var tree = $("#tree").fancytree("getTree");
-		if(tree.getActiveNode().countChildren(false) > 0){
-			showmsg("还有子节点， 不能删除！");
-			return;
-		}
-		modifyData({optype:"delete", paramid:$('#paramid').val().substring(2) }, function(dd){
-			var node = tree.getNodeByKey('t_'+dd.paramid);
-			if(node) 
-				node.remove();			
-		});
-
-	});
-});
+}
 
 function addNode(isSibling){
 	if($('#paramid').val() == 't_0' && isSibling){
@@ -404,25 +386,151 @@ function initTree(data){
     });
 }
 
-var availableType = [
-<c:forEach items="${typelist }" var="item">
-	"${item.typeid }-${item.name}",
-</c:forEach>
-          ''];
 
-$("#typesearch").autocomplete({
-    source: availableType,
-    select: function(event, ui){
- 	   var s = ui.item.value;
- 	   var typeid = s.substring(0, s.indexOf('-'));
- 	   //var typename = s.substring(s.indexOf('-')+1);
- 	   $('#typeselector').val(typeid);
- 	  getParamData(typeid);
-    }
-  });
+
+
+function myclick(){
+	if($(this).text() == '添加下级'){
+		$('#sel_op_type').val('addc');
+	}else if($(this).text() == '添加同级'){
+		$('#sel_op_type').val('adds');
+	}else if($(this).text() == '删 除'){
+		$('#sel_op_type').val('del');
+	}
+	
+	// 选中的节点依赖 tree 上的 activate 事件
+	//window.console.log('!!=='+$(this).text() + " --  " + $('#sel_key_id').val());
+	return true;
+}
+
+$(function(){
+
+	$("#typesearch").autocomplete({
+	    source: availableType,
+	    select: function(event, ui){
+	 	   var s = ui.item.value;
+	 	   var typeid = s.substring(0, s.indexOf('-'));
+	 	   //var typename = s.substring(s.indexOf('-')+1);
+	 	   $('#typeselector').val(typeid);
+	 	  getParamData(typeid);
+	    }
+	  });
+	
+	$("#tree").fancytree({
+		extensions: ["wide"],
+		checkbox: false,
+		click: function(event, data) {
+			var n = data.node;
+			var optype = $('#sel_op_type').val();
+			$('#sel_op_type').val('');
+			
+			$('#paramid').val(n.key);
+			
+			$('#sel_real_op_type').val('');
+			//window.console.log("==optype:[["+optype+"]]")
+			if(optype == ''){ //没有点击节点功能按钮
+				$('#paramName').val(n.title);
+				$('#paramValue').val(n.data.pvalue);
+				$('#remarks2').val(n.data.remarks);
+				$('#sel_real_op_type').val('mod');
+			}else if(optype == 'addc' || optype == 'adds'){
+				$('#paramName').val('');
+				$('#paramValue').val('');
+				$('#remarks2').val('');
+				
+				if(n.key == 't_0' && optype == 'adds'){
+					showmsg("不能在根节点上添加同级数据")
+					return;
+				}
+				
+				$('#paramValue').focus();
+				$('#sel_real_op_type').val(optype);
+			}else if(optype == 'del'){
+				delNode();
+			}
+			
+			//if( data.node.url )
+			//	window.open(data.node.url, data.node.target);
+		},
+		renderNode: function(event, data) {
+			var node = data.node;
+	
+			$span1 = $(node.span).find(".fancytree-title");
+			if($span1.find('>div').length > 0)
+				return;
+			window.console.log("--renderNode:"+$span1.text());
+			$btn1 = $('<div class="btn1"/>').html('<a>添加下级</a>'), $btn1.find('>a').click(myclick);
+			$btn2 = $('<div class="btn2"/>').html('<a>添加同级</a>'), $btn2.find('>a').click(myclick);
+			$btn3 = $('<div class="btn3"/>').html('<a>删 除</a>'), $btn3.find('>a').click(myclick);
+			
+			window.console.log("find btn1---"+$btn1.find('>a').length);
+			
+			$('<div class="ico"/>').append($btn1).append($btn2).append($btn3)
+				.appendTo($span1);
+			
+			$span1.hover(function(){
+				$(this).find('>div').show();
+			}, function(){
+				$(this).find('>div').hide();
+			});
+		}
+		
+	});
+	
+	$('#save_mod').click(function(){
+		var optype = $('#sel_real_op_type').val();
+		$('#sel_real_op_type').val('');
+		//window.console.log("===save ["+optype+"]");
+		if(optype == 'addc'){
+			addNode(false);
+		}else if(optype == 'adds'){
+			addNode(true);
+		}else if(optype == 'mod'){
+			if($('#paramid').val() == 't_0'){
+				showmsg("这个节点不能修改！");
+				return;
+			}
+			if($('#paramid').val().indexOf('t_')!=0){
+				showmsg("请先选择一个节点！");
+				//console.log("not a valid paramid:"+$('#paramid').val());
+				return;
+			}
+			
+			var data = {optype:"update", paramid:0,paramName:$('#paramName').val(), paramValue:$('#paramValue').val(),
+		    		remarks:$('#remarks2').val(), paramid:$('#paramid').val().substring(2)};
+			modifyData(data, function(dd){
+				var tree = $("#tree").fancytree("getTree");
+				//var node = tree.getActiveNode();
+				var node = tree.getNodeByKey('t_'+dd.paramid);
+				node.setTitle($('#paramName').val());
+				node.data.pvalue = $('#paramValue').val();
+				node.data.remarks = $('#remarks2').val();			
+			});
+			
+		}
+	});
+
+})
+
+
+var header_height = 50;
+$(document).ready(function() {
+    //模块尺寸  
+	$('#tree').css('height', $(window).height() - header_height); 
+	$('.cs_cont_wiap').css('height', $(window).height() - header_height); 
+})
+//改变窗体大小时适应浏览器高度
+$(window).resize(function() {
+    //模块尺寸
+	$('#tree').css('height', $(window).height() - header_height);
+	$('.cs_cont_wiap').css('height', $(window).height() - header_height);
+});
+
 </script>
 
-<%//@ include file="/npage/include/footer.jsp" %>
+<!-- <script src="npage/rpt/param/param_main.js" type="text/javascript"></script> -->
+
+
 </body>
 
 

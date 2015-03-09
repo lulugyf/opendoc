@@ -43,35 +43,6 @@ var paramcount = "${paramCount}";
 <script type="text/javascript" src="<%=request.getContextPath()%>/njs/jspanel/jquery.jspanel.js"></script>
 <link href="<%=request.getContextPath()%>/njs/jspanel/jquery.jspanel.css" rel="stylesheet" type="text/css">
 
-<script type="text/javascript">
-var panel_sm1;
-$(function() {
-	panel_sm1 = $.jsPanel({
-		selector: ".panel-body",
-		title: "报表参数 设置",
-		size: { width:500, height:400 },
-		theme: "light",
-        position: { top:40, left:15 },
-		//position: "center",
-		id: 'panel_i1',
-		//controls:      { buttons: 'none' },
-		content: function(){
-			var body = $('.content').html();
-			//console.log(body);
-			$('.content').html('');
-			return body;
-		}
-
-	});
-});
-
-function resizebody(){
-	var w1 = $('body').width();
-	var w2 = $('#rptbody').width();
-	//console.log("w1:"+w1 + " w2:"+w2);
-	$('#rptbody').width(w1);
-}
-</script>
 
 <div class=".panel-body"></div>
 
@@ -82,9 +53,7 @@ function resizebody(){
 
 <div id="operation" style="padding:0px">
 <div id="operation_table" style="margin:0px">
-<div class="title"> 
-	<div class="text">报表参数列表</div>
-</div>  
+  
 <div class="list11">
 	<table id="mTable1">
 		<tr>
@@ -113,14 +82,14 @@ function resizebody(){
 	<input type="hidden" name="${p.pnametype }${p.param }" id="${p.pnametype }${p.param }" />
 </c:forEach>
 <table style="border:false; width:100%"><tr><td align="center">
-<input type="submit" class="b_foot" value="查看">
+<input type="submit" class="b_foot" value="确定">
 </td></tr></table>
 </form>
 </div>
 
-<div class="b">
- <iframe align="left" name="rptbody" id="rptbody" src="npage/public/blank_block.html" frameborder="0" scrolling="yes" style="width:100%;height:100%;overflow:scrolling">
-		</iframe>
+<div class="b" style="position: absolute;left:0px;top:0px;z-index:-1">
+  <iframe align="left" name="rptbody" id="rptbody" src="npage/public/blank_block.html" frameborder="0" scrolling="yes" style="width:100%;height:100%;overflow:scrolling">
+		</iframe>  
 </div>
 
 <style>
@@ -136,182 +105,8 @@ function resizebody(){
   <div id="tree"><ul></ul></div>
 </div>
 
-<script>
+<script src="<%=request.getContextPath()%>/npage/rpt/rptdoc_main.js" type="text/javascript"></script>
 
-$(function(){
-	var d = $(document);
-	$('#rptbody').width(d.width()-12).height(d.height()-$('.pagetitle').height()-12);
-});
-function showmsg(msg){
-	$("#showmessage").text(msg);
-	$("#showmessage").fadeIn().delay(5000).fadeOut();
-}
 
-var dialog = null;
-
-function initTree(data, filterflag){
-	// 从服务器拉取的数据， 初始化到tree上， 需要先删除已有的数据
-	var tree = $("#tree").fancytree("getTree");
-	tree.getRootNode().removeChildren();
-	$.each(data.data, function(i, d){
-		var newData = {key:'t_'+d.paramid, title: d.paramName, data:{pvalue: d.paramValue, enabled:false, loginno:d.loginno,paramid:d.paramid}};
-		var p = tree.getNodeByKey('t_'+d.parentid);
-		if(p != undefined){
-			var n = p.addChildren(newData);
-		}else{
-			var n = tree.getRootNode().addChildren(newData);
-		}
-		if(d.loginno || filterflag != 1)
-			n.data.enabled = true;
-		else
-			n.setStatus('error');
-	});
-	
-	$("#tree").fancytree("getRootNode").visit(function(node){
-        node.setExpanded(true);
-        $.each(data.data1, function(index, d){
-        	if(d.paramid == node.data.paramid){
-        		node.data.enabled = (d.ex_flag == '1');
-        	}
-        });
-    });
-	$("#tree").fancytree("getRootNode").visit(function(node){
-        if(node.data.enabled){
-        	node.visit(function(n){
-        		n.setStatus('ok');
-        		n.data.enabled = true;
-        	}, true);
-        	return 'skip';
-        }
-    });
-}
-
-var g_pname = "";
-function selParam(param, typeid, filterflag){
-	if(typeid == 0)
-		return;
-	g_pname = param;
-	//console.log('selParam:'+param + " ---"+typeid + " " + filterflag);
-	$.ajax({
-		url:'getparamtree.do',
-		method:'post',
-		cache:false,
-		data: {opCode: opCode, proId: proId, typeid:typeid, login_no: loginno, docid:$('#docid').val()},
-		dataType: "json",
-        success: function (data){
-        	//console.log("out:"+JSON.stringify(data));
-        	if(data.ret == 0){
-        		initTree(data, filterflag);
-        	}else{
-        		showmsg("get data failed:"+data.ret + ":"+data.msg);
-        	}
-        },
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-            showmsg("failed:"+errorThrown);
-        }
-	})
-	dialog.dialog( "open" );
-}
-$(function(){
-	$('#tree').fancytree({
-		lines:true,
-		checkbox:true,
-		selectMode:2,
-		extensions: ["filter"],
-		quicksearch: true,
-		filter: {
-	        mode: "hide",
-	        autoApply: true
-	      },
-		beforeSelect: function(event, data) {
-			//console.log("===:"+data.node.data.loginno);
-			return data.node.data.enabled;
-		}
-	});
-	
-	var tree1 = $("#tree").fancytree("getTree");
-	$("input[name=search]").keyup(function(e){
-	      var n,
-	        leavesOnly = false, //$("#leavesOnly").is(":checked"),
-	        match = $(this).val();
-
-	      if(e && e.which === $.ui.keyCode.ESCAPE || $.trim(match) === ""){
-	        $("button#btnResetSearch").click();
-	        return;
-	      }
-
-	      n = tree1.filterNodes(match, leavesOnly);
-	      $("button#btnResetSearch").attr("disabled", false);
-	      // console.log("(" + n + " matches)");
-	    }).focus();
-
-    $("button#btnResetSearch").click(function(e){
-	      $("input[name=search]").val("");
-	      //$("span#matches").text("");
-	      tree1.clearFilter();
-	    }).attr("disabled", true);
-
-	dialog = $( "#dialog-form" ).dialog({
-	    autoOpen: false,
-	    height: 450,
-	    width: 400,
-	    modal: false,
-	    buttons: {
-	      "确定选择": function(){
-	    	  sel = $("#tree").fancytree("getTree").getSelectedNodes();
-	    	  if(sel.length > 0){
-	    		  v = '';
-	    		  for(var i=0;i<sel.length; i++){
-	    			  if(v != '')
-	    				  v += ',';
-	    			  v += sel[i].data.pvalue;
-	    		  }
-	    		  $("#P_"+g_pname).val(v);
-	    	  }
-	    	  dialog.dialog( "close" );
-	  	    //console.log("=====:"+sel.length);
-	      },
-	      "取消": function() {
-	        dialog.dialog( "close" );
-	      }
-	    },
-	    close: function() {
-	    }
-	  });
-	
-	$('#formdoc').submit(function(e){
-		$.each($('.param'), function(index, p){
-			pname = p.id.substring(2);
-			$('#'+pname).val(p.value);
-			//console.log(pname + "---" + p.value);
-		})
-		//panel_sm1.smallify();
-		panel_sm1.minimize();
-		setTimeout(refresh_token_time, 1000);
-	});
-	
-	if(paramcount == 0){
-		//没有可修改的参数， 则直接提交显示报表页面
-		$('#formdoc').submit();
-	}
-
-});
-
-function refresh_token_time(){
-	// 更新token的访问时间， 避免超时导致弹出登录页面
-	$.ajax({
-		url:'getparamtree.do',
-		method:'post',
-		cache:false,
-		data: {opCode: opCode, proId: proId, op:"refresh_token_time"},
-		dataType: "json",
-        success: function (data){
-        },
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-        }
-	})
-}
-
-</script>
 </body>
 </html>

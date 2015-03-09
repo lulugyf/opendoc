@@ -13,7 +13,7 @@
 $(document).ready(function(){
 <c:choose>
 <c:when test="${isLoginSucc == true}">
-	document.location = 'npage/login/main1.jsp';
+	document.location = 'xpage/main.jsp'; //'npage/login/main1.jsp';
 </c:when>
 <c:otherwise>
 	alert("对不起，您输入的工号不存在或工号密码不匹配！");

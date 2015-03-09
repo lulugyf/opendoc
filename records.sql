@@ -143,4 +143,4 @@ delete from t_paramtype where typeid=0
 update t_doc set boid=373
 
 INSERT INTO `rom_sys_function` VALUES ('BOCONF', 'BO服务器配置', '../boservermain.do', '0', 'RPTCFG', '1;2;3;', NULL, NULL, '1');
-select * from t_paramtype
+select * from t_paramuser_rel

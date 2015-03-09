@@ -1,0 +1,203 @@
+@charset "utf-8";
+
+/* 12号字 */
+.f12{
+    font-size:12px;
+}
+/* 14号字 */
+.f14{
+    font-size:14px;
+}
+/* 18号字 */
+.f18{
+    font-size:18px;
+}
+.f18h{
+    font-size:18px;
+	font-family:黑体;
+}
+/* 16号字 */
+.f16{
+    font-size:16px;
+}
+.f16h{
+    font-size:16px;
+	font-family:黑体;
+}
+/* 24号字 */
+.f24{
+    font-size:24px;
+}
+/* 文字加粗 */
+.fontB{
+    font-weight:bold;
+}
+/* 文字不粗 */
+.fontNb{
+    font-weight:normal;
+}
+.fontWr{
+	font-family:"微软雅黑", Arial, Helvetica, sans-serif;
+}
+
+
+/* 白色 */
+.white{
+    color:#FFFFFF;
+}
+.white a{
+    color:#ffffff;
+	text-decoration:none;
+}
+.white a:hover{
+    color:#ffffff;
+	text-decoration:underline;
+}
+
+/* 紫色 */
+.violet1{
+	color:#d06ecb;
+}
+.violet1 a{
+	color:#d06ecb;
+	text-decoration:none;
+}
+.violet1 a:hover{
+	color:#d06ecb;
+	text-decoration:underline;
+}
+
+.violet2{
+	color:#b85fb2;
+}
+.violet2 a{
+	color:#b85fb2;
+	text-decoration:none;
+}
+.violet2 a:hover{
+	color:#b85fb2;
+	text-decoration:underline;
+}
+
+.violet3{
+	color:#912c8c;
+}
+.violet3 a{
+	color:#912c8c;
+	text-decoration:none;
+}
+.violet3 a:hover{
+	color:#912c8c;
+	text-decoration:underline;
+}
+/* 红色 */
+.red{
+    color:#ee0e09;
+}
+.red a{
+    color:#ee0e09;
+	text-decoration:none;
+}
+.red a:hover{
+    color:#ee0e09;
+	text-decoration:underline;
+}
+
+.red2{
+    color:#cf0045;
+}
+.red2 a{
+    color:#cf0045;
+	text-decoration:none;
+}
+.red2 a:hover{
+    color:#cf0045;
+	text-decoration:underline;
+}
+/* 灰色 */
+.gray{
+    color:#999999;
+}
+.gray a{
+    color:#999999;
+	text-decoration:none;
+}
+.gray a:hover{
+    color:#999999;
+	text-decoration:underline;
+}
+/* 灰色2 */
+.gray2{
+    color:#717171;
+	}
+.gray2 a{
+    color:#717171;
+	text-decoration:none;
+	}
+.gray2 a:hover{
+    color:#717171;
+	text-decoration:underline;
+	}
+.gray3{
+	color:#858585;
+}
+.gray3 a{
+	color:#858585;
+	text-decoration:none;
+}
+.gray3 a{
+	color:#858585;
+	text-decoration:underline;
+}
+
+/* 黑色 */
+.black{
+    color:#404040;
+	}
+.black a{
+    color:#404040;
+	text-decoration:none;
+	}
+.black a:hover{
+    color:#404040;
+	text-decoration:underline;
+	}
+/* 黄色 */
+.yellow{
+    color:#fe6c00;
+	}
+.yellow a{
+    color:#fe6c00;
+	text-decoration:none;
+	}
+.yellow a:hover{
+    color:#fe6c00;
+	text-decoration:underline;
+	}
+/* 蓝色 */
+.blue{
+    color:#5772a4;
+	}
+.blue a{
+    color:#5772a4;
+	text-decoration:none;
+	}
+.blue a:hover{
+    color:#5772a4;
+	text-decoration:underline;
+	}
+
+/* 绿色 */
+.green{
+    color:#406604;
+	}
+.green a{
+    color:#406604;
+	text-decoration:none;
+	}
+.green a:hover{
+    color:#FF0000;
+	text-decoration:underline;
+	}
+	
+	
