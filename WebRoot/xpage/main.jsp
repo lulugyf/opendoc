@@ -30,8 +30,13 @@ $(document).ready(function (){
 	
 	resizeTabs();
 	
-	$(window).resize(function () { 
-		resizeTabs();
+	$(window).resize(resizeTabs);
+	
+	$('.tabs-scroller-left').click(function(){
+		tabs_left(this);
+	});
+	$('.tabs-scroller-right').click(function(){
+		tabs_right(this);
 	});
 
 }); 
@@ -44,12 +49,12 @@ $(function(){
 	$('.mainWiap').css('left','0');
 	$('.bar').click(function(){
 		if (panel_expanded) {
-			$('.mainWiap').animate({left:'-'+panel_width+'px'},500, "linear", function(){resizeTabs();});
+			$('.mainWiap').animate({left:'-'+panel_width+'px'},500, "linear", resizeTabs);
 			$('.bar').css('background-position','-17px 0px');
 			$("#mainright").width($(window).width()-0).animate({left:'0px'},500);
 	
 		}else {
-			$('.mainWiap').animate({left:'0'},500, "linear", function(){resizeTabs();});
+			$('.mainWiap').animate({left:'0'},500, "linear", resizeTabs);
 			$('.bar').css('background-position','0px 0px');
 			$("#mainright").width($(window).width()-panel_width-1).animate({left:(panel_width+1)+'px'},"fast");
 		}
@@ -58,19 +63,6 @@ $(function(){
 	});
 });
 
-
-function resizeTabs(){
-	var h = $(window).height() - $('.topWiap').height() - $('.topSub4').height();
-	var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-	if(panel_expanded){
-		w -= panel_width;
-	}
-	//console.log("resizeTabs: "+w + " " + h);
-	//$('.tabDiv .tabFrm').each(function(i, p){
-	$('.tabFrm').each(function(i, p){
-		$(p).height(h).width(w);
-	});
-}
 
 
 function closeWindow(){
@@ -87,9 +79,23 @@ function closeWindow(){
             //console.log("failed:"+errorThrown);
         }
 	})
-	
 }
 
+function resizeTabs(){
+	var h = $(window).height() - $('.topWiap').height() - $('.topSub').height();
+	var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+	if(panel_expanded){
+		w -= panel_width;
+	}
+	$('#mainright').width(w);
+	//window.console.log("resizeTabs: "+w + " * " + h);
+	//$('.tabDiv .tabFrm').each(function(i, p){
+	$('.tabFrm').each(function(i, p){
+		$(p).height(h).width(w);
+	});
+	
+	checkTabs();
+}
 </script>
 </head>
 <body style="overflow:hidden" scroll="no" oncontextmenu="return false" onselectstart="return false" ondragstart="return false" onbeforecopy="return false">
@@ -117,9 +123,14 @@ function closeWindow(){
       </ul>
     </div>
 <div class="topSub f14">
-  <ul>
+	<div class="tabs-scroller-left" style="display: none; height: 34px;"></div>
+	<div class="tabs-scroller-right" style="display: none; height: 34px;"></div>
+	<div class="tabs-wrap" style="margin-left: 0px; margin-right: 0px;">
+  <ul class="tabs">
   	<li class="tabhead sel" opCode="123"><a href='#' onclick='switchTab(this)'>用户首页</a></li>
   </ul>
+  </div>
+  
 </div>
 
 <div class="tabDiv" style="display:block; width: 100%;">
@@ -130,11 +141,35 @@ function closeWindow(){
   <!--右边 end-->
 </div>
 <script type="text/javascript">
+function tabs_left(self){
+	//window.console.log('===['+$('.tabs').css('marginLeft')+']');
 
+	if($('.tabs').css('marginLeft') == '0px')
+		return;
+	$('.tabs').animate({'marginLeft':'+=80'});
+	
+	
+}
+
+function tabs_right(self){
+	//var p = $('.tabs').position();
+	
+	var w1 = 0;
+	$('.tabhead').each(function(i, p){
+		w1 += $(p).width() + 79; // + padding width
+	});
+	var w2 = $('.tabs-wrap').width();
+	var sleft = $('.tabs').css('marginLeft');
+	var nleft = parseInt(sleft.substring(0, sleft.indexOf('px')));
+	if(w1+nleft < w2)
+		return;
+	
+	
+	$('.tabs').animate({'marginLeft':'-=80'});
+}
 
 function switchTab(obj){
 	var x = $(obj).parent('li');
-	console.log("-----"+x.attr('opCode'))
 	if(x.hasClass('sel'))
 		return;
 	var i1 = $('.tabhead').index(x);
@@ -153,6 +188,31 @@ function selTab(i1){
 	$($('.tabhead').get(i1)).addClass('sel');
 	$($('.tabDiv').get(i0)).hide();
 	$($('.tabDiv').get(i1)).show();
+	
+	checkTabs();
+}
+
+// 检查tab 标签的宽度是否超出显示区域， 需要显示出 < > 按钮来左右滚动
+function checkTabs() {
+
+	var w1 = 0;
+	$('.tabhead').each(function(i, p){
+		w1 += $(p).width() + 79; // + padding width
+	});
+	var w2 = $('#mainright').width();
+	if(w1+40 < w2){
+		$('.tabs-scroller-left').hide();
+		$('.tabs-scroller-right').hide();
+		
+		$('.tabs-wrap').css('margin-left', '0px').css('margin-right', '0px').css('width', '100%');
+		$('.tabs').css('marginLeft', '0px');
+			
+		//$('li.tabhead:hidden').show();
+		return;
+	}
+	$('.tabs-scroller-left').show();
+	$('.tabs-scroller-right').show();
+	$('.tabs-wrap').css('margin-left', '20px').css('margin-right', '20px').css('width', w2-40);	
 }
 
 function closeTab(obj){
@@ -165,6 +225,7 @@ function closeTab(obj){
 	}
 	x.remove();
 	$('.tabDiv').get(i).remove();
+	checkTabs();
 }
 
 function openTab(title, proid, opcode, action){
