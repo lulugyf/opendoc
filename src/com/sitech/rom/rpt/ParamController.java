@@ -439,13 +439,18 @@ public class ParamController {
 			System.out.printf("=====hello\n");
 			response.setContentType("text/plain,charset=utf8");
 			try{
-				if("admin".equals(loginNo))
+				JSONArray ja = j.getJSONArray("data");
+				while(ja.size() == 1){
+					ja = ja.getJSONObject(0).getJSONArray("children");
+				}
+				/*if("admin".equals(loginNo))
 					rr = json2Html(j.getJSONArray("data")
 							.getJSONObject(0).getJSONArray("children"));
 				else
 					rr = json2Html(j.getJSONArray("data")
 						.getJSONObject(0).getJSONArray("children")
-						.getJSONObject(0).getJSONArray("children"));
+						.getJSONObject(0).getJSONArray("children")); */
+				rr = json2Html(ja);
 				//System.out.println(rr);
 			}catch(Exception ex){
 				ex.printStackTrace();
