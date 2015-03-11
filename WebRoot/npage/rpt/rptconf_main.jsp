@@ -6,7 +6,6 @@
 <title>报表参数管理</title>
 <link rel="stylesheet" type="text/css" href="style/page_style.css"/>
 <link rel="stylesheet" type="text/css" href="style/Font_style.css"/>
-<link rel="stylesheet" type="text/css" href="style/frame_style.css"/>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <style type="text/css"> 
 body {
@@ -14,7 +13,7 @@ font-size: 12px;
 color: #333;
 font-family: "微软雅黑", Arial, Helvetica, sans-serif;
 }
-</style> 	
+</style>
 
 <script type="text/javascript" src="<%=request.getContextPath()%>/nresources/table/js/jquery.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/njs/plugins/common.js"></script>
@@ -233,7 +232,7 @@ $(function(){
   <div id="paramtree"><ul></ul></div>
 </div>
 
-<script src="<%=request.getContextPath()%>/npage/rpt/rptconf_main.js" type="text/javascript"></script>
+<script src="npage/rpt/rptconf_main.js?<%=System.currentTimeMillis() %>" type="text/javascript"></script>
 </body>
 
 

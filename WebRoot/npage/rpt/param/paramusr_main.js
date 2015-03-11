@@ -5,6 +5,7 @@ function showmsg(msg){
 
 $(function(){
 	$("#tree").fancytree({
+		extensions: ["wide"],
 		checkbox: true,
 		activate: function(event, data) {
 		},
@@ -154,7 +155,10 @@ $("#usersearch1").autocomplete({
  		   showmsg("already exists!");
  		   return;
  	   }
- 	   $('#morelogins').append('<div style="border: 0px solid #777777; padding: 5px"><span class="morelogin">'+s+'</span> <input style="align: right" type="button" class="butDel" onclick="removelogin(this);"/></div>');
+ 	   $('#morelogins').append('<div style="border: 1px solid #D0D0D0; padding: 5px; padding-left:40px"><input style="align: right" type="button" class="butDel" onclick="removelogin(this);"/> <span class="morelogin" style="margin-left:20px">'+s+'</span> </div>');
+ 		window.setTimeout(function(){
+ 		  $("#usersearch1").val('');
+ 	   }, 200);
     }
   });
 

@@ -15,16 +15,19 @@ color: #333;
 font-family: "微软雅黑", Arial, Helvetica, sans-serif;
 }
 </style> 
-<link href="<%=request.getContextPath()%>/nresources/table/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="<%=request.getContextPath()%>/nresources/table/js/jquery.js"></script>
-<script type="text/javascript" src="<%=request.getContextPath()%>/nresources/table/js/jquery.dataTables.js"></script>
-<script type="text/javascript" src="<%=request.getContextPath()%>/njs/plugins/common.js"></script>
+<link href="nresources/table/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="nresources/table/js/jquery.js"></script>
+<script type="text/javascript" src="nresources/table/js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="njs/plugins/common.js"></script>
+
+<link href="xpage/style/page_style.css" rel="stylesheet" type="text/css">
 
 
-<script src="<%=request.getContextPath()%>/njs/fancytree/jquery-ui.custom.js" type="text/javascript"></script>
-<script src="<%=request.getContextPath()%>/njs/fancytree/jquery.fancytree.js" type="text/javascript"></script>
-<link href="<%=request.getContextPath()%>/njs/fancytree/skin-win7/ui.fancytree.css" rel="stylesheet" type="text/css">
-<link href="<%=request.getContextPath()%>/njs/jqueryui/jquery-ui.css" rel="stylesheet" type="text/css">
+<script src="njs/fancytree/jquery-ui.custom.js" type="text/javascript"></script>
+<script src="njs/fancytree/jquery.fancytree.js" type="text/javascript"></script>
+<script src="njs/fancytree/jquery.fancytree.wide.js" type="text/javascript"></script>
+<link href="njs/fancytree/skin-win7/ui.fancytree.css" rel="stylesheet" type="text/css">
+<link href="njs/jqueryui/jquery-ui.css" rel="stylesheet" type="text/css">
 
 </head>
 <body>
@@ -76,10 +79,11 @@ font-family: "微软雅黑", Arial, Helvetica, sans-serif;
 				<input id="usersearch1" placeholder="searching..." style="width:186px;height:24px"/>
 			</td>
 		</tr>
-		<!--<tr>
+		<tr><td colspan="2">
 			<div id="morelogins" style="padding: 5px 5px 10px 10px">
 			</div>
-		</tr>  -->
+			</td>
+		</tr>
 	</table>
 	<input type="hidden" id="typeid" />
 	<span id="showmessage" style="color:red;display:none"></span>
@@ -116,7 +120,7 @@ var availableUser = [
           ''];
 
 </script>
-<script src="<%=request.getContextPath()%>/npage/rpt/param/paramusr_main.js" type="text/javascript"></script>
+<script src="npage/rpt/param/paramusr_main.js" type="text/javascript"></script>
 
 </body>
 
