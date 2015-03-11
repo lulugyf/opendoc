@@ -8,6 +8,7 @@
 <link rel="stylesheet" type="text/css" href="style/conf_style.css"/>
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript" src="js/menu_min.js"></script>
+<script type="text/javascript" src="njs/plugins/My97DatePicker/WdatePicker.js"></script>
 <script>  
 //加载时适应浏览器高度
 $(document).ready(function() {

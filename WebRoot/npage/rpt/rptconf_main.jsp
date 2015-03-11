@@ -4,8 +4,17 @@
 <html>
 <head>
 <title>报表参数管理</title>
+<link rel="stylesheet" type="text/css" href="style/page_style.css"/>
+<link rel="stylesheet" type="text/css" href="style/Font_style.css"/>
+<link rel="stylesheet" type="text/css" href="style/frame_style.css"/>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	
+<style type="text/css"> 
+body {
+font-size: 12px;
+color: #333;
+font-family: "微软雅黑", Arial, Helvetica, sans-serif;
+}
+</style> 	
 
 <script type="text/javascript" src="<%=request.getContextPath()%>/nresources/table/js/jquery.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/njs/plugins/common.js"></script>
@@ -22,12 +31,7 @@
 	
 		<input type=hidden name="opCode" id="opCode" value="<%=opCode%>">
 		<input type=hidden name="proId" id="proId" value="<%=proId%>">
-<div id="operation">
-		<%@ include file="/npage/include/header.jsp"%>
-</div>	 
-
-
-
+<div style="height:10px"></div>
 <script type="text/javascript">
 var opCode="<%=opCode%>";
 var proId="<%=proId%>";
@@ -68,9 +72,9 @@ $(function(){
 </div>
 <div style="width:300px" align="right">
 
-<input type="button" class="b_foot" id="addGroup" value="添加分组">
-<input type="button" class="b_foot" id="modGroup" value="修改分组">
-<input type="button" class="b_foot" id="delGroup" value="删除分组">
+<input type="button" class="bb_right_sub1" id="addGroup" value="添加分组">
+<input type="button" class="bb_right_sub1" id="modGroup" value="修改分组">
+<input type="button" class="bb_right_sub1" id="delGroup" value="删除分组">
 <br/>
 <br/>
 <div id="gname" style="display:none" > <label for="groupname">分组名称:</label><input type="text" id="groupname" />
@@ -79,22 +83,48 @@ $(function(){
 
 </td><td valign="top">
 
-<table width="100%" height="100%" class="myoptable">
-<tr><th>报表名称：    </th><td> <input type="hidden" id="docid" value="0">
-					<input type="text" id="docname"></td></tr>
+<table width="95%" border="0" cellspacing="2" cellpadding="0"  bgcolor="#FFFFFF">
+<tr>
+	<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">报表名称：    </td>
+	<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:0px;"> 
+		<input type="hidden" id="docid" value="0">
+		<input type="text" id="docname" style="width:300px;height:24px">
+	</td>
+</tr>
 <tr style="display:none"><th>URL： </th><td> <input type="text" size="60" id="baseurl"> </td></tr>
-<tr><th>文档ID： </th><td> <input type="text" size="60" id="opendocid"> </td></tr>
-<tr><th>BO服务器： </th><td> <select id="boid">
-<c:forEach items="${bolist }" var="item">
-  	<option value="${item.boid }">${item.boname }</option>
-</c:forEach>
-</select> </td></tr>
-<tr><th>备 注：</th><td> <input type="text" id="remarks"></td></tr>
-<tr><th>功能代码：</th><td> <span id="function_code" title="自动生成" ></span></td></tr>
-<tr><td colspan="2"> 
-	<input type="button" class="b_foot" id="addrpt" value="添加">
-	<input type="button" class="b_foot" id="modrpt" value="修改">
-	<input type="button" class="b_foot" id="delrpt" value="删除">
+<tr>
+	<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">文档ID： </td>
+	<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:0px;"> 
+		<input type="text" size="60" id="opendocid" style="width:300px;height:24px"> 
+	</td>
+</tr>
+<tr>
+	<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">BO服务器： </td>
+	<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:0px;"> 
+		<select id="boid" style="width:305px;height:28px">
+		<c:forEach items="${bolist }" var="item">
+		  	<option value="${item.boid }">${item.boname }</option>
+		</c:forEach>
+		</select> 
+	</td>
+</tr>
+<tr>
+	<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">备 注：</td>
+	<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:0px;"> 
+		<input type="text" id="remarks" style="width:300px;height:24px">
+	</td>
+</tr>
+<tr>
+	<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">功能代码：</td>
+	<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:0px;"> 
+		<span id="function_code" title="自动生成" >
+		</span>
+	</td>
+</tr>
+<tr><td colspan="2"  height="32" align="center" class="blue"> 
+	<input type="button" class="bb_right_sub1" id="addrpt" value="添加">&nbsp;&nbsp;&nbsp;
+	<input type="button" class="bb_right_sub1" id="modrpt" value="修改">&nbsp;&nbsp;&nbsp;
+	<input type="button" class="bb_right_sub1" id="delrpt" value="删除">
 </td></tr>
 
 </table>
@@ -103,40 +133,74 @@ $(function(){
 </td></tr>
 <tr><td valign="top" >
 <div style="display:none" id="docparam">
-<table style="width:100%" class="myoptable" >
+<table width="95%" border="0" cellspacing="2" cellpadding="0"  bgcolor="#FFFFFF">
 <input type="hidden" id="paramid" />
 <input type="hidden" id="docid" />
-<tr><th>参数名称类型： </th><td> <select id="pnametype">
-			   			<option value="lsS">单值</option>
-			   			<option value="lsM">多值</option>
-			   			<option value="lsR">范围</option>
-						</select> 
-					</td></tr>
-<tr><th>参数名称：    </th><td> <input type="text" id="param"></td></tr>
-<tr><th width="15%">参数默认值： </th><td> <input type="text" id="default_value" /> </td></tr>
-<tr><th>参数类型： </th><td><select name="typeid" id="typeid">
-					<option value="0">[手工输入]</option>
-						    <c:forEach items="${paramtypelist }" var="item">
-			   			<option value="${item.typeid }">${item.name }</option>
-			   				</c:forEach>
-						</select> 
-			   		</td></tr>
-<tr><th>是否过滤： </th><td> <select id="filterflag">
-			   			<option value="1">yes</option>
-			   			<option value="0">no</option>
-						</select> 
-					</td></tr>
-<tr><th>是否允许修改： </th><td> <select id="allowchange">
-			   			<option value="1">yes</option>
-			   			<option value="0">no</option>
-						</select> 
-					</td></tr>
-<tr><th>备 注：</th><td> <input type="text" id="paramremarks" /></td></tr>
-<tr><td colspan="2"> 
-	<input type="button" class="b_foot" id="adddocparam" value="添加">
-	<input type="button" class="b_foot" id="moddocparam" value="修改">
-	<a href="#" onclick="$('#docparam').hide()">hide</a>
-</td></tr>
+<tr>
+	<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">参数名称类型： </td>
+	<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:0px;"> 
+		<select id="pnametype" style="width:305px;height:24px">
+			<option value="lsS">单值</option>
+			<option value="lsM">多值</option>
+			<option value="lsR">范围</option>
+		</select> 
+	</td>
+</tr>
+<tr>
+	<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">参数名称：</td>
+	<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:0px;"> 
+		<input type="text" id="param" style="width:300px;height:24px"/>
+	</td>
+</tr>
+<tr>
+	<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">参数默认值： </td>
+	<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:0px;"> 
+		<input type="text" id="default_value" style="width:300px;height:24px"/> 
+	</td>
+</tr>
+<tr>
+	<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">参数类型： </td>
+	<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:0px;">
+		<select name="typeid" id="typeid" style="width:305px;height:24px">
+			<option value="0">[手工输入]</option>
+				<c:forEach items="${paramtypelist }" var="item">
+					<option value="${item.typeid }">${item.name }</option>
+				</c:forEach>
+		</select> 
+	</td>
+</tr>
+<tr>
+	<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">是否过滤： </td>
+	<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:0px;"> 
+		<select id="filterflag" style="width:305px;height:24px">
+			<option value="1">是</option>
+			<option value="0">否</option>
+		</select> 
+	</td>
+</tr>
+<tr>
+	<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">是否允许修改： </td>
+	<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:0px;"> 
+		<select id="allowchange" style="width:305px;height:24px">
+			<option value="1">是</option>
+			<option value="0">否</option>
+		</select> 
+	</td>
+</tr>
+<tr>
+	<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">备 注：</td>
+	<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:0px;"> 
+		<input type="text" id="paramremarks" style="width:300px;height:24px"/>
+	</td>
+</tr>
+<tr>
+	<td height="32" align="center" class="blue" colspan="2"> 
+		<input type="button" class="bb_right_sub1" id="adddocparam" value="添加">&nbsp;&nbsp;&nbsp;
+		<input type="button" class="bb_right_sub1" id="moddocparam" value="修改">&nbsp;&nbsp;&nbsp;
+		<input type="button" class="bb_right_sub1" value="隐藏" onclick="$('#docparam').hide()">
+		<!--<a href="#" onclick="$('#docparam').hide()">隐藏</a>  -->
+	</td>
+</tr>
 <tr><td valign="top" colspan="2">
 
 </td></tr>
@@ -144,10 +208,18 @@ $(function(){
 </div>
 
 <input type="hidden" id="rownum" value=""/>
-		<table id="datatable" class="myoptable" width="90%" cellspacing="0">
-		<tr>
-			<td>参数名称类型</td><td>参数名称</td><td>参数默认值</td><td>参数类型</td><td>是否过滤</td>
-			<td>是否可改</td><td><input type="button" class="b_foot" onclick="$('#docparam').show()" value="添加参数" /></td></tr>
+		<table id="datatable" width="95%" border="0" cellSpacing="2" cellpadding="0" bgcolor="#FFFFFF">
+		<tr class="f14 white">
+          <td width="15%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">参数名称类型</td>
+          <td width="10%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">参数名称</td>
+          <td width="15%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">参数默认值</td>
+          <td width="15%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">参数类型</td>
+          <td width="10%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">是否过滤</td>
+          <td width="10%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">是否可改</td>
+          <td>
+          	<input type="button" class="bb_right_sub1" onclick="$('#docparam').show()" value="添加参数" />
+          </td>
+         </tr>
 		</table>
 		
 </td></tr>

@@ -23,6 +23,7 @@ import com.sitech.rom.common.dto.RomProCode;
 import com.sitech.rom.common.dto.RomSysFunction;
 import com.sitech.rom.common.dto.RomSysLogin;
 import com.sitech.rom.common.dto.RomSysPopedom;
+import com.sitech.rom.rpt.base.IMyBaseDao;
 import com.sitech.rom.user.service.FunctionSvc;
 import com.sitech.rom.user.service.PoperegSvc;
 import com.sitech.rom.util.AjaxResponsePacket;
@@ -38,6 +39,9 @@ public class PoperegController extends BaseController {
 	private PoperegSvc poperegSvc;
 	@Resource
 	private UserDao userDao;
+	
+	@Resource
+	private IMyBaseDao myBaseDao;
 	
 	/* 
 	 * goto功能注册主界面
@@ -58,9 +62,16 @@ public class PoperegController extends BaseController {
 	    String actionName = request.getParameter("actionName");
 	    
 	    PoperegBo poperegBo = new PoperegBo();
+		
+		String pageNum = request.getParameter("pageNum").trim();
+		System.out.println("pageNum:" + pageNum);
+		poperegBo.setPageNum(Integer.parseInt(pageNum));
+		
 	    if(StringUtil.notNull(functionCode))poperegBo.setFunctionCode(functionCode);
 	    if(StringUtil.notNull(actionName))poperegBo.setActionName(actionName);
-	    request.setAttribute("popereglist", userDao.queryPoperegList(poperegBo));
+	    //request.setAttribute("popereglist", userDao.queryPoperegList(poperegBo));
+	    request.setAttribute("popereglist", myBaseDao.queryForPageList("spopereg.qryPopereg",poperegBo));
+	    request.setAttribute("bo", poperegBo);
 		return "user/popereg/popereg_list";
 	}
 	

@@ -8,39 +8,66 @@
 <head>
 <title>新增产品信息</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="style/conf_style.css"/>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/menu_min.js"></script>
+<script>  
+//加载时适应浏览器高度
+$(document).ready(function() {
+    //模块尺寸  
+	$('.pz_menu').css('height', $(window).height() - 141); 
+	$('.pz_cont_wiap100').css('height', $(window).height() - 10); 
+})
+//改变窗体大小时适应浏览器高度
+$(window).resize(function() {
+    //模块尺寸
+	$('.pz_menu').css('height', $(window).height() - 141);
+	$('.pz_cont_wiap100').css('height', $(window).height() - 250);
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function (){ 
+  
+  $(".pz_menu_cont ul li").menu();
+  
+}); 
+</script>
  
 </head>
 <body>
-   <div id="operation">
+   <div id="operation" class="bb_right_cont1">
 	<div id="operation_table">
 		<form action="" method="post" name="hostForm">
 			<input type=hidden name="opCode" id="opCode" value="<%=opCode%>">
 			<input type=hidden name="proId" id="proId" value="<%=proId%>">
  			
 			<div class="input">
-				<table>
+				<table width="100%" border="0" cellspacing="2" cellpadding="0"  bgcolor="#FFFFFF">
 					<tr>
-						<th><font color="red">*产品名称：</font></th>
-						<td>
-							<input type="text" name="proName" id="proName" class="required isCharLengthOf" v_maxlength="64" v_minlength="0"/>
+						<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;"><font color="red">*产品名称：</font></td>
+						<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:10px;">
+							<input type="text" name="proName" id="proName" v_maxlength="64" v_minlength="0" class="anc"/>
 						</td>
-						<th><font color="red">*产品版本：</font></th>
-						<td>
-							<input type="text" name="proVersion" id="proVersion" class="required isCharLengthOf" v_maxlength="10" v_minlength="0"/>
+						<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;"><font color="red">*产品版本：</font></td>
+						<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:10px;">
+							<input type="text" name="proVersion" id="proVersion" v_maxlength="64" v_minlength="0" class="anc"/>
 						</td>				
 					</tr>
 					<tr>
-						<th>备注：</th>
-						<td colspan="3">
-							<input type="text" name="remarks" id="remarks" class="isCharLengthOf" v_maxlength="256" v_minlength="0" size="100"/>
+						<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">备注：</td>
+						<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:10px;" colspan="3">
+							<input type="text" name="remarks" id="remarks" v_maxlength="64" v_minlength="0" class="anc" style="width:580px;"/>
 						</td> 				
-					</tr>										
+					</tr>
+      				<tr height="12"></tr>
+					<tr>
+			          <td height="32" align="center" class="blue" colspan="6">
+			            <input name="su" type="button" class="bb_right_sub1" value="确  定" onclick="addProductSubmit()"/>&nbsp;&nbsp;&nbsp;
+			            <input name="re" type="button" class="bb_right_sub1" value="重  置" onclick="doReset()"/>&nbsp;&nbsp;&nbsp;
+						<input name="close" type="button" class="bb_right_sub1" value="关  闭" onclick="parent.doSrchSubmit();parent.removeDivWin('divWin');"/>
+						</td>	
+					</tr>									
 				</table>
-			</div>
-			<div id="operation_button">
-				<input type="button" name="su" onClick="addProductSubmit()" class="b_foot" value="确定" />
-				<input type="reset" name="re" onClick="javascript:document.forms('hostForm').reset();" class="b_foot" value="重置" />
-				<input type="button" name="close" onClick="parent.doSrchSubmit();parent.removeDivWin('divWin');" class="b_foot" value="关闭"/>
 			</div>
 			<div align="center">
 			    <font color="red"><span id="succInfo">${operInfo}</span></font>
@@ -59,6 +86,12 @@ $(document).ready(function () {
 	    }catch(e){}
 	});
 });
+
+function doReset(){
+	$('#proName').val('');
+	$('#proVersion').val('');
+	$('#remarks').val('');
+}
 
 function addProductSubmit(){
 	$('#proName').val($.trim($('#proName').val()));

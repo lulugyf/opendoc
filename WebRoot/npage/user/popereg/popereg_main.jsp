@@ -5,45 +5,71 @@
 <head>
 <title>功能权限注册</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="style/conf_style.css"/>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/menu_min.js"></script>
+<script>  
+//加载时适应浏览器高度
+$(document).ready(function() {
+    //模块尺寸  
+	$('.pz_menu').css('height', $(window).height() - 141); 
+	$('.pz_cont_wiap100').css('height', $(window).height() - 10); 
+})
+//改变窗体大小时适应浏览器高度
+$(window).resize(function() {
+    //模块尺寸
+	$('.pz_menu').css('height', $(window).height() - 141);
+	$('.pz_cont_wiap100').css('height', $(window).height() - 250);
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function (){ 
+  
+  $(".pz_menu_cont ul li").menu();
+  
+}); 
+</script>
 </head>
 <body>
-<div id="operation">
-	<form name="srchFrm" target="ifm" method=post>
+<form name="srchFrm" target="ifm" method=post>
 		<input type=hidden name="opCode" id="opCode" value="<%=opCode%>">
 		<input type=hidden name="proId" id="proId" value="<%=proId%>">
-		<%@ include file="/npage/include/header.jsp"%>
-	
-				<table class="myoptable">
+		<input type=hidden name="pageNum" id="pageNum" value="1">
+		<div id="operation" class="bb_right_cont1">
+				<div height="12"><table><tr height="12"></tr></table> </div>
+				<table width="100%" border="0" cellspacing="2" cellpadding="0"  bgcolor="#FFFFFF">
 					<tr>
-						<th>功能链接</th>
-						<td><input id="actionName" name="actionName" type="text" /></td>
-						<th>所属功能</th>
-						<td>
+						<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">功能链接：</td>
+						<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:10px;">
+							<input id="actionName" name="actionName" type="text"  v_maxlength="64" v_minlength="0" class="anc"/>
+						</td>
+						<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">所属功能：</td>
+						<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:10px;">
 							<input id="functionCode" name="functionCode" type="hidden" />
-							<input id="functionLabel" name="functionLabel" type="text" />（请模糊匹配输入）
+							<input id="functionLabel" name="functionLabel" type="text" v_maxlength="64" v_minlength="0" class="anc"/>（请模糊匹配输入）
 						</td>
 					</tr>
+      				<tr height="12"></tr>
 					<tr>
-						<td colspan="4" style="text-align:center">
-							<input type="button" class="b_foot" value="查询" onclick="doSrchSubmit()"/>&nbsp;&nbsp;
-							<input type="button" class="b_foot" value="重置" onclick="document.forms('srchFrm').reset();"/>&nbsp;&nbsp;
-							<input type="button" class="b_foot" id="add" style="display:none" value="新增" onclick="addM()"/>
-					  </td>
-					</tr>
+			          <td height="32" align="center" class="blue" colspan="6">
+			            <input name="" type="button" class="bb_right_sub1" value="查  询" onclick="doSrchSubmit()"/>&nbsp;&nbsp;&nbsp;
+			            <input name="" type="button" class="bb_right_sub1" value="重  置" onclick="doReset()"/>&nbsp;&nbsp;&nbsp;
+						<input name="" type="button" class="bb_right_sub1" id="add" value="新  增" onclick="addM()"/>
+						</td>
+			        </tr>
 				</table>
 			
 			
 			<iframe name="ifm" src="" style="width:100%;height:400px;" frameborder="0"></iframe>
 			 
-			 	
-		<%@ include file="/npage/include/footer.jsp" %>
-	</form>
-</div>						
+		</div>	
+</form>					
 </body>
 <!-- 自动补全引入js -->
 <script type="text/javascript" src="<%=request.getContextPath()%>/njs/plugins/actb/common.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/njs/plugins/actb/myactb.js"></script>
-
+<script src="<%=request.getContextPath()%>/npage/rpt/task/task.js" type="text/javascript"></script>
+<script src="<%=request.getContextPath()%>/njs/system/system.js" type="text/javascript"></script>
 <script language="javascript" type="text/javascript">
 
 //查询表单提交
@@ -69,6 +95,11 @@ function checkMatch(text){
 		}
 	}
 	return flag;
+}
+
+function doReset(){
+	$('#actionName').val('');
+	$('#functionLabel').val('');
 }
 
 //增加关联模块，打开弹出窗口

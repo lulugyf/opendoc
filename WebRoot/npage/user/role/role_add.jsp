@@ -10,66 +10,67 @@ String sys=Constants.PROD_SYSTEM;
 <head>
 <title>新增角色信息</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="style/conf_style.css"/>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/menu_min.js"></script>
+<script>  
+//加载时适应浏览器高度
+$(document).ready(function() {
+    //模块尺寸  
+	$('.pz_menu').css('height', $(window).height() - 141); 
+	$('.pz_cont_wiap100').css('height', $(window).height() - 10); 
+})
+//改变窗体大小时适应浏览器高度
+$(window).resize(function() {
+    //模块尺寸
+	$('.pz_menu').css('height', $(window).height() - 141);
+	$('.pz_cont_wiap100').css('height', $(window).height() - 250);
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function (){ 
+  
+  $(".pz_menu_cont ul li").menu();
+  
+}); 
+</script>
  
 </head>
 <body>
-   <div id="operation">
+   <div id="operation" class="bb_right_cont1">
 	<div id="operation_table">
 		<form action="" method="post" name="roleForm">
 			<input type=hidden name="opCode" id="opCode" value="<%=opCode%>">
 			<input type=hidden name="proId" id="proId" value="<%=proId%>">
 			<div class="input">
-				<table>
+				<table width="100%" border="0" cellspacing="2" cellpadding="0"  bgcolor="#FFFFFF">
 					<tr>
-						<th><font color="red">*角色名称</font></th>
-						<td>
-							<input type="text" name="roleName" id="roleName"   class="required isCharLengthOf" v_maxlength="64" v_minlength="0"/>
+						<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;"><font color="red">*角色名称：</font></td>
+						<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:10px;">
+							<input type="text" name="roleName" id="roleName" v_maxlength="64" v_minlength="0" class="anc"/>
 						</td>
-						<th><font color="red">*角色类别</font></th>
-						<td>
-							<select name="roleType" id="roleType" onchange="getPro()" class="required">
+						<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;"><font color="red">*角色类别：</font></td>
+						<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:0px;">
+							<select name="roleType" id="roleType" onchange="getPro()" style="width:186px;height:24px">
+								<option value ="">--请选择--</option>
 								<option value="1">普通管理员</option>
 								<option value="0">超级管理员</option>							
 							</select>					
 						</td>
 					</tr>
-					<!--<tr>
-						
-						  <th><font color="red">*省份代码</font></th>
-						<td>
-							<select name="provinceCode" id="provinceCode" class="required">
-							 <option value="" ></option>
-							<c:if test="${provinceList!=null}"> 
-							<c:forEach items="${provinceList}" var="item">
-								<option value="${item.provinceCode}" >${item.provinceName}</option>
-							</c:forEach>
-							</c:if>
-							</select>
-						</td>
-						<th><font color="red">*运营商代码</font></th>
-						<td>
-							<select name="tellType" id="tellType" class="required">
-							 <option value="" ></option>
-							<c:if test="${tellcorpList!=null}"> 
-							<c:forEach items="${tellcorpList}" var="item">
-								<option value="${item.tellcorpCode}" >${item.tellcorpName}</option>
-							</c:forEach>
-							</c:if>
-							</select>							
-						</td>
-					</tr> -->
 					<tr>
-						<th><font color="red">*是否有效</font></th>
-						<td>
-							<select name="roleState" id="roleState">
+						<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;"><font color="red">*是否有效：</font></td>
+						<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:0px;">
+							<select name="roleState" id="roleState"  style="width:186px;height:24px">
+								<option value ="">--请选择--</option>
 								<option value="0" selected="true" >有效</option>
 								<option value="1">无效</option>
 							</select>
 						</td>
-						<th><font color="red">*所属产品</font></th>
-						<td>
-							<select name="proCode" id="proCode" class="required" onchange="getProName()">
-								<option value="" selected="true"></option>
+						<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;"><font color="red">*所属产品：</font></td>
+						<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:0px;">
+							<select name="proCode" id="proCode" class="required" onchange="getProName()"  style="width:186px;height:24px">
+								<option value ="">--请选择--</option>
 						    	<c:forEach var="item" items="${productList}">
 						    		<option value="${item.proCode}">${item.proName}</option>		
 								</c:forEach>
@@ -77,12 +78,15 @@ String sys=Constants.PROD_SYSTEM;
 							<input type="hidden" name="proName" id="proName"/>	
 						</td>
 					</tr>
+      				<tr height="12"></tr>
+					<tr>
+			          <td height="32" align="center" class="blue" colspan="6">
+			            <input name="su" type="button" class="bb_right_sub1" value="确  定" onclick="addRoleSubmit()"/>&nbsp;&nbsp;&nbsp;
+			            <input name="re" type="button" class="bb_right_sub1" value="重  置" onclick="doReset()"/>&nbsp;&nbsp;&nbsp;
+						<input name="close" type="button" class="bb_right_sub1" value="关  闭" onclick="parent.doSrchSubmit();parent.removeDivWin('divWin');"/>
+						</td>
+			        </tr>
 				</table>
-			</div>
-			<div id="operation_button">
-				<input type="button" name="su" onClick="addRoleSubmit()" class="b_foot" value="确定" />
-				<input type="reset" name="re" onClick="javascript:document.forms('roleForm').reset();" class="b_foot" value="重置" />
-				<input type="button" name="close" onClick="parent.doSrchSubmit();parent.removeDivWin('divWin');" class="b_foot" value="关闭"/>
 			</div>
 			<div align="center">
 			    <font color="red"><span id="operInfo">${operInfo}</span></font>
@@ -112,6 +116,13 @@ function addRoleSubmit(){
 	document.roleForm.action='<%=request.getContextPath()%>/addRole.do';
 	document.roleForm.submit();
 	
+}
+
+function doReset(){
+	$('#roleName').val('');
+	$('#roleType').val('');
+	$('#roleState').val('');
+	$('#proCode').val('');
 }
 
 //超级管理员只能选择后台管理功能，普通管理员不能选择后台管理功能

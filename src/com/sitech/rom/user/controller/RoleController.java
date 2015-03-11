@@ -22,6 +22,7 @@ import com.sitech.rom.common.dto.RomProvinceCode;
 import com.sitech.rom.common.dto.RomSysRole;
 import com.sitech.rom.common.dto.RomTellcorpCode;
 import com.sitech.rom.common.dto.Seq;
+import com.sitech.rom.rpt.base.IMyBaseDao;
 import com.sitech.rom.user.service.ProductSvc;
 import com.sitech.rom.user.service.ProvinceSvc;
 import com.sitech.rom.user.service.RoleSvc;
@@ -45,6 +46,9 @@ public class RoleController extends BaseController {
 	
 	@Resource
 	private RomSysLoginDao romSysLoginDao;
+	
+	@Resource
+	private IMyBaseDao myBaseDao;
 	
 	/*
 	 * goto角色管理主界面
@@ -77,11 +81,18 @@ public class RoleController extends BaseController {
 	    String provinceCode = "";
 
 	    RomSysRole romSysRole = new RomSysRole();
+		
+		String pageNum = request.getParameter("pageNum").trim();
+		System.out.println("pageNum:" + pageNum);
+		romSysRole.setPageNum(Integer.parseInt(pageNum));
+		
 	    if(provinceCode!=null && !"".equals(provinceCode))romSysRole.setProvinceCode(provinceCode);
 	    if(tellType!=null && !"".equals(tellType))romSysRole.setTellType(tellType);
 	    if(proCode!=null && !"".equals(proCode))romSysRole.setProCode(proCode);
-	    request.setAttribute("roleList", romSysLoginDao.qryRomRoleInfo(romSysRole));
-		
+	    //request.setAttribute("roleList", romSysLoginDao.qryRomRoleInfo(romSysRole));
+	    request.setAttribute("roleList", myBaseDao.queryForPageList("srole.qryRomRoleInfo",romSysRole));
+
+		request.setAttribute("bo", romSysRole);
 		return "user/role/role_list";		
 	}
 	/*

@@ -4,23 +4,50 @@
 <%@ page import="com.sitech.rom.util.StringUtil" %>
 <%@ include file="/npage/include/public_title_name.jsp" %>
 <html>
+<head>
+<title>设置工号角色关系</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="style/conf_style.css"/>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/menu_min.js"></script>
+<script>  
+//加载时适应浏览器高度
+$(document).ready(function() {
+    //模块尺寸  
+	$('.pz_menu').css('height', $(window).height() - 141); 
+	$('.pz_cont_wiap100').css('height', $(window).height() - 10); 
+})
+//改变窗体大小时适应浏览器高度
+$(window).resize(function() {
+    //模块尺寸
+	$('.pz_menu').css('height', $(window).height() - 141);
+	$('.pz_cont_wiap100').css('height', $(window).height() - 250);
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function (){ 
+  
+  $(".pz_menu_cont ul li").menu();
+  
+}); 
+</script>
+</head>
 <body>
-<div id="operation" style="padding:0px">
-<div id="operation_table" style="margin:0px">
-<div class="title"> <div class="text">角色列表</div></div>  
-<div class="list">
+   <div id="operation" class="bb_right_cont1">
+	<div id="operation_table">
 	<form action="" method="post" name="popedomForm">
-	<table id="mTable">
-		<tr>
-			<th style="width:10%"><input type="checkbox" id="chkAll" name="chkAll" onclick="checkAllcheckbox()"/></th>
-			<th>角色名称</th>			
-			<th>角色类别</th>		
-			<th>所属产品</th>	
-			<th>省份</th>
-			<th>运营商类型</th>
+	<div class="input">
+	<table id="mTable" width="100%" border="0" cellSpacing="2" cellpadding="0" bgcolor="#FFFFFF">
+		<tr class="f14 white">
+			<td width="2%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;"><input type="checkbox" id="chkAll" name="chkAll" onclick="checkAllcheckbox()"/></td>
+			<td width="10%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">角色名称</td>
+			<td width="10%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">角色类别</td>
+			<td width="10%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">所属产品</td>
+			<td width="10%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">省份</td>
+			<td width="10%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">备注</td>
 
 		</tr>
-					<tbody id="tb" >
+					<tbody id="tb" height="32" align="left" bgcolor="#f6f6f6" style="text-indent:10px;">
 					<c:if test="${roleList!=null}"> 
 						<c:forEach items="${roleList}" var="item">
 							<tr>
@@ -44,12 +71,15 @@
 						</c:forEach>
 					</c:if>
 					</tbody> 
+      				<tr height="12"></tr>
+					<tr>
+			          <td height="32" align="center" class="blue" colspan="6">
+			            <input name="su" type="button" class="bb_right_sub1" value="确  定" onclick="functionSetSubmit('${romProCode.proCode}')"/>&nbsp;&nbsp;&nbsp;
+						<input name="close" type="button" class="bb_right_sub1" value="关  闭" onclick="parent.removeDivWin('divWin');""/>
+						</td>
+			        </tr>
 	</table>
 </div>
-			<div id="operation_button">
-			    <input type="button" name="su" id="su" onclick="functionSetSubmit('${romProCode.proCode}')" class="b_foot" value="确定" />
-				<input type="button" name="close" id="close" onclick="parent.removeDivWin('divWin');" class="b_foot" value="关闭"/>
-			</div>
 			<div align="center">
 			    <font color="red"><span id="operInfo">${operInfo}</span></font>
 			</div>  

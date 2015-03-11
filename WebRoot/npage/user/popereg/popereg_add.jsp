@@ -6,41 +6,67 @@
 <head>
 <title>新增功能注册信息</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="style/conf_style.css"/>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/menu_min.js"></script>
+<script>  
+//加载时适应浏览器高度
+$(document).ready(function() {
+    //模块尺寸  
+	$('.pz_menu').css('height', $(window).height() - 141); 
+	$('.pz_cont_wiap100').css('height', $(window).height() - 10); 
+})
+//改变窗体大小时适应浏览器高度
+$(window).resize(function() {
+    //模块尺寸
+	$('.pz_menu').css('height', $(window).height() - 141);
+	$('.pz_cont_wiap100').css('height', $(window).height() - 250);
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function (){ 
+  
+  $(".pz_menu_cont ul li").menu();
+  
+}); 
+</script>
 </head>
 <body>
-   <div id="operation">
+   <div id="operation" class="bb_right_cont1">
 	<div id="operation_table">
 		<form action="" method="post" name="PoperegForm">
 			<div class="input">
-				<table>
+				<table width="100%" border="0" cellspacing="2" cellpadding="0"  bgcolor="#FFFFFF">
 					<tr>
-						<th><font color="red">*功能链接</font></th>
-						<td>
-							<input id="actionName" name="actionName" type="text" class="required isCharLengthOf" v_maxlength="256" v_minlength="0"/>
+						<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;"><font color="red">*功能链接：</font></td>
+						<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:10px;">
+							<input id="actionName" name="actionName" type="text" v_maxlength="64" v_minlength="0" class="anc"/>
 						</td>
-						<th><font color="red">*所属功能</font></th>
-						<td>
+						<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;"><font color="red">*所属功能：</font></td>
+						<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:10px;">
 							<input id="functionCode" name="functionCode" type="hidden" class="required"/>
-							<input id="functionLabel" name="functionLabel" type="text" class="required" /> 请模糊匹配输入
+							<input id="functionLabel" name="functionLabel" type="text" v_maxlength="64" v_minlength="0" class="anc"/>(模糊匹配)
 						</td>
 					</tr>
 					<tr>
-					    <th><font color="red">*对应操作项</font></th>
-						<td>
-							<select name="operationCode" id="operationCode">
+					    <td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;"><font color="red">*对应操作项：</font></td>
+						<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:0px;">
+							<select name="operationCode" id="operationCode"  style="width:186px;height:24px">
 								<option value=""><%=Constants.OPER_NULL_NAME %></option>
 							</select>
 						</td>
-						<th></th>
-						<td></td>
+						<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;" colspan="2"></td>
 					</tr>
+      				<tr height="12"></tr>
+					<tr>
+			          <td height="32" align="center" class="blue" colspan="6">
+			            <input name="su" type="button" class="bb_right_sub1" value="确  定" onclick="addPoperegSubmit()"/>&nbsp;&nbsp;&nbsp;
+			            <input name="re" type="button" class="bb_right_sub1" value="重  置" onclick="doReset()"/>&nbsp;&nbsp;&nbsp;
+						<input name="close" type="button" class="bb_right_sub1" value="关  闭" onclick="parent.doSrchSubmit();parent.removeDivWin('divWin');"/>
+						</td>
+			        </tr>
 					
 				</table>
-			</div>
-			<div id="operation_button">
-				<input type="button" name="su" id="su" onclick="addPoperegSubmit()" class="b_foot" value="确定" />
-				<input type="reset" name="re" id="re" onclick="document.forms('PoperegForm').reset();" class="b_foot" value="重置" />
-				<input type="button" name="close" id="close" onclick="parent.removeDivWin('divWin');" class="b_foot" value="关闭"/>
 			</div>
 			<div align="center">
 			    <font color="red"><span id="operInfo">${operInfo}</span></font>
@@ -66,6 +92,12 @@ $(document).ready(function () {
 	//--end
 	
 });
+
+function doReset(){
+	$('#actionName').val('');
+	$('#functionLabel').val('');
+	$('#operationCode').val('');
+}
 
 //提交
 function addPoperegSubmit(){

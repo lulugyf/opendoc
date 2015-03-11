@@ -19,7 +19,7 @@
  * Container and UL / LI
  *----------------------------------------------------------------------------*/
 ul.fancytree-container {
-  font-family: tahoma, arial, helvetica;
+  font-family: "Microsoft YaHei",tahoma, arial, helvetica;
   font-size: 10pt;
   white-space: nowrap;
   padding: 3px;
@@ -73,7 +73,7 @@ span.fancytree-drag-helper-img,
   width: 16px;
   height: 16px;
   display: inline-block;
-  vertical-align: top;
+  vertical-align: center;
   background-repeat: no-repeat;
   background-position: left;
   background-image: url("icons.gif");
@@ -119,23 +119,23 @@ span.fancytree-expander {
 }
 .fancytree-exp-n span.fancytree-expander,
 .fancytree-exp-n span.fancytree-expander:hover {
-  background-position: 0px -64px;
+  background-position: 0px 0px;
 }
 .fancytree-exp-nl span.fancytree-expander,
 .fancytree-exp-nl span.fancytree-expander:hover {
   background-position: -16px -64px;
 }
 .fancytree-exp-c span.fancytree-expander {
-  background-position: 0px -80px;
+  background-image: url("off.png");
 }
 .fancytree-exp-c span.fancytree-expander:hover {
-  background-position: -16px -80px;
+  background-image: url("off.png");
 }
 .fancytree-exp-cl span.fancytree-expander {
-  background-position: 0px -96px;
+  background-image: url("off.png");
 }
 .fancytree-exp-cl span.fancytree-expander:hover {
-  background-position: -16px -96px;
+  background-image: url("off.png");
 }
 .fancytree-exp-cd span.fancytree-expander {
   background-position: -64px -80px;
@@ -151,19 +151,21 @@ span.fancytree-expander {
 }
 .fancytree-exp-e span.fancytree-expander,
 .fancytree-exp-ed span.fancytree-expander {
-  background-position: -32px -80px;
+  /*background-position: -32px -80px;*/
+  background-image: url("on.png");
 }
 .fancytree-exp-e span.fancytree-expander:hover,
 .fancytree-exp-ed span.fancytree-expander:hover {
-  background-position: -48px -80px;
+  /*background-position: -48px -80px;*/
+  background-image: url("on.png");
 }
 .fancytree-exp-el span.fancytree-expander,
 .fancytree-exp-edl span.fancytree-expander {
-  background-position: -32px -96px;
+  background-image: url("on.png");
 }
 .fancytree-exp-el span.fancytree-expander:hover,
 .fancytree-exp-edl span.fancytree-expander:hover {
-  background-position: -48px -96px;
+  background-image: url("on.png");
 }
 /*------------------------------------------------------------------------------
  * Checkbox icon
@@ -251,19 +253,19 @@ span.fancytree-icon {
 }
 /* Folders */
 .fancytree-ico-cf span.fancytree-icon {
-  background-position: 0px -16px;
+  background-position: 0px 0px;
 }
 .fancytree-ico-cf span.fancytree-icon:hover {
   background-position: -16px -16px;
 }
 .fancytree-has-children.fancytree-ico-cf span.fancytree-icon {
-  background-position: -32px -16px;
+  background-position: 0px 0px;
 }
 .fancytree-has-children.fancytree-ico-cf span.fancytree-icon:hover {
   background-position: -48px -16px;
 }
 .fancytree-ico-ef span.fancytree-icon {
-  background-position: -64px -16px;
+  background-position: 0px 0px;
 }
 .fancytree-ico-ef span.fancytree-icon:hover {
   background-position: -80px -16px;
@@ -466,15 +468,15 @@ span.fancytree-title {
 }
 span.fancytree-title:hover {
   border-color: #d8f0fa;
-  background: #f8fcfe;
+  background: #d8e5ff;
   color: inherit;
-  background: -moz-linear-gradient(top, #f8fcfe 0%, #eff9fe 100%);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f8fcfe), color-stop(100%, #eff9fe));
-  background: -webkit-linear-gradient(top, #f8fcfe 0%, #eff9fe 100%);
-  background: -o-linear-gradient(top, #f8fcfe 0%, #eff9fe 100%);
-  background: -ms-linear-gradient(top, #f8fcfe 0%, #eff9fe 100%);
-  background: linear-gradient(to bottom, #f8fcfe 0%, #eff9fe 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f8fcfe', endColorstr='#eff9fe', GradientType=0);
+  background: -moz-linear-gradient(top, #d8e5ff 0%, #eff9fe 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #d8e5ff), color-stop(100%, #eff9fe));
+  background: -webkit-linear-gradient(top, #d8e5ff 0%, #eff9fe 100%);
+  background: -o-linear-gradient(top, #d8e5ff 0%, #eff9fe 100%);
+  background: -ms-linear-gradient(top, #d8e5ff 0%, #eff9fe 100%);
+  background: linear-gradient(to bottom, #d8e5ff 0%, #eff9fe 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#d8e5ff', endColorstr='#eff9fe', GradientType=0);
 }
 span.fancytree-focused span.fancytree-title {
   outline: 1px dotted black;
@@ -509,7 +511,7 @@ span.fancytree-active.fancytree-focused .fancytree-title,
 span.fancytree-selected .fancytree-title:hover,
 span.fancytree-selected.fancytree-focused .fancytree-title {
   border-color: #b6e6fb;
-  background: #f2f9fd;
+  background: #d8e5ff;
   color: inherit;
   background: -moz-linear-gradient(top, #f2f9fd 0%, #c4e8fa 100%);
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f2f9fd), color-stop(100%, #c4e8fa));
@@ -551,7 +553,7 @@ table.fancytree-ext-table tbody span.fancytree-title:hover {
   border: 1px solid transparent;
   background: inherit;
   background: transparent;
-  background: none;
+  background: #d8e5ff;
   filter: none;
 }
 table.fancytree-ext-table tbody tr.fancytree-active:hover,

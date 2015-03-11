@@ -273,30 +273,30 @@ $(function(){
 	        		//$("#datatable").append(thHTML);//在table最后面添加一行
 	        		var list = data.data;
 	        		for(var docparam in list){
-	        			var trHTML = "<tr><td>";
+	        			var trHTML = "<tr><td height='32' align='left' bgcolor='#f6f6f6' style='text-indent:10px;'>";
 	        			if(list[docparam].pnametype == 'lsS'){
-	        				trHTML = trHTML + "单值" + "</td><td>" ;
+	        				trHTML = trHTML + "单值" + "</td><td height='32' align='left' bgcolor='#f6f6f6' style='text-indent:10px;'>" ;
 	        			}else if(list[docparam].pnametype == 'lsM'){
-	        				trHTML = trHTML + "多值" + "</td><td>";
+	        				trHTML = trHTML + "多值" + "</td><td height='32' align='left' bgcolor='#f6f6f6' style='text-indent:10px;'>";
 	        			}else if(list[docparam].pnametype == 'lsR'){
-	        				trHTML = trHTML + "范围" + "</td><td>" ;
+	        				trHTML = trHTML + "范围" + "</td><td height='32' align='left' bgcolor='#f6f6f6' style='text-indent:10px;'>" ;
 	        			}else{
-	        				trHTML = trHTML + "&nbsp;" + "</td><td>" ;
+	        				trHTML = trHTML + "&nbsp;" + "</td><td height='32' align='left' bgcolor='#f6f6f6' style='text-indent:10px;'>" ;
 	        			}
-	        			trHTML = trHTML+list[docparam].param+"</td><td>"+list[docparam].default_value+"</td><td>"+list[docparam].typename+"</td><td>";
+	        			trHTML = trHTML+list[docparam].param+"</td><td height='32' align='left' bgcolor='#f6f6f6' style='text-indent:10px;'>"+list[docparam].default_value+"</td><td height='32' align='left' bgcolor='#f6f6f6' style='text-indent:10px;'>"+list[docparam].typename+"</td><td height='32' align='left' bgcolor='#f6f6f6' style='text-indent:10px;'>";
 	        			if(list[docparam].filterflag == 0){
-	        				trHTML = trHTML + "no" + "</td><td>" ;
+	        				trHTML = trHTML + "否" + "</td><td height='32' align='left' bgcolor='#f6f6f6' style='text-indent:10px;'>" ;
 	        			}else{
-	        				trHTML = trHTML + "yes" + "</td><td>";
+	        				trHTML = trHTML + "是" + "</td><td height='32' align='left' bgcolor='#f6f6f6' style='text-indent:10px;'>";
 	        			}
 	        			if(list[docparam].allowchange == 0){
-	        				trHTML = trHTML + "no" + "</td><td>" ;
+	        				trHTML = trHTML + "否" + "</td><td height='32' align='left' bgcolor='#f6f6f6' style='text-indent:10px;'>" ;
 	        			}else{
-	        				trHTML = trHTML + "yes" + "</td><td>";
+	        				trHTML = trHTML + "是" + "</td><td height='32' align='left' bgcolor='#f6f6f6' style='text-indent:10px;'>";
 	        			}
 	        			trHTML = trHTML + "<a href='javascript:;' onclick=editdocparam(this,'"+list[docparam].paramid+"','"+list[docparam].pnametype+"','"+list[docparam].typeid+"','"+list[docparam].filterflag+"','"+list[docparam].allowchange+"','"+list[docparam].remarks+"')  id='edit' >修改</a>";
 	        			trHTML = trHTML + "&nbsp;";
-	        			trHTML = trHTML + "<a href='javascript:;' onclick=deldocparam(this,'"+list[docparam].paramid+"')  id='del' >删除</a>&nbsp; ";
+	        			trHTML = trHTML + "<a href='javascript:;' onclick=deldocparam(this,'"+list[docparam].paramid+"')  id='del' >删除</a>&nbsp;";
 	        			trHTML = trHTML + "<a href='javascript:;' onclick=setparamuser('"+list[docparam].typeid+"') >设置工号关联</a>";
 	        			trHTML = trHTML + "</td></tr>";
 		        		$("#datatable").append(trHTML);//在table最后面添加一行

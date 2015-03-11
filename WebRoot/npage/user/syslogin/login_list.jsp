@@ -6,18 +6,28 @@
 <%@ page import="com.sitech.rom.util.StringUtil" %>
 <%@ include file="/npage/include/public_title_name.jsp" %>
 <html>
+<link rel="stylesheet" type="text/css" href="style/conf_style.css"/>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/menu_min.js"></script>
 <body>
-<div id="operation" style="padding:0px">
-<div id="operation_table" style="margin:0px">
-<div class="title"> <div class="text">工号列表</div></div>  
-<div class="list">
-	<table id="mTable">
-		<tr>
-			<th>工号</th>
-			<th>姓名</th>
-			<th>使用标识</th>
-			<th>联系号码</th>
-			<th>操作</th>
+<div class="pz_cont_wiap100 fr">
+    <div class="blankH12"></div>
+    <div class="pz_cont_main">
+    <form name="listFrm" method="post" action="loginList.do">
+    	<input type=hidden name="opCode" id="opCode" value="<%=opCode%>">
+		<input type=hidden name="proId" id="proId" value="<%=proId%>">
+		<input type=hidden name="pageNum" id="pageNum" value="">
+		
+		<input type=hidden name="loginNo" id="loginNo" value="${bo.loginNo}">
+		<input type=hidden name="loginName" id="loginName" value="${bo.loginName}">
+		<input type=hidden name="useFlg" id="useFlg" value="${bo.useFlg}">
+	<table id="mTable" width="100%" border="0" cellSpacing="2" cellpadding="0" bgcolor="#FFFFFF">
+		<tr class="f14 white">
+          <td width="8%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">工号</td>
+          <td width="8%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">姓名</td>
+          <td width="8%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">使用标识</td>
+          <td width="8%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">联系号码</td>
+          <td width="8%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">操作</td>
 		</tr>
 		<% 
 
@@ -30,30 +40,36 @@
 		%>
 		    <c:forEach items="${loginlist }" var="show">
 		   		<tr>
-			   		<td>${show.loginNo }</td>
-			   		<td>${show.loginName }</td>
-			   		<td><c:choose><c:when test="${show.useFlg == 0 }">有效</c:when>
+			   		<td height="32" align="left" bgcolor="#f6f6f6" style="text-indent:10px;">${show.loginNo }</td>
+			   		<td height="32" align="left" bgcolor="#f6f6f6" style="text-indent:10px;">${show.loginName }</td>
+			   		<td height="32" align="left" bgcolor="#f6f6f6" style="text-indent:10px;"><c:choose><c:when test="${show.useFlg == 0 }">有效</c:when>
 			   		<c:otherwise>无效</c:otherwise>
 			   		</c:choose>
 			   		</td>
-			   		<td>${show.phoneNo }</td>
-			   		<td>
-			   			<input type="button" class="butAmed" name="set" style="display:none" title="角色设置" onclick="setLoginRole('${show.loginNo}')"/>
-			   			<input type="button" name="edit" style="display:none" class="butCha" title="编辑" onclick="editRow('${show.loginNo}')"/>
+			   		<td height="32" align="left" bgcolor="#f6f6f6" style="text-indent:10px;">${show.phoneNo }</td>
+			   		<td height="32" align="left" bgcolor="#f6f6f6" style="text-indent:10px;">
+			   			<input type="button" class="butright" name="set" style="display:none" title="角色设置" onclick="setLoginRole('${show.loginNo}')"/>
+			   			<input type="button" name="edit" class="butwrite" title="编辑" onclick="editRow('${show.loginNo}')"/>
 			   		    <c:if test="${show.useFlg == 0 }">
-			   		    <input type="button" name="del" style="display:none" class="butDel" title="删除" onclick="showDialog('是否删除?',3,'retT=delRow(\'${show.loginNo}\')');"/>  
+			   		    <input type="button" name="del" class="butdelete" title="删除" onclick="showDialog('是否删除?',3,'retT=delRow(\'${show.loginNo}\')');"/>  
 			   		    </c:if>
 			   		</td>
 		   		</tr>
 		   	 </c:forEach>
 	</table>
-</div>
-  
-</div>	
-</div>
-<%@ include file="/npage/include/footer.jsp"%>
+      </form>
+      <div class="blankH22"></div>
+      <div align="center">
+        <!-- 分页 begin -->
+        <jsp:include page="/npage/public/pagination.jsp" />
+        <!-- 分页 end -->
+      </div>
+      <div class="blankH18"></div>
+    </div>
+  <p class="clear"></p>
  </body>
- 
+
+<script src="<%=request.getContextPath()%>/njs/system/system.js" type="text/javascript"></script>
 <script language="javascript" type="text/javascript">
 $(document).ready(function () {
     if('<%=edit%>'=='Y'){

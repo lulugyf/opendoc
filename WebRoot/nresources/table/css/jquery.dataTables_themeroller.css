@@ -3,10 +3,10 @@
  */
 table.dataTable {
   width: 100%;
-  margin: 0 auto;
-  clear: both;
-  border-collapse: separate;
-  border-spacing: 0;
+  border:0;
+  cellSpacing:2;
+  cellpadding:0;
+  bgcolor:#FFFFFF;
   /*
    * Header and footer styles
    */

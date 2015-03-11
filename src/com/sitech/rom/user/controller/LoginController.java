@@ -24,12 +24,14 @@ import com.sitech.rom.common.dto.RomLoginRoleRelation;
 import com.sitech.rom.common.dto.RomProvinceCode;
 import com.sitech.rom.common.dto.RomSysLogin;
 import com.sitech.rom.common.dto.RomSysRole;
+import com.sitech.rom.rpt.base.IMyBaseDao;
 import com.sitech.rom.user.service.LoginSvc;
 import com.sitech.rom.user.service.ProvinceSvc;
 import com.sitech.rom.user.service.RoleSvc;
 import com.sitech.rom.util.AjaxResponsePacket;
 import com.sitech.rom.util.Constants;
 import com.sitech.rom.util.StringUtil;
+
 import static java.lang.String.format;
 
 @Controller
@@ -44,6 +46,9 @@ public class LoginController extends BaseController {
 	
 	@Resource
 	private RomSysLoginDao romSysLoginDao;
+	
+	@Resource
+	private IMyBaseDao myBaseDao;
 	
 	private final Logger log = Logger.getLogger(getClass());
 	/*
@@ -121,12 +126,20 @@ public class LoginController extends BaseController {
 	    String useFlg = request.getParameter("useFlg");
 	    
 	    RomSysLogin romSysLogin = new RomSysLogin();
+		
+		String pageNum = request.getParameter("pageNum").trim();
+		System.out.println("pageNum:" + pageNum);
+		romSysLogin.setPageNum(Integer.parseInt(pageNum));
+		
 	    if(StringUtil.notNull(loginNo))romSysLogin.setLoginNo(loginNo);
 	    if(StringUtil.notNull(loginName))romSysLogin.setLoginName(loginName);
 	    if(StringUtil.notNull(useFlg))romSysLogin.setUseFlg(useFlg);
 	    
-	    request.setAttribute("loginlist", romSysLoginDao.queryList(romSysLogin) );
+	    //request.setAttribute("loginlist", romSysLoginDao.queryList(romSysLogin) );
+	    request.setAttribute("loginlist", myBaseDao.queryForPageList("RomSysLogin.selectRomSysLogin", romSysLogin));
 		
+	    
+	    request.setAttribute("bo", romSysLogin);
 		return "user/syslogin/login_list";
 	}
 	

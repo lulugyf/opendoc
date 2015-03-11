@@ -1,6 +1,8 @@
 package com.sitech.rom.common.bo;
 
-public class PoperegBo {
+import com.sitech.rom.rpt.bo.MyBaseBO;
+
+public class PoperegBo extends MyBaseBO {
 	
 	private String functionCode;
 	private String functionName;

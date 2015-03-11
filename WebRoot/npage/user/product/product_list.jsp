@@ -6,18 +6,27 @@
 <%@ page import="com.sitech.rom.util.*" %>
 <%@ include file="/npage/include/public_title_name.jsp" %>
 <html>
+<link rel="stylesheet" type="text/css" href="style/conf_style.css"/>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/menu_min.js"></script>
 <body>
-<div id="operation" style="padding:0px">
-<div id="operation_table" style="margin:0px">
-<div class="title"> <div class="text">产品列表</div></div>  
-<div class="list">
-	<table id="mTable">
-		<tr>
-			<th>产品代码</th>
-			<th>产品名称</th>
-			<th>产品版本</th>
-			<th>备注</th>
-			<th>操作</th>
+<div class="pz_cont_wiap100 fr">
+    <div class="blankH12"></div>
+    <div class="pz_cont_main">
+    <form name="listFrm" method="post" action="productList.do">
+    	<input type=hidden name="opCode" id="opCode" value="<%=opCode%>">
+		<input type=hidden name="proId" id="proId" value="<%=proId%>">
+		<input type=hidden name="pageNum" id="pageNum" value="">
+		
+		<input type=hidden name="proCode" id="proCode" value="${bo.proCode}">
+		<input type=hidden name="proName" id="proName" value="${bo.proName}">
+	<table id="mTable" width="100%" border="0" cellSpacing="2" cellpadding="0" bgcolor="#FFFFFF">
+		<tr class="f14 white">
+	        <td width="8%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">产品代码</td>
+	        <td width="8%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">产品名称</td>
+	        <td width="8%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">产品版本</td>
+	        <td width="8%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">备注</td>
+	        <td width="8%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">操作</td>
 		</tr>
 		<% 
 		    String proCode = request.getParameter("proCode").trim();
@@ -38,24 +47,29 @@
 			     
 		   		<c:forEach var="item" items="${productList}">
 		   		<tr>
-			   		<td>${item.proCode}</td>    
-			   		<td>${item.proName }</td>	
-			   		<td>${item.proVersion }</td>
-			   		<td>${item.remarks }</td>								   		      
-			   		<td>
-			   		    <input type="button" class="butCha" name="edit" style="display:none" title="编辑" onclick="editRow('${item.proCode }')"/>    
-			   		    <input type="button" class="butDel" name="del" style="display:none" title="删除" onclick="showDialog('是否删除?',3,'retT=delRow(\'${item.proCode }\')');"/>
-			   		    <input type="button" class="butAmed" name="set" style="display:none" title="功能设置" onclick="setRow('${item.proCode }')"/>
+			   		<td height="32" align="left" bgcolor="#f6f6f6" style="text-indent:10px;">${item.proCode}</td>    
+			   		<td height="32" align="left" bgcolor="#f6f6f6" style="text-indent:10px;">${item.proName }</td>	
+			   		<td height="32" align="left" bgcolor="#f6f6f6" style="text-indent:10px;">${item.proVersion }</td>
+			   		<td height="32" align="left" bgcolor="#f6f6f6" style="text-indent:10px;">${item.remarks }</td>								   		      
+			   		<td height="32" align="left" bgcolor="#f6f6f6" style="text-indent:10px;">
+			   		    <input type="button" class="butright" name="set" title="功能设置" onclick="setRow('${item.proCode }')"/>
+			   		    <input type="button" class="butwrite" name="edit" title="编辑" onclick="editRow('${item.proCode }')"/>    
+			   		    <input type="button" class="butdelete" name="del" title="删除" onclick="showDialog('请确认是否删除?',3,'retT=delRow(\'${item.proCode }\')');"/>
 			   		</td>
 		   		</tr>
 		   		</c:forEach>
 		   	 
-	</table>
-</div>
-  
-</div>	
-</div>
-<%@ include file="/npage/include/footer.jsp"%>
+	  </table>
+      </form>
+      <div class="blankH22"></div>
+      <div align="center">
+        <!-- 分页 begin -->
+        <jsp:include page="/npage/public/pagination.jsp" />
+        <!-- 分页 end -->
+      </div>
+      <div class="blankH18"></div>
+    </div>
+  <p class="clear"></p>
  </body>
  
 <script language="javascript" type="text/javascript">

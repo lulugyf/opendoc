@@ -6,17 +6,26 @@
 <%@ page import="com.sitech.rom.util.*" %>
 <%@ include file="/npage/include/public_title_name.jsp" %>
 <html>
+<link rel="stylesheet" type="text/css" href="style/conf_style.css"/>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/menu_min.js"></script>
 <body>
-<div id="operation" style="padding:0px">
-<div id="operation_table" style="margin:0px">
-<div class="title"> <div class="text">功能注册信息列表</div></div>  
-<div class="list">
-	<table id="mTable">
-		<tr>
-			<th>功能链接</th>
-			<th>所属功能</th>
-			<th>对应操作项</th>
-			<th>操作</th>
+<div class="pz_cont_wiap100 fr">
+    <div class="blankH12"></div>
+    <div class="pz_cont_main">
+    <form name="listFrm" method="post" action="poperegList.do">
+    	<input type=hidden name="opCode" id="opCode" value="<%=opCode%>">
+		<input type=hidden name="proId" id="proId" value="<%=proId%>">
+		<input type=hidden name="pageNum" id="pageNum" value="">
+		
+		<input type=hidden name="actionName" id="actionName" value="${bo.actionName}">
+		<input type=hidden name="functionCode" id="functionCode" value="${bo.functionCode}">
+	<table id="mTable" width="100%" border="0" cellSpacing="2" cellpadding="0" bgcolor="#FFFFFF">
+		<tr class="f14 white">
+          <td width="8%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">功能链接</td>
+          <td width="8%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">所属功能</td>
+          <td width="8%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">对应操作项</td>
+          <td width="8%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">操作</td>
 		</tr>
 		<% 
 		    String edit = request.getParameter("edit");
@@ -26,22 +35,27 @@
 		%>
 		<c:forEach items="${popereglist }" var="show">    
 	   		<tr>
-		   		<td>${show.actionName }</td>
-		   		<td>${show.functionName} ${show.functionCode}</td>
-		   		<td>${show.operationName }
+		   		<td height="32" align="left" bgcolor="#f6f6f6" style="text-indent:10px;">${show.actionName }</td>
+		   		<td height="32" align="left" bgcolor="#f6f6f6" style="text-indent:10px;">${show.functionName} ${show.functionCode}</td>
+		   		<td height="32" align="left" bgcolor="#f6f6f6" style="text-indent:10px;">${show.operationName }
 		   		</td>
-		   		<td>
-		   			<input type="button" name="edit" style="display:none" class="butCha" title="编辑" onclick="editRow('${show.actionName}','${show.functionCode}')"/>
-		   		    <input type="button" name="del" style="display:none" class="butDel" title="删除" onclick="showDialog('是否删除?',3,'retT=delRow(\'${show.actionName}\',\'${show.functionCode}\',\'${show.functionName}\')');"/>  
+		   		<td height="32" align="left" bgcolor="#f6f6f6" style="text-indent:10px;">
+		   			<input type="button" name="edit" style="width:20px;" class="butwrite" title="编辑" onclick="editRow('${show.actionName}','${show.functionCode}')"/>
+		   		    <input type="button" name="del" style="width:20px;" class="butdelete" title="删除" onclick="showDialog('请确认是否删除?',3,'retT=delRow(\'${show.actionName}\',\'${show.functionCode}\',\'${show.functionName}\')');"/>  
 		   		</td>
 	   		</tr>
 		 </c:forEach>
 	</table>
-</div>
-  
-</div>	
-</div>
-<%@ include file="/npage/include/footer.jsp"%>
+      </form>
+      <div class="blankH22"></div>
+      <div align="center">
+        <!-- 分页 begin -->
+        <jsp:include page="/npage/public/pagination.jsp" />
+        <!-- 分页 end -->
+      </div>
+      <div class="blankH18"></div>
+    </div>
+  <p class="clear"></p>
  </body>
  
 <script language="javascript" type="text/javascript">

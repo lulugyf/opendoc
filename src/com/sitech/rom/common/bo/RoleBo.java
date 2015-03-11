@@ -2,6 +2,8 @@ package com.sitech.rom.common.bo;
 
 import java.io.Serializable;
 
+import com.sitech.rom.rpt.bo.MyBaseBO;
+
 public class RoleBo implements Serializable {
 	private static final long serialVersionUID = 1L;
 

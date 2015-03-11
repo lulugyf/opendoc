@@ -51,9 +51,6 @@ var availableType = [
 	<li class="sub"><input type="button" id="deltype" value="删除类型"/></li>
 	<li class="sub"><input type="button" id="modtype" value="修改类型"/> </li>
 	<li class="sub"><input type="button" id="addtype" value="新增类型"/> </li>
-	
-
-	<li class="input"> <input type="text" id="typesearch"/></li>
 	</ul>
 </div>
 <hr />
@@ -62,11 +59,16 @@ var availableType = [
 <input type="hidden" id="typeid1" value='0' />
 
 <div class="cs_form_div">
-<table width="75%" align="right">
-<tr><td class="blue" align="right">类型名称：</td><td> <input type="text" id="name1"></td></tr>
-<tr><td class="blue" align="right">数据类型： </td><td> <select id="datatype1">${datatypelist }</select> </td></tr>
-<tr><td class="blue" align="right">备 注：</td> <td> <input type="text" id="remarks1"></td></tr>
-<tr><td></td><td> <input type="button" class="bb_right_sub1" id="subtype1" value="确定"></td></tr>
+<table width="80%" border="0" cellspacing="2" cellpadding="0">
+<tr class="f14 white">
+    <td width="8%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;" class="blue">类型名称：</td>
+    <td width="8%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:0px;"><input type="text" id="name1" style="height:24px;"></td>
+    <td width="8%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;" class="blue">数据类型：</td>
+    <td width="8%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:0px;"><select id="datatype1" style="width:100px;height:24px">${datatypelist }</select></td>
+    <td width="8%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;" class="blue">备 注：</td>
+    <td width="8%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:0px;"><input type="text" id="remarks1" style="height:24px;"></td>
+    <td width="5%" height="36" align="right" class="blue"><input type="button" class="bb_right_sub1" id="subtype1" value="确定"></td>
+</tr>
 </table>
 </div>
 </div>
@@ -87,17 +89,20 @@ var availableType = [
     <div align="center">
 		
 <table style="width:90%;border:0px;cellspacing:4px; cellpadding:0px">
-<tr><td width="33%" height="36" align="right" class="blue">参数值：    </td>
+<tr class="f14 white"><td width="33%" height="36" align="right" class="blue">参数值：    </td>
 <td width="67%" height="36" align="left"> <input type="hidden" id="paramid" value="0">
 	<input type="text" id="paramValue" style="width:80%;"> 
-	
-</td></tr>
-<tr><td height="36" align="right" class="blue">名称： </td>
+</td>
+</tr>
+<tr class="f14 white"><td height="36" align="right" class="blue">名称： </td>
 <td height="36" align="left"> 
   <input type="text" id="paramName" style="width:80%;"> 
- 
-</td></tr>
-<tr><td height="36" align="right" valign="top" class="blue">备 注：</td>
+ </td>
+ </tr>
+<tr>&nbsp;</tr>
+<tr>&nbsp;</tr>
+<tr>&nbsp;</tr>
+<tr class="f14 white"><td height="36" align="right" valign="top" class="blue">备 注：</td>
 <td height="36" align="left" valign="top"> 
 	<textarea name="" cols="" rows="" style="width:80%; height:154px;" id="remarks2"></textarea>
 	</td></tr>

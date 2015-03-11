@@ -5,22 +5,48 @@
 <head>
 <title>日志管理</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="style/conf_style.css"/>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/menu_min.js"></script>
+<script>  
+//加载时适应浏览器高度
+$(document).ready(function() {
+    //模块尺寸  
+	$('.pz_menu').css('height', $(window).height() - 141); 
+	$('.pz_cont_wiap100').css('height', $(window).height() - 10); 
+})
+//改变窗体大小时适应浏览器高度
+$(window).resize(function() {
+    //模块尺寸
+	$('.pz_menu').css('height', $(window).height() - 141);
+	$('.pz_cont_wiap100').css('height', $(window).height() - 250);
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function (){ 
+  
+  $(".pz_menu_cont ul li").menu();
+  
+}); 
+</script>
 </head>
 <body>
-<div id="operation">
-	<form name="srchFrm" target="ifm" method=post>
+<form name="srchFrm" target="ifm" method=post>
 		<input type=hidden name="proId" id="proId" value="<%=proId%>">
 		<input type=hidden name="opCode" id="opCode" value="<%=opCode%>">
+		<input type=hidden name="pageNum" id="pageNum" value="1">
 		
-		<%@ include file="/npage/include/header.jsp"%>
+		<div id="operation" class="bb_right_cont1">
+        <div height="12"><table><tr height="12"></tr></table> </div>
 	    <div id="operation_table">			
 			<div class="input">	
-				<table>
+				<table width="100%" border="0" cellspacing="2" cellpadding="0"  bgcolor="#FFFFFF">
 					<tr>
-						<th>操作人工号：</th>
-						<td><input type="text" name="opStaff" id="opStaff"/></td>
-						<th></th>
-						<td></td>						
+						<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">操作人工号：</td>
+						<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:10px;">
+							<input type="text" name="opStaff" id="opStaff" v_maxlength="64" v_minlength="0" class="anc"/>
+						</td>
+						<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:10px;"></td>						
 					</tr>
 					<tr>
 						<th>产品名称：</th>
@@ -67,8 +93,8 @@
 			
 		</div>
 		<%@ include file="/npage/include/footer.jsp" %>
-	</form>
-</div>						
+	</div>	
+</form>					
 </body>
 <!-- 自动补全引入js -->
 <script type="text/javascript" src="<%=request.getContextPath()%>/njs/plugins/actb/common.js"></script>

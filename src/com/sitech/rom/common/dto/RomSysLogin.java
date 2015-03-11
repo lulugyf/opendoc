@@ -2,7 +2,9 @@ package com.sitech.rom.common.dto;
 
 import java.io.Serializable;
 
-public class RomSysLogin implements Serializable { 
+import com.sitech.rom.rpt.bo.MyBaseBO;
+
+public class RomSysLogin extends MyBaseBO implements Serializable { 
 	private static final long serialVersionUID = 1L;
 
 	private String loginNo;

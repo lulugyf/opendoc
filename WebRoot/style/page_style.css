@@ -488,6 +488,13 @@ font-family::"Microsoft YaHei", "微软雅黑", "SimSun", "宋体";
 	border: none;
 	cursor: pointer;
 }
+.butright {
+	background: url('../images/bbpz_ico2.png') no-repeat;
+	height: 17px;
+	width: 22px;
+	border: none;
+	cursor: pointer;
+}
 .bb_menu_cont ul li ul li span .m_title .ico .close a,.bb_menu_cont ul li ul li span .m_title .ico .ride a{
 	width:14px;
 	height:14px;

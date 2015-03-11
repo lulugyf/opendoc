@@ -22,6 +22,7 @@ import com.sitech.rom.common.dto.RomProHostRelation;
 import com.sitech.rom.common.dto.RomSysFunction;
 import com.sitech.rom.common.dto.RomSysLogin;
 import com.sitech.rom.common.dto.RomSysProFunction;
+import com.sitech.rom.rpt.base.IMyBaseDao;
 import com.sitech.rom.user.service.FunctionSvc;
 import com.sitech.rom.user.service.ProFunctionSvc;
 import com.sitech.rom.user.service.ProductSvc;
@@ -37,6 +38,9 @@ public class ProductController extends BaseController {
 	private FunctionSvc functionSvc;
 	@Resource
 	private ProFunctionSvc proFunctionSvc;
+	
+	@Resource
+	private IMyBaseDao myBaseDao;
 	
 	@RequestMapping(value = "product.do")
 	public String product(HttpServletRequest request,
@@ -56,12 +60,18 @@ public class ProductController extends BaseController {
 	    String proName = request.getParameter("proName").trim();
 		
 	    RomProCode qryobj = new RomProCode();
+		
+		String pageNum = request.getParameter("pageNum").trim();
+		System.out.println("pageNum:" + pageNum);
+		qryobj.setPageNum(Integer.parseInt(pageNum));
+		
 	    
 	    if(proCode!=null && !"".equals(proCode))qryobj.setProCode(proCode);
 	    if(proName!=null && !"".equals(proName))qryobj.setProName(proName);
 		List<RomProCode> productList=productSvc.getProList(qryobj);
-		request.setAttribute("productList", productList);
-		
+		//request.setAttribute("productList", productList);
+	    request.setAttribute("productList", myBaseDao.queryForPageList("RomProCode.selectRomProCode",qryobj));
+	    request.setAttribute("bo", qryobj);
 		return "user/product/product_list";
 	}
     	

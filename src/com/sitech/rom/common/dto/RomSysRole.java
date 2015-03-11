@@ -2,7 +2,9 @@ package com.sitech.rom.common.dto;
 
 import java.io.Serializable;
 
-public class RomSysRole implements Serializable { 
+import com.sitech.rom.rpt.bo.MyBaseBO;
+
+public class RomSysRole extends MyBaseBO implements Serializable { 
 	private static final long serialVersionUID = 1L;
 
 	private Long roleId;

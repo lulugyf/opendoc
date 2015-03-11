@@ -5,72 +5,66 @@
 <head>
 <title>角色管理</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="style/conf_style.css"/>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/menu_min.js"></script>
+<script>  
+//加载时适应浏览器高度
+$(document).ready(function() {
+    //模块尺寸  
+	$('.pz_menu').css('height', $(window).height() - 141); 
+	$('.pz_cont_wiap100').css('height', $(window).height() - 10); 
+})
+//改变窗体大小时适应浏览器高度
+$(window).resize(function() {
+    //模块尺寸
+	$('.pz_menu').css('height', $(window).height() - 141);
+	$('.pz_cont_wiap100').css('height', $(window).height() - 250);
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function (){ 
+  
+  $(".pz_menu_cont ul li").menu();
+  
+}); 
+</script>
 </head>
 <body>
 	<form name="srchFrm" target="ifm" method=post>
 		<input type=hidden name="opCode" id="opCode" value="<%=opCode%>">
 		<input type=hidden name="proId" id="proId" value="<%=proId%>">
-<div id="operation">
-		<%@ include file="/npage/include/header.jsp"%>
-</div>	 
-				<table class="myoptable">
-					<!--  <tr>
-						<th>省份代码</th>
-						<td>
-							<select name="provinceCode" id="provinceCode">
-							 <option value="" ></option>
-							<c:if test="${provinceList!=null}"> 
-							<c:forEach items="${provinceList}" var="item">
-								<option value="${item.provinceCode}" >${item.provinceName}</option>
-							</c:forEach>
-							</c:if>
-							</select>
-						</td>
-						<th>运营商代码</th>
-						<td>
-						
-							<select name="tellType" id="tellType">
-							 <option value="" ></option>
-							<c:if test="${tellcorpList!=null}"> 
-							<c:forEach items="${tellcorpList}" var="item">
-								<option value="${item.tellcorpCode}" >${item.tellcorpName}</option>
-							</c:forEach>
-							</c:if>
-							</select>							
-						</td>
-					</tr>-->
+		<input type=hidden name="pageNum" id="pageNum" value="1">
+<div id="operation" class="bb_right_cont1">
+      <div height="12"><table><tr height="12"></tr></table> </div>
+      				<table width="100%" border="0" cellspacing="2" cellpadding="0"  bgcolor="#FFFFFF">
 					<tr>
-						<th>产品</th>
-						<td>
-						    <input type="text" name="productNameShow" id="productNameShow"/>
-						    <input type="hidden" name="proCode" id="proCode">（请模糊匹配输入）
+          				<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">产品：</td>
+						<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:10px;">
+						    <input type="text" name="productNameShow" id="productNameShow" v_maxlength="64" v_minlength="0" class="anc"/>
+						    <input type="hidden" name="proCode" id="proCode" v_maxlength="64" v_minlength="0" class="anc">（请模糊匹配输入）
 						</td>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
 					</tr> 
- 
-					<tr>
-						<td colspan="4" style="text-align:center">
-							<input type="button" class="b_foot" value="查询" onclick="doSrchSubmit()"/>&nbsp;&nbsp;
-							<input type="button" class="b_foot" value="重置" onclick="javascript:document.forms('srchFrm').reset();"/>&nbsp;&nbsp;
-							<input type="button" class="b_foot" id="add" style="display:none" value="新增" onclick="addM()"/>
+      				<tr height="12"></tr>
+ 					<tr>
+						<td height="32" align="center" class="blue" colspan="2">
+				            <input name="" type="button" class="bb_right_sub1" value="查  询" onclick="doSrchSubmit()"/>&nbsp;&nbsp;&nbsp;
+				            <input name="" type="button" class="bb_right_sub1" value="重  置" onclick="doReset()"/>&nbsp;&nbsp;&nbsp;
+							<input name="" type="button" class="bb_right_sub1" id="add" value="新  增" onclick="addM()"/>
 					  </td>
 					</tr>
 				</table>
 
 			<iframe name="ifm" src="" style="width:100%;height:400px;" frameborder="0"></iframe>
-			
-			 
-			 	
-
-		<%@ include file="/npage/include/footer.jsp" %>
+		</div>
 	</form>
-						
+					
 </body>
 <!-- 自动补全引入js -->
 <script type="text/javascript" src="<%=request.getContextPath()%>/njs/plugins/actb/common.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/njs/plugins/actb/myactb.js"></script>
-
+<script src="<%=request.getContextPath()%>/npage/rpt/task/task.js" type="text/javascript"></script>
+<script src="<%=request.getContextPath()%>/njs/system/system.js" type="text/javascript"></script>
 <script language="javascript" type="text/javascript">
 /***********显示隐藏功能权限对应按钮 begin***************/
 $(document).ready(function () {
@@ -136,6 +130,10 @@ var products=new Array();
 	var searchArr=[];
 for(var i=0;products&&i<products.length;i++){
 	searchArr.push(products[i].label);
+}
+
+function doReset(){
+	$('#productNameShow').val('');
 }
 
 var obj = new actb(document.getElementById('productNameShow'),searchArr,handerProduct);

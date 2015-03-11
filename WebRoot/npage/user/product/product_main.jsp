@@ -5,50 +5,70 @@
 <head>
 <title>产品功能管理</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="style/conf_style.css"/>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/menu_min.js"></script>
+<script>  
+//加载时适应浏览器高度
+$(document).ready(function() {
+    //模块尺寸  
+	$('.pz_menu').css('height', $(window).height() - 141); 
+	$('.pz_cont_wiap100').css('height', $(window).height() - 10); 
+})
+//改变窗体大小时适应浏览器高度
+$(window).resize(function() {
+    //模块尺寸
+	$('.pz_menu').css('height', $(window).height() - 141);
+	$('.pz_cont_wiap100').css('height', $(window).height() - 250);
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function (){ 
+  
+  $(".pz_menu_cont ul li").menu();
+  
+}); 
+</script>
 </head>
 <body>
-<div id="operation">
-	<form name="srchFrm" target="ifm" method=post>
+<form name="srchFrm" target="ifm" method=post>
 		<input type=hidden name="opCode" id="opCode" value="<%=opCode%>">
 		<input type=hidden name="proId" id="proId" value="<%=proId%>">
-		<%@ include file="/npage/include/header.jsp"%>
-	
-				<table class="myoptable">
+		<input type=hidden name="pageNum" id="pageNum" value="1">
+		<div id="operation" class="bb_right_cont1">
+				<div height="12"><table><tr height="12"></tr></table> </div>
+				<table width="100%" border="0" cellspacing="2" cellpadding="0"  bgcolor="#FFFFFF">
 					<tr>
-						<th>产品代码：</th>
-						<td>
-							<input type="text" name="proCode" id="proCode" >
+						<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">产品代码：</td>
+						<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:10px;">
+							<input type="text" name="proCode" id="proCode" v_maxlength="64" v_minlength="0" class="anc"/>
 						</td>
-						<th>产品名称：</th>
-						<td>
-							<input type="text" name="proName" id="proName" >
+						<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">产品名称：</td>
+						<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:10px;">
+							<input type="text" name="proName" id="proName" v_maxlength="64" v_minlength="0" class="anc"/>
 						</td>			
 					</tr>
- 
+      				<tr height="12"></tr>
 					<tr>
-						<td colspan="4" style="text-align:center">
-							<input type="button" class="b_foot" value="查询" onclick="doSrchSubmit()"/>&nbsp;&nbsp;
-							<input type="button" class="b_foot" value="重置" onclick="reset()"/>&nbsp;&nbsp;
-							<input type="button" class="b_foot" id="add" style="display:none" value="新增" onclick="addM()"/>							
- 					  </td>
-					</tr>
+			          <td height="32" align="center" class="blue" colspan="6">
+			            <input name="" type="button" class="bb_right_sub1" value="查  询" onclick="doSrchSubmit()"/>&nbsp;&nbsp;&nbsp;
+			            <input name="" type="button" class="bb_right_sub1" value="重  置" onclick="reset()"/>&nbsp;&nbsp;&nbsp;
+						<input name="" type="button" class="bb_right_sub1" id="add" value="新  增" onclick="addM()"/>
+						</td>
+			        </tr>
 				</table>				
 			
 			
 			<iframe name="ifm" src="" style="width:100%;height:400px;" frameborder="0"></iframe>
-			 	
-		
-		<%@ include file="/npage/include/footer.jsp" %>
-	</form>
-</div>						
+	</div>		
+</form>				
 </body>
 
 <!-- 自动补全引入js -->
 <script type="text/javascript" src="<%=request.getContextPath()%>/njs/plugins/actb/common.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/njs/plugins/actb/myactb.js"></script>
-<!--autocomplete.js不支持参数是自定义函数的处理方式.
-<script type="text/javascript" src="<%=request.getContextPath()%>/njs/plugins/autocomplete.js"></script>
--->
+<script src="<%=request.getContextPath()%>/npage/rpt/task/task.js" type="text/javascript"></script>
+<script src="<%=request.getContextPath()%>/njs/system/system.js" type="text/javascript"></script>
 <script language="javascript" type="text/javascript">
 /***********显示隐藏功能权限对应按钮 begin***************/
 $(document).ready(function () {
