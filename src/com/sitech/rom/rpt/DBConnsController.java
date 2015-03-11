@@ -63,6 +63,10 @@ public class DBConnsController {
 			HttpServletResponse response, HttpSession session) {
 		
 		DBConn qry = new DBConn();
+		
+		String pageNum = request.getParameter("pageNum").trim();
+		System.out.println("pageNum:" + pageNum);
+		qry.setPageNum(Integer.parseInt(pageNum));
 
 	    String serv_ip = request.getParameter("serv_ip").trim();
 	    String serv_name = request.getParameter("serv_name").trim();
@@ -79,7 +83,8 @@ public class DBConnsController {
 	    if(db_name!=null && !"".equals(db_name))qry.setDb_name(db_name);
 	    if(db_port!=null && !"".equals(db_port))qry.setDb_port(Integer.parseInt(db_port));
 	    if(db_user!=null && !"".equals(db_user))qry.setDb_user(db_user);
-		request.setAttribute("rlist", myBaseDao.queryForList("sdbconns.qryConns", qry));
+		request.setAttribute("rlist", myBaseDao.queryForPageList("sdbconns.qryConns", qry));
+		request.setAttribute("bo", qry);
 		return "rpt/task/dbconn_list";
 	}
 	

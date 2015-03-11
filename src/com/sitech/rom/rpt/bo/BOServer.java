@@ -2,7 +2,7 @@ package com.sitech.rom.rpt.bo;
 
 import java.io.Serializable;
 
-public class BOServer implements Serializable{
+public class BOServer extends MyBaseBO implements Serializable{
 	
 	private int boid;
 	private String boname;

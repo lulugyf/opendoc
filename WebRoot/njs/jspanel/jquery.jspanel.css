@@ -53,7 +53,9 @@ h3.jsPanel-title{
     font-weight: normal;
     cursor: move;
     min-height: 20px;
-    padding: 0 5px;
+    padding: 5px 5px;
+    font-size:14px;
+    font-family:"Microsoft YaHei";
 }
 .jsPanel-hdr-r div{
     float: right;
@@ -181,10 +183,10 @@ h3.jsPanel-title{
 
 /* light ------------------------------------------- */
 .jsPanel.jsPanel-theme-light{ background: #f1f1f1; box-shadow: 0 0 6px rgba(0, 33, 50, 0.1), 0 7px 25px rgba(17, 38, 60, 0.4); }
-.jsPanel-hdr.jsPanel-theme-light{ color: #000; font-family: tahoma,arial,verdana,sans-serif; font-weight: normal; background: #f1f1f1; }
+.jsPanel-hdr.jsPanel-theme-light{ color: #000; font-family: tahoma,arial,verdana,sans-serif; font-weight: normal; background: url(../../images/home_dq.png) repeat-x; }
 .jsPanel-hdr.jsPanel-theme-light h3{ color: #000; }
 .jsPanel-hdr.jsPanel-theme-light h3 small{ color: #000; font-size: 65%; }
-.jsPanel-content.jsPanel-theme-light { background: none repeat scroll 0 0 #FFFFFF; color: #000; font-family: tahoma,arial,verdana,sans-serif; outline: 1px solid #bbb; }
+.jsPanel-content.jsPanel-theme-light { background: none repeat scroll 0 0 #FFFFFF; color: #000; font-family: "Microsoft YaHei",tahoma,arial,verdana,sans-serif; outline: 1px solid #bbb; }
 .jsPanel-ftr.jsPanel-theme-light{ color: #000; font-family: tahoma,arial,verdana,sans-serif; font-weight: normal; background: #f1f1f1; }
 
 /* medium -------------------------------------------- */

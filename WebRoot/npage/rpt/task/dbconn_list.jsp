@@ -8,22 +8,36 @@
 
 
 <html>
+<link rel="stylesheet" type="text/css" href="style/conf_style.css"/>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/menu_min.js"></script>
 <body>
-<div id="operation" style="padding:0px">
-<div id="operation_table" style="margin:0px">
-<div class="title"> <div class="text">数据源配置列表</div></div>  
-<div class="list11">
-	<table id="mTable1">
-		<tr>
-			<th>数据库IP</th>
-			<th>主机名</th>
-			<th>主机用户名</th>
-			<th>源数据库类型</th>
-			<th>数据库名</th>
-			<th>数据库端口</th>
-			<th>数据库用户名</th>
-			<th>导出路径</th>
-			<th>操作</th>
+<div class="pz_cont_wiap100 fr">
+    <div class="blankH12"></div>
+    <div class="pz_cont_main">
+    <form name="listFrm" method="post" action="dbconnsList.do">
+    	<input type=hidden name="opCode" id="opCode" value="<%=opCode%>">
+		<input type=hidden name="proId" id="proId" value="<%=proId%>">
+		<input type=hidden name="pageNum" id="pageNum" value="">
+		
+		<input type=hidden name="serv_ip" id="serv_ip" value="${bo.serv_ip}">
+		<input type=hidden name="serv_name" id="serv_name" value="${bo.serv_name}">
+		<input type=hidden name="serv_user" id="serv_user" value="${bo.serv_user}">
+		<input type=hidden name="db_type" id="db_type" value="${bo.db_type}">
+		<input type=hidden name="db_name" id="db_name" value="${bo.db_name}">
+		<input type=hidden name="db_port" id="db_port" value="${bo.db_port}">
+		<input type=hidden name="db_user" id="db_user" value="${bo.db_user}">
+	<table width="100%" border="0" cellSpacing="2" cellpadding="0" bgcolor="#FFFFFF">
+		<tr class="f14 white">
+          <td width="8%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">数据库IP</td>
+          <td width="12%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">主机名</td>
+          <td width="8%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">主机用户名</td>
+          <td width="11%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">源数据库时间</td>
+          <td width="9%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">数据库名</td>
+          <td width="9%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">数据库端口</td>
+          <td width="9%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">数据库用户名</td>
+          <td width="9%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">导出路径</td>
+          <td width="9%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">操作</td>
 		</tr>
 		<% 
 
@@ -32,31 +46,35 @@
 		%>
 		    <c:forEach items="${rlist }" var="item">
 		   		<tr>
-			   		<td>${item.serv_ip }</td>
+			   		<td height="32" align="left" bgcolor="#f6f6f6" style="text-indent:10px;">${item.serv_ip }</td>
 			   		
-			   		<td>${item.serv_name }</td>
-			   		<td>
+			   		<td height="32" align="left" bgcolor="#f6f6f6" style="text-indent:10px;">${item.serv_name }</td>
+			   		<td height="32" align="left" bgcolor="#f6f6f6" style="text-indent:10px;">
 				   		${item.serv_user }
 			   		</td>
-			   		<td>${item.db_type}</td>
-			   		<td>${item.db_name}</td>
-			   		<td>${item.db_port}</td>
-			   		<td>${item.db_user}</td>
-			   		<td>${item.data_dir}</td>
-			   		<td>
-			   		   
-		   		    <input type="button" class="butCha" name="edit" style="display:none" title="编辑" onclick="editRow('${item.order_id}')"/>
-		   		    <input type="button" class="butDel" name="del" style="display:none" title="删除" onclick="showDialog('是否删除?',3,'retT=delRow(\'${item.order_id}\')');"/>  
+			   		<td height="32" align="left" bgcolor="#f6f6f6" style="text-indent:10px;">${item.db_type}</td>
+			   		<td height="32" align="left" bgcolor="#f6f6f6" style="text-indent:10px;">${item.db_name}</td>
+			   		<td height="32" align="left" bgcolor="#f6f6f6" style="text-indent:10px;">${item.db_port}</td>
+			   		<td height="32" align="left" bgcolor="#f6f6f6" style="text-indent:10px;">${item.db_user}</td>
+			   		<td height="32" align="left" bgcolor="#f6f6f6" style="text-indent:10px;">${item.data_dir}</td>
+			   		<td height="32" align="left" bgcolor="#f6f6f6" style="text-indent:10px;">
+                    <input type="button" class="butwrite" name="edit" style="width:20px;" title="编辑" onclick="editRow('${item.order_id}')"/>
+		   		    <input type="button" class="butdelete" name="del" style="width:20px;" title="删除" onclick="showDialog('请确认是否删除?',3,'retT=delRow(\'${item.order_id}\')');"/>  
 			   		    
 			   		</td>
 		   		</tr>
 		   	 </c:forEach>
 	</table>
-</div>
-  
-</div>	
-</div>
-<%@ include file="/npage/include/footer.jsp"%>
+      </form>
+      <div class="blankH22"></div>
+      <div align="center">
+        <!-- 分页 begin -->
+        <jsp:include page="/npage/public/pagination.jsp" />
+        <!-- 分页 end -->
+      </div>
+      <div class="blankH18"></div>
+    </div>
+  <p class="clear"></p>
  </body>
  
 <script language="javascript" type="text/javascript">

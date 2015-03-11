@@ -85,7 +85,7 @@ function initTree(data){
 	$('#navTree').tree({
 		lines:true,
 		onClick: function(n){
-			//console.log(n.text + ":" + n.id + ":" + n.attr_action + "=="+n.pos);
+			console.log(n.text + ":" + n.id + ":" + n.attr_action + "=="+n.pos);
 			if(n.attr_action)
 				openTab(n.attr_opcode, n.attr_proid, n.text, n.attr_action, n.pos);
 		}
@@ -103,6 +103,7 @@ function openTab(opCode, proId, title, targetUrl, opName)
 		$('#tabbedPanel').tabs('select', title);
 	} else {
 		var content = '<iframe scrolling="auto" class="workIframe" src="'+targetUrl+'" style="overflow:scroll;border:0px solid #ff0000"></iframe>';
+		//console.log(content);
 		$('#tabbedPanel').tabs('add',{
 			title:title,
 			content:content,

@@ -1,100 +1,81 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<html>
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<meta http-equiv=Content-Language content=zh-cn>
-	<meta http-equiv=Content-Type content="text/html; charset=UTF-8">
-	<meta content="MSHTML 6.00.2800.1106" name=GENERATOR>
-	<meta content=FrontPage.Editor.Document name=ProgId>
-	<title>报表系统</title>
-	<style type="text/css">
-	</style>
-	<link href="../../nresources/UI/css/login.css" rel="stylesheet" type="text/css"></link>
-	<script type="text/javascript" src="../../njs/system/jquery-1.3.2.min.js"></script>	
-	<script language=javascript>
-		
-		$(document).ready(function(){
-			$("BUTTON").hover(
-				function () {
-				    $(this).css("background-position","center");
-				},
-				function () {
-				    $(this).css("background-position","top");
-				}
-			);
-		});
-		
-		function doreset()
-		{
-			$("#loginNo")[0].value="";
-			$("#loginPwd")[0].value="";
-		}
-		
-		function doSubmit(thisForm){
-			var loginNo = document.getElementById("loginNo").value;
-			var loginPwd = document.getElementById("loginPwd").value;
-			if(loginNo==""){
-				alert("请输入您的登录帐号！");
-				return false;
-			}
-			if(loginPwd==""){
-				alert("请输入您的登录密码！");
-				return false;
-			}
-			if(!haveSpe(loginNo)){
-				alert("请输入合法的登录帐号！");
-				return  false;
-			}
-			if(!haveSpe(loginPwd)){
-				alert("请输入合法的登录密码！");
-				return  false;
-			}
-			
-			thisForm.btn1.disabled=true;
-			thisForm.submit();
-		}
-		
-		function haveSpe(str){
-		  var comp="\\/><\'\"&#";
-		  var aChar="";
-		  for(var i=0;i<str.length;i++)
-		  {
-			aChar=str.charAt(i);  
-			if(comp.indexOf(aChar)!=-1)
-				return false;
-		  }
-		  return true;
-		}
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>登陆</title>
+<link rel="shortcut icon" type="image/x-icon" href="../../xpage/images/logo.ico" media="screen" />
+<link rel="stylesheet" type="text/css" href="../../style/conf_style.css"/>
+<script type="text/javascript" src="../../js/jquery.min.js"></script>
+<script>  
+//加载时适应浏览器高度
+$(document).ready(function() {
+    //模块尺寸  
+	$('.redtree').css('height', $(window).height() - 0); 
+})
+//改变窗体大小时适应浏览器高度
+$(window).resize(function() {
+    //模块尺寸
+	$('.redtree').css('height', $(window).height() - 0);
+});
+function doSubmit(thisForm){
+	var loginNo = document.getElementById("loginNo").value;
+	var loginPwd = document.getElementById("loginPwd").value;
+	if(loginNo==""){
+		alert("请输入用户名！");
+		return false;
+	}
+	if(loginPwd==""){
+		alert("请输入登录密码！");
+		return false;
+	}
+	if(!haveSpe(loginNo)){
+		alert("请输入合法的用户名！");
+		return  false;
+	}
+	if(!haveSpe(loginPwd)){
+		alert("请输入合法的登录密码！");
+		return  false;
+	}
+	
+	thisForm.btn1.disabled=true;
+	thisForm.submit();
+}
 
-	</script>
-</head>  
-<body class="login" onload="document.forms[0].loginNo.focus()">
-	<div class="loginPanel panel2"></div>
-	<div class="loginPanel">
-		<div class="caption">
-			<div class="title"></div>
-		</div>
-		<form name="frm" action="/rom/login.do" method="post">
-			<fieldset class="fm-input">
-				<div class="fm-div">
-					<label>帐&nbsp;&nbsp;&nbsp;&nbsp;号:</label>
-					<input type="text" name="loginNo" id="loginNo" class="idName" value="" maxlength="8" value="" onkeydown="if(event.keyCode == 13 && this.value.length == 6){document.forms[0].loginPwd.focus()}" />
-				</div>
-				<div class="fm-div">
-					<label>密&nbsp;&nbsp;&nbsp;&nbsp;码:</label>
-					<input type="password" name="loginPwd" id="loginPwd" class="pass" value="" onkeydown="if(event.keyCode == 13){doSubmit(document.frm)}" />
-				</div>
-			</fieldset>
-			<fieldset class="fm-submit">
-				<div class="fm-div"><button name="btn1" onclick="doSubmit(document.frm)">确 定</button></div>
-				<div class="fm-div"><button name="btn2"  onclick="doreset()" >重 置</button></div>
-			</fieldset>	
-			<input type="hidden"  name="ip_address" value="">	
-		</form>
-		<div class="tips" style="top:350px;font-size:20;color:#f33;">
-		</div>
-		<div class="footer" style="top:430px;">xxxx技术股份有限公司</div>
-	</div>
-	<div class="warp"></div>
-
+function haveSpe(str){
+  var comp="\\/><\'\"&#";
+  var aChar="";
+  for(var i=0;i<str.length;i++)
+  {
+	aChar=str.charAt(i);  
+	if(comp.indexOf(aChar)!=-1)
+		return false;
+  }
+  return true;
+}
+	  
+</script>
+</head>
+<body id="login_body">
+<form name="frm" action="/rom/login.do" method="post">
+<div class="redtree">
+ <div class="login_wiap">
+  <div class="login_logo"></div>
+  <div class="blankH34"></div>
+  <div class="login_mian">
+    <ul>
+      <li class="name">
+        <span><input name="loginNo" id="loginNo" type="text" value="请输入用户名" onfocus="if (value =='请输入用户名'){value =''}" onblur="if (value ==''){value='请输入用户名'}"/></span>
+      </li>
+      <li class="pwd">
+        <span><input name="loginPwd" id="loginPwd" type="text" value="请输入登陆密码" onfocus="if (value =='请输入登陆密码'){value ='',type='password'}" onblur="if (value ==''){value='请输入登陆密码',type='text'}" /></span>
+      </li>
+      <li class="sub">
+        <input name="btn1" id="btn1" type="button" onclick="doSubmit(document.frm)" />
+      </li>
+    </ul>
+  </div>
+ </div>
+</div>
+</form>
 </body>
 </html>

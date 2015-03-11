@@ -43,12 +43,18 @@ public class BOServerController {
 			HttpServletResponse response, HttpSession session) {
 		
 		BOServer bo = new BOServer();
+		
+		String pageNum = request.getParameter("pageNum").trim();
+		System.out.println("pageNum:" + pageNum);
+		bo.setPageNum(Integer.parseInt(pageNum));
+		
 		bo.setBoname(request.getParameter("boname"));
 		bo.setUsername(request.getParameter("username"));
 		bo.setAuthaddr(request.getParameter("authaddr"));
 		bo.setOpendocaddr(request.getParameter("opendocaddr"));
 		
-		request.setAttribute("list", dao.queryForList("boserver.qryBOServer",bo));
+		request.setAttribute("list", dao.queryForPageList("boserver.qryBOServer",bo));
+		request.setAttribute("bo", bo);
 		
 		return "rpt/boserver/boserver_list";
 	}

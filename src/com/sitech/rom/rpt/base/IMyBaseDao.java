@@ -34,6 +34,8 @@ public abstract interface IMyBaseDao
   public abstract Object queryForObject(String paramString, Object paramObject1, Object paramObject2);
 
   public abstract List queryForList(String paramString);
+  
+  public abstract List queryForPageList(String paramString, Object paramObject);
 
   public abstract List queryForList(String paramString, Object paramObject);
 

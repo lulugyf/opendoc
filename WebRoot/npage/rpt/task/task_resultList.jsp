@@ -8,32 +8,44 @@
 
 
 <html>
+<link rel="stylesheet" type="text/css" href="style/conf_style.css"/>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/menu_min.js"></script>
 <body>
-<div id="operation" style="padding:0px">
-<div id="operation_table" style="margin:0px">
-<div class="title"> <div class="text">任务结果列表</div></div>  
-<div class="list11">
-	<table id="mTable1">
-		<tr>
-			<th>作业名称</th>
-			<th>作业执行日期</th>
-			<th>开始时间</th>
-			<th>结束时间</th>
-			<th>运行状态</th>
-			<th>运行情况</th>
-		</tr>
+<div class="pz_cont_wiap100 fr">
+    <div class="blankH12"></div>
+    <div class="pz_cont_main">
+    <form name="listFrm" method="post" action="taskresultList.do">
+    	<input type=hidden name="opCode" id="opCode" value="<%=opCode%>">
+		<input type=hidden name="proId" id="proId" value="<%=proId%>">
+		<input type=hidden name="pageNum" id="pageNum" value="">
+		
+		<input type=hidden name="job_id" id="job_id" value="${bo.job_id}">
+		<input type=hidden name="run_status" id="run_status" value="${bo.run_status}">
+		<input type=hidden name="start_time" id="start_time" value="${bo.start_time}">
+		<input type=hidden name="end_time" id="end_time" value="${bo.end_time}">
+		
+      <table width="100%" border="0" cellSpacing="2" cellpadding="0" bgcolor="#FFFFFF">
+        <tr class="f14 white">
+          <td width="8%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">作业名称</td>
+          <td width="12%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">作业执行日期</td>
+          <td width="8%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">开始时间</td>
+          <td width="11%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">结束时间</td>
+          <td width="9%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">运行状态</td>
+          <td width="9%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">运行情况</td>
+        </tr>
 		<% 
 
 		    String edit = request.getParameter("edit");
 		    String del = request.getParameter("del");
 		%>
 		    <c:forEach items="${rlist }" var="item">
-		   		<tr>
-			   		<td>${item.job_name }</td>
-			   		<td>${item.op_date}</td>
-			   		<td>${item.start_time }</td>
-			   		<td>${item.end_time}</td>
-			   		<td>
+        <tr>
+          <td height="32" align="left" bgcolor="#f6f6f6" style="text-indent:10px;">${item.job_name }</td>
+          <td height="32" align="left" bgcolor="#f6f6f6" style="text-indent:10px;">${item.op_date}</td>
+          <td height="32" align="left" bgcolor="#f6f6f6" style="text-indent:10px;">${item.start_time}</td>
+          <td height="32" align="left" bgcolor="#f6f6f6" style="text-indent:10px;">${item.end_time}</td>
+          <td height="32" align="left" bgcolor="#f6f6f6" style="text-indent:10px;">
 			   			<c:if test="${item.run_status == '0'}" >等待运行</c:if>
 				   		<c:if test="${item.run_status == '1'}">开始导出</c:if>
 				   		<c:if test="${item.run_status == '2'}" >导出成功</c:if>
@@ -41,18 +53,24 @@
 				   		<c:if test="${item.run_status == '4'}" >开始导入</c:if>
 				   		<c:if test="${item.run_status == '5'}">导入成功</c:if>
 				   		<c:if test="${item.run_status == '6'}" >导入失败</c:if>
-			   		</td>
-			   		<td>${item.run_msg}</td>
-		   		</tr>
-		   	 </c:forEach>
-	</table>
-</div>
-  
-</div>	
-</div>
-<%@ include file="/npage/include/footer.jsp"%>
+          </td>
+          <td height="32" align="left" bgcolor="#f6f6f6" style="text-indent:10px;">${item.run_msg}</td>
+        </tr>
+	  </c:forEach>
+      </table>
+      </form>
+      <div class="blankH22"></div>
+      <div align="center">
+        <!-- 分页 begin -->
+        <jsp:include page="/npage/public/pagination.jsp" />
+        <!-- 分页 end -->
+      </div>
+      <div class="blankH18"></div>
+    </div>
+  <p class="clear"></p>
  </body>
  
+<script src="<%=request.getContextPath()%>/njs/system/system.js" type="text/javascript"></script>
 <script language="javascript" type="text/javascript">
 $(document).ready(function () {
     if('<%=edit%>'=='Y'){

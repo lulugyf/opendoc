@@ -3,10 +3,10 @@ var panel_sm1;
 $(function() {
 	panel_sm1 = $.jsPanel({
 		selector: ".panel-body",
-		title: "报表参数 设置",
+		title: "报表参数设置",
 		size: { width:500, height:400 },
 		theme: "light",
-        position: { top:40, left:15 },
+        position: { top:0, right:0 },
 		//position: "center",
 		id: 'panel_i1',
 		//controls:      { buttons: 'none' },

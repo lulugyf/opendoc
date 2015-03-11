@@ -1,4 +1,4 @@
-<!--<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ page import="java.lang.*"%>
 <%@ page import="java.util.*"%>
@@ -18,175 +18,113 @@
 	String login_name = (String)session.getAttribute("loginName");
 %>
 
-<html>		
-<head> 
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>报表系统</title>
-	<link href="<%=request.getContextPath()%>/nresources/UI/css/framework.css" rel="stylesheet" type="text/css" />
-	
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/njs/easyui/themes/default/easyui.css">
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/njs/easyui/themes/icon.css">
-	<script type="text/javascript" src="<%=request.getContextPath()%>/njs/easyui/jquery.min.js"></script>
-	<script type="text/javascript" src="<%=request.getContextPath()%>/njs/easyui/jquery.easyui.min.js"></script>
-
-<style>
-#tabbedPanel {
-    background: none repeat scroll 0 0 #f3f8f9;
-    border: 1px solid #257abb;
-    display: block;
-    height: 99%;
-    overflow: hidden;
-}
-
-</style>
-
-<script src="<%=request.getContextPath()%>/njs/system/system.js" type="text/javascript"></script>
-	
-</head>
-<body class="easyui-layout" style="text-align:left" onresize="resizebody()">
-	<!--topPanel begin-->
-<div data-options="region: 'north'" style="border:false; height:34px; background:url(../../nresources/UI/images/framework.png) repeat-x scroll left -51px;text-align:center" id="topPanel">
-	<div id="menuPanel">
-		<div class="head-logo">
-		</div>
-		
-		<ul class="rightexit">
-			<div class="exit" onclick="javascript:closeWindow()" title="退出">
-		</ul>
-	</div>
-</div>
-	<!--topPanel end-->
-		
-
-<div data-options="region:'west',collapsed:false,split:true" id="westdiv" title="用户功能树-<%=login_no %>" style="width:200px;padding:5px;">
-		<div id="navTree" class="easyui-tree">
-		</div>
-</div>
-		
-		<!--workPanel begin-->
-	<div data-options="region:'center', fit:true" id="tabbedPanel" style="border: false" class="easyui-tabs">
-		<div title="Home" class="tabpane" style="width:400px;height:300px;border:0px solid #ff0000">
-		<iframe class="workIframe" id="ifram" src="../portal/work/portal.jsp" style="align:left;border:0px solid #0000ff"> </iframe>
-		
-		</div>
-	</div>
-
-		<!--workPanel end-->
-
-<script language="javascript" type="text/javascript">
-
-
-function initTree(data){
-	$('#navTree').tree('append', {
-		//parent: root.target,
-		data: data.data
-	});	
-	
-	$('#navTree').tree({
-		lines:true,
-		onClick: function(n){
-			//console.log(n.text + ":" + n.id + ":" + n.attr_action + "=="+n.pos);
-			if(n.attr_action)
-				openTab(n.attr_opcode, n.attr_proid, n.text, n.attr_action, n.pos);
-		}
-	})
-}
-
-
-	
-function openTab(opCode, proId, title, targetUrl, opName)
-{	
-	targetUrl = "<%=request.getContextPath()%>/npage/"+targetUrl;
-	targetUrl=targetUrl+"?opCode="+opCode+"&opName="+encodeURI(opName)+"&proId="+proId+"&provinceCode=-1&tellType=-1";
-	
-	if ($('#tabbedPanel').tabs('exists', title)){
-		$('#tabbedPanel').tabs('select', title);
-	} else {
-		var content = '<iframe scrolling="auto" class="workIframe" src="'+targetUrl+'" style="overflow:scroll;border:0px solid #ff0000"></iframe>';
-		$('#tabbedPanel').tabs('add',{
-			title:title,
-			content:content,
-			closable:true
-		});
-		resizebody();
-	}
-}
-
-(function($,h,c){var a=$([]),e=$.resize=$.extend($.resize,{}),i,k="setTimeout",j="resize",d=j+"-special-event",b="delay",f="throttleWindow";e[b]=250;e[f]=true;$.event.special[j]={setup:function(){if(!e[f]&&this[k]){return false}var l=$(this);a=a.add(l);$.data(this,d,{w:l.width(),h:l.height()});if(a.length===1){g()}},teardown:function(){if(!e[f]&&this[k]){return false}var l=$(this);a=a.not(l);l.removeData(d);if(!a.length){clearTimeout(i)}},add:function(l){if(!e[f]&&this[k]){return false}var n;function m(s,o,p){var q=$(this),r=$.data(this,d);r.w=o!==c?o:q.width();r.h=p!==c?p:q.height();n.apply(this,arguments)}if($.isFunction(l)){n=l;return m}else{n=l.handler;l.handler=m}}};function g(){i=h[k](function(){a.each(function(){var n=$(this),m=n.width(),l=n.height(),o=$.data(this,d);if(m!==o.w||l!==o.h){n.trigger(j,[o.w=m,o.h=l])}});g()},e[b])}})(jQuery,this);
-
-
-
-
-function resizebody(){
-	var p0 = $('#westdiv');
-	var w = $(window);
-	var wwidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth; //$(window).innerWidth();
-	
-	if($('#westdiv:visible').length == 0){ //nav div collapsed
-		$('.workIframe').each(function(i, p){
-			var x = $(p);
-			x.width(wwidth-34);
-			x.height(p0.height());
-		});
-	}else{
-		$('.workIframe').each(function(i, p){
-			var x = $(p);
-			x.width(wwidth-p0.width()-24);
-			x.height(p0.height());
-		});
-	}
-	//var p = $('#ifram');
-	//console.log("ifram width:"+p.width() + " window.width:"+wwidth);
-}
-
+<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>报表系统</title>
+<link rel="stylesheet" type="text/css" href="../../style/conf_style.css"/>
+<script type="text/javascript" src="../../js/jquery.min.js"></script>
+<script type="text/javascript" src="../../js/menu_min.js"></script>
+<script type="text/javascript">
+$(document).ready(function (){ 
+  
+  $(".leftMenu ul li").menu();
+  
+}); 
+</script>
+<script>
 $(function(){
-	resizebody();
-	$('#westdiv').resize(resizebody);
+$('.mainWiap').css('left','0');
+var expanded = true;
+$('.bar').click(function(){
+	if (expanded) {
+		$('.mainWiap').animate({left:'-275px'},500);
+		$('.bar').css('background-position','-17px 0px');
+		$("#mainright").width($(window).width()-0).animate({left:'0px'},500);
 
-	$('body').layout('panel','west').panel({
-		onCollapse:function(){
-			resizebody();
-		},
-		onExpand:function(){
-			resizebody();
-		}
-	});
-	
-	$.ajax({
-		url:'../../getfuncmenu.do',
-		method:'post',
-		cache:false,
-		data: {loginno:""},
-		dataType: "json",
-        success: function (data){
-        	//console.log("out:"+JSON.stringify(data));
-        	if(data.ret == 0){
-        		initTree(data);
-        	}else{
-        		showmsg("get data failed:"+data.ret + ":"+data.msg);
-        	}
-        },
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-            showmsg("failed:"+errorThrown);
-        }
-	})
-
+	}else {
+		$('.mainWiap').animate({left:'0'},500);
+		$('.bar').css('background-position','0px 0px');
+		$("#mainright").width($(window).width()-276).animate({left:'276px'},"fast");
+	}
+	expanded = !expanded;
 });
-
-
-
-
-function closeWindow(){
-	loading("正在退出");
-	$.post('logout.jsp', {}, function(result){
-		unLoading('ajaxLoadingDiv');
-		window.location = 'login.htm';
-	});
-}
-
-
-
-</script>	
-
+});
+</script>
+</head>
+<body style="overflow:hidden" scroll="no" oncontextmenu="return false" onselectstart="return false" ondragstart="return false" onbeforecopy="return false">
+<div class="backmain">
+  <!--左边-->
+  <div class="mainWiap">
+    <div class="mainWiap2">
+      <div class="bar"><a href="javascript:"></a></div>
+      <div id="Container">
+        <div class="logo"><img src="../../images/logo.png" width="275" height="91" /></div>
+        <div class="leftMenu">
+          <ul>
+            <li> <a class="active" href="#sub1">报表系统</a>
+              <ul style="display:none;">
+                <li> <a href="#sub2">数据同步任务</a>
+                  <ul>
+                    <li><a href="报表参数配置.html" target="MainFrame"><em>任务配置</em></a></li>
+                    <li><a href="报表配置.html" target="MainFrame"><em>任务结果查看</em></a></li>
+                    <li><a href="参数与用户关联配置.html" target="MainFrame"><em>数据连接配置</em></a></li>
+                  </ul>
+                </li>
+                <li> <a href="#sub2">数据同步任务</a>
+                  <ul>
+                    <li><a href="报表参数配置.html" target="MainFrame"><em>任务配置</em></a></li>
+                    <li><a href="报表配置.html" target="MainFrame"><em>任务结果查看</em></a></li>
+                    <li><a href="参数与用户关联配置.html" target="MainFrame"><em>数据连接配置</em></a></li>
+                  </ul>
+                </li>
+                <li> <a href="#sub2">数据同步任务</a>
+                  <ul>
+                    <li><a href="报表参数配置.html" target="MainFrame"><em>任务配置</em></a></li>
+                    <li><a href="报表配置.html" target="MainFrame"><em>任务结果查看</em></a></li>
+                    <li><a href="参数与用户关联配置.html" target="MainFrame"><em>数据连接配置</em></a></li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <li> <a class="active" href="#sub1">测试系统</a>
+              <ul style="display:none;">
+                <li> <a href="#sub2">数据同步任务</a>
+                  <ul>
+                    <li><a href="报表参数配置.html" target="MainFrame"><em>任务配置</em></a></li>
+                    <li><a href="报表配置.html" target="MainFrame"><em>任务结果查看</em></a></li>
+                    <li><a href="参数与用户关联配置.html" target="MainFrame"><em>数据连接配置</em></a></li>
+                  </ul>
+                </li>
+                <li> <a href="#sub2">数据同步任务2</a>
+                  <ul>
+                    <li><a href="报表参数配置.html" target="MainFrame"><em>任务配置</em></a></li>
+                    <li><a href="报表配置.html" target="MainFrame"><em>任务结果查看</em></a></li>
+                    <li><a href="参数与用户关联配置2.html" target="MainFrame"><em>数据连接配置2</em></a></li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--左边 end-->
+  <!--右边-->
+  <div class="right_main" id="mainright">
+    <div class="topWiap">
+      <ul>
+        <li class="out"><a href="#" title="退出">退出</a></li>
+        <li class="pwd"><a href="#">修改密码</a></li>
+        <li class="name">工号：RedTree &nbsp;&nbsp;&nbsp; 用户名：RedTree IT Solution</li>
+      </ul>
+    </div>
+    <iframe src="../../home.html" name="MainFrame" id="MainFrame" frameborder="no" scrolling="no"  marginwidth="0"  marginheight="0" width="100%"></iframe>
+  </div>
+  <!--右边 end-->
+</div>
+<script type="text/javascript" src="../../js/frame.js"></script>
 </body>
 </html>

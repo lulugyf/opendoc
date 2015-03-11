@@ -32,6 +32,6 @@ response.setHeader("Pragma","No-cache");
 response.setHeader("Cache-Control","no-cache");
 response.setDateHeader("Expires", 0);
 %>
-<link href="<%=request.getContextPath()%>/nresources/<%=themePath%>/css/FormText.css" rel="stylesheet" type="text/css" />
+<!--link href="<%=request.getContextPath()%>/nresources/<%=themePath%>/css/FormText.css" rel="stylesheet" type="text/css" />   -->
 <link href="<%=request.getContextPath()%>/nresources/<%=themePath%>/css/block.css" rel="stylesheet" type="text/css" />
 

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="testserver">
+	<typeAlias alias="TESTServer" type="com.sitech.rom.rpt.bo.TESTServer" />
+
+	
+	<sql id="where-testserver">
+	   where 1=1
+		<dynamic  prepend="and">
+			<isPropertyAvailable property="order_id" prepend="and">
+				<isNotNull property="order_id">
+					<isNotEmpty property="order_id">
+						order_id = #order_id#
+					</isNotEmpty>
+				</isNotNull>
+			</isPropertyAvailable>
+			<isPropertyAvailable property="serv_ip" prepend="and">
+				<isNotNull property="serv_ip">
+					<isNotEmpty property="serv_ip">
+						serv_ip = #serv_ip#
+					</isNotEmpty>
+				</isNotNull>
+			</isPropertyAvailable>
+			<isPropertyAvailable property="serv_name" prepend="and">
+				<isNotNull property="serv_name">
+					<isNotEmpty property="serv_name">
+						serv_name = #serv_name#
+					</isNotEmpty>
+				</isNotNull>
+			</isPropertyAvailable>
+			<isPropertyAvailable property="serv_user" prepend="and">
+				<isNotNull property="serv_user">
+					<isNotEmpty property="serv_user">
+						serv_user = #serv_user#
+					</isNotEmpty>
+				</isNotNull>
+			</isPropertyAvailable>
+	  </dynamic>
+	</sql>
+
+	<select id="qryTESTServer" parameterClass="TESTServer" resultClass="TESTServer">
+		select
+		  order_id, serv_ip, serv_name, serv_user
+		from test
+		<include refid="where-testserver"/>
+		order by order_id
+	</select>
+	
+	<insert id="insertTESTServer" parameterClass="TESTServer">
+		INSERT INTO test (
+			order_id, serv_ip, serv_name, serv_user
+		) VALUES (
+		 #order_id#, #serv_ip#, #serv_name#, #serv_user#
+		)
+	</insert>
+	
+	<update id="updateTESTServer" parameterClass="TESTServer">
+		UPDATE test set
+		  order_id=#order_id#, serv_ip=#serv_ip#, serv_name=#serv_name#, serv_user=#serv_user# 
+		WHERE order_id = #order_id#
+	</update>
+
+	<delete id="deleteTESTServer" parameterClass="java.lang.Integer">
+		DELETE FROM test
+		WHERE order_id = #order_id#
+	</delete>
+	
+	
+	
+</sqlMap>

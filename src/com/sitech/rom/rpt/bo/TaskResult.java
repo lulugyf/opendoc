@@ -2,7 +2,7 @@ package com.sitech.rom.rpt.bo;
 
 import java.io.Serializable;
 
-public class TaskResult implements Serializable{
+public class TaskResult extends MyBaseBO implements Serializable{
 	private String job_seq;
 	private String op_date;
 	private int job_id;

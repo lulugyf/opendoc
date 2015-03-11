@@ -8,19 +8,30 @@
 
 
 <html>
+<link rel="stylesheet" type="text/css" href="style/conf_style.css"/>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/menu_min.js"></script>
 <body>
-<div id="operation" style="padding:0px">
-<div id="operation_table" style="margin:0px">
-<div class="title"> <div class="text">数据源配置列表</div></div>  
-<div class="list11">
-	<table id="mTable1">
-		<tr>
-			<th>名称</th>
-			<th>验证服务地址</th>
-			<th>用户名</th>
-			<th>文档服务地址</th>
-			<th>备注</th>
-			<th>操作</th>
+<div class="pz_cont_wiap100 fr">
+    <div class="blankH12"></div>
+    <div class="pz_cont_main">
+    <form name="listFrm" method="post" action="boserverList.do">
+    	<input type=hidden name="opCode" id="opCode" value="<%=opCode%>">
+		<input type=hidden name="proId" id="proId" value="<%=proId%>">
+		<input type=hidden name="pageNum" id="pageNum" value="">
+		
+		<input type=hidden name="boname" id="boname" value="${bo.boname}">
+		<input type=hidden name="authaddr" id="authaddr" value="${bo.authaddr}">
+		<input type=hidden name="username" id="username" value="${bo.username}">
+		<input type=hidden name="opendocaddr" id="opendocaddr" value="${bo.opendocaddr}">
+	<table width="100%" border="0" cellSpacing="2" cellpadding="0" bgcolor="#FFFFFF">
+		<tr class="f14 white">
+	          <td width="8%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">名称</td>
+	          <td width="12%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">验证服务地址</td>
+	          <td width="8%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">用户名</td>
+	          <td width="11%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">文档服务地址</td>
+	          <td width="9%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">备注</td>
+	          <td width="9%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">操作</td>
 		</tr>
 		<% 
 
@@ -29,28 +40,32 @@
 		%>
 		    <c:forEach items="${list }" var="item">
 		   		<tr>
-			   		<td>${item.boname }</td>
+			   		<td height="32" align="left" bgcolor="#f6f6f6" style="text-indent:10px;">${item.boname }</td>
 			   		
-			   		<td>${item.authaddr }</td>
-			   		<td>
+			   		<td height="32" align="left" bgcolor="#f6f6f6" style="text-indent:10px;">${item.authaddr }</td>
+			   		<td height="32" align="left" bgcolor="#f6f6f6" style="text-indent:10px;">
 				   		${item.username }
 			   		</td>
-			   		<td>${item.opendocaddr}</td>
-			   		<td>${item.remarks}</td>
-			   		<td>
-			   		   
-		   		    <input type="button" class="butCha" name="edit" style="display:none" title="编辑" onclick="editRow('${item.boid}')"/>
-		   		    <input type="button" class="butDel" name="del" style="display:none" title="删除" onclick="showDialog('请确认是否删除?',3,'retT=delRow(\'${item.boid}\')');"/>  
+			   		<td height="32" align="left" bgcolor="#f6f6f6" style="text-indent:10px;">${item.opendocaddr}</td>
+			   		<td height="32" align="left" bgcolor="#f6f6f6" style="text-indent:10px;">${item.remarks}</td>
+			   		<td height="32" align="left" bgcolor="#f6f6f6" style="text-indent:10px;">
+                    <input type="button" class="butwrite" name="edit" style="width:20px;" title="编辑" onclick="editRow('${item.boid}')"/>
+		   		    <input type="button" class="butdelete" name="del" style="width:20px;" title="删除" onclick="showDialog('请确认是否删除?',3,'retT=delRow(\'${item.boid}\')');"/>  
 			   		    
 			   		</td>
 		   		</tr>
 		   	 </c:forEach>
 	</table>
-</div>
-  
-</div>	
-</div>
-<%@ include file="/npage/include/footer.jsp"%>
+	</form>
+      <div class="blankH22"></div>
+      <div align="center">
+        <!-- 分页 begin -->
+        <jsp:include page="/npage/public/pagination.jsp" />
+        <!-- 分页 end -->
+      </div>
+      <div class="blankH18"></div>
+    </div>
+  <p class="clear"></p>
  </body>
  
 <script language="javascript" type="text/javascript">

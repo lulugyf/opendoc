@@ -1,5 +1,16 @@
 package com.sitech.rom.rpt.base;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.orm.ibatis.SqlMapClientCallback;
+import org.springframework.stereotype.Repository;
+
 import com.ibatis.sqlmap.client.SqlMapClient;
 import com.ibatis.sqlmap.client.SqlMapException;
 import com.ibatis.sqlmap.client.SqlMapExecutor;
@@ -9,29 +20,9 @@ import com.sitech.jcf.core.ErrorCode;
 import com.sitech.jcf.core.exception.AppException;
 import com.sitech.jcf.core.ibatis.CountStatementUtil;
 import com.sitech.jcf.ijdbc.SqlFind;
-import com.sitech.jcf.ijdbc.support.DataBaseSqlBuilder;
 import com.sitech.jcf.ijdbc.support.SqlBuilderFactory;
 import com.sitech.jcf.ijdbc.util.DataSourceUtils;
-
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-
-
-
-
-
-
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.springframework.orm.ibatis.SqlMapClientCallback;
-import org.springframework.orm.ibatis.SqlMapClientTemplate;
-import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
-import org.springframework.stereotype.Repository;
+import com.sitech.rom.rpt.bo.MyBaseBO;
 
 @Repository("myBaseDao")
 public class MyBaseDao extends AutowiringSqlMapClientDaoSupport implements IMyBaseDao {
@@ -262,6 +253,36 @@ public class MyBaseDao extends AutowiringSqlMapClientDaoSupport implements IMyBa
 				log.debug(paramObject.toString());
 			return getSqlMapClientTemplate().queryForList(paramString,
 					paramObject);
+		} catch (Throwable localThrowable1) {
+			if ((localThrowable1 instanceof SQLException))
+				throw ErrorCode.ne(
+						AppException.class,
+						localThrowable1,
+						"931401",
+						new String[] { paramString,
+								localThrowable1.getMessage() });
+			for (Throwable localThrowable2 = localThrowable1.getCause(); localThrowable2 != null; localThrowable2 = localThrowable2
+					.getCause())
+				if ((localThrowable2 instanceof SQLException))
+					throw ErrorCode.ne(AppException.class, localThrowable1,
+							"931401", new String[] { paramString,
+									localThrowable2.getMessage() });
+			throw ErrorCode.ne(AppException.class, localThrowable1, "931401",
+					new String[] { paramString, localThrowable1.getMessage() });
+		}
+	}
+	
+	public List queryForPageList(String paramString, Object paramObject) {
+		try {
+			if ((log.isDebugEnabled()) && (paramObject != null))
+				log.debug(paramObject.toString());
+			List<MyBaseBO> list = getSqlMapClientTemplate().queryForList(paramString,
+					paramObject);
+			MyBaseBO qry = (MyBaseBO)paramObject;
+			qry.setTotalCount(list.size());
+//			System.out.println("paramObject.getFirstRowNum():" + paramObject.getFirstRowNum());
+			return getSqlMapClientTemplate().queryForList(paramString,
+					paramObject,qry.getFirstRowNum(),qry.getPageSize());
 		} catch (Throwable localThrowable1) {
 			if ((localThrowable1 instanceof SQLException))
 				throw ErrorCode.ne(

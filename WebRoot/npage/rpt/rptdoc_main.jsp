@@ -7,6 +7,30 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
   <link href="<%=request.getContextPath()%>/njs/jqueryui/jquery-ui.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/style/conf_style.css"/>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/menu_min.js"></script>
+<script>  
+//加载时适应浏览器高度
+$(document).ready(function() {
+    //模块尺寸  
+	$('.pz_menu').css('height', $(window).height() - 141); 
+	$('.pz_cont_wiap100').css('height', $(window).height() - 10); 
+})
+//改变窗体大小时适应浏览器高度
+$(window).resize(function() {
+    //模块尺寸
+	$('.pz_menu').css('height', $(window).height() - 141);
+	$('.pz_cont_wiap100').css('height', $(window).height() - 250);
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function (){ 
+  
+  $(".pz_menu_cont ul li").menu();
+  
+}); 
+</script>
 </head>
 <body style="border:0px solid #ff0000" onresize="resizebody()">
 	<input type=hidden name="opCode" id="opCode" value="<%=opCode%>">
@@ -55,18 +79,22 @@ var paramcount = "${paramCount}";
 <div id="operation_table" style="margin:0px">
   
 <div class="list11">
-	<table id="mTable1">
-		<tr>
-			<th>参数</th>
-			<th>类型</th>
-			<th>默认值</th>
-			<th>设定值</th>
+	<table id="mTable1" width="100%" border="0" cellspacing="2" cellpadding="0"  bgcolor="#FFFFFF">
+		<tr class="f14 white">
+			<td width="15%" height="32" align="left" bgcolor="#5772a4" style="text-indent:2px;">参数</td>
+			<td width="15%" height="32" align="left" bgcolor="#5772a4" style="text-indent:2px;">类型</td>
+			<td width="15%" height="32" align="left" bgcolor="#5772a4" style="text-indent:2px;">默认值</td>
+			<td width="10%" height="32" align="left" bgcolor="#5772a4" style="text-indent:2px;">设定值</td>
 		</tr>
 		<c:forEach items="${paramlist }" var="p">
 		<tr <c:if test="${p.allowchange == 0 }">style="display:none"</c:if>>
-			<td>${p.pnametype }${p.param }</td><td>${p.typename }</td><td>${p.default_value }</td>
-			<td><input type="text" class="param" id="P_${p.pnametype }${p.param }" value="${p.default_value }" <c:if test="${p.typeid > 0 }">readonly</c:if> />
-			  <button onclick="selParam('${p.pnametype }${p.param }', ${p.typeid}, ${p.filterflag })" class="b_foot">...</button></td>
+			<td height="32" align="left" bgcolor="#f6f6f6" style="text-indent:10px;">${p.pnametype }${p.param }</td>
+			<td height="32" align="left" bgcolor="#f6f6f6" style="text-indent:10px;">${p.typename }</td>
+			<td height="32" align="left" bgcolor="#f6f6f6" style="text-indent:10px;">${p.default_value }</td>
+			<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:0px;">
+				<input type="text" id="P_${p.pnametype }${p.param }" value="${p.default_value }"  v_maxlength="64" v_minlength="0" class="anc"  <c:if test="${p.typeid > 0 }">readonly</c:if> />
+			  <button onclick="selParam('${p.pnametype }${p.param }', ${p.typeid}, ${p.filterflag })" class="b_foot">...</button>
+			</td>
 		</tr>
 		</c:forEach>
 	</table>
@@ -81,9 +109,16 @@ var paramcount = "${paramCount}";
 <c:forEach items="${paramlist }" var="p">
 	<input type="hidden" name="${p.pnametype }${p.param }" id="${p.pnametype }${p.param }" />
 </c:forEach>
-<table style="border:false; width:100%"><tr><td align="center">
-<input type="submit" class="b_foot" value="确定">
-</td></tr></table>
+<table style="border:false; width:100%">
+	<tr>
+		<td height="32" align="right" class="blue">
+			<input type="submit" class="bb_right_sub1" value="确定"/>&nbsp;&nbsp;&nbsp;
+		</td>
+		<td height="32" align="left" class="blue">
+			&nbsp;&nbsp;&nbsp;<input type="close" class="bb_right_sub1" value="关闭"/>
+		</td>
+	</tr>
+</table>
 </form>
 </div>
 

@@ -2,7 +2,7 @@ package com.sitech.rom.rpt.bo;
 
 import java.io.Serializable;
 
-public class TaskConf implements Serializable{
+public class TaskConf extends MyBaseBO implements Serializable{
 
 	private int job_id;
 	private String job_name;

@@ -2,7 +2,7 @@ package com.sitech.rom.rpt.bo;
 
 import java.io.Serializable;
 
-public class DBConn implements Serializable{
+public class DBConn extends MyBaseBO implements Serializable{
 	
 	private int order_id;
 	private String serv_ip;

@@ -25,5 +25,6 @@
 	<sqlMap resource="ibtsmap/rptconf.xml"/>
 	<sqlMap resource="ibtsmap/taskconf.xml"/>
 	<sqlMap resource="ibtsmap/boserver.xml"/>
+	<sqlMap resource="ibtsmap/testserver.xml"/>
  
 </sqlMapConfig>

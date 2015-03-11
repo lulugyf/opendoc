@@ -458,12 +458,12 @@ $(function(){
 			$span1 = $(node.span).find(".fancytree-title");
 			if($span1.find('>div').length > 0)
 				return;
-			//window.console.log("--renderNode:"+$span1.text());
+			window.console.log("--renderNode:"+$span1.text());
 			$btn1 = $('<div class="btn1"/>').html('<a>添加下级</a>'), $btn1.find('>a').click(myclick);
 			$btn2 = $('<div class="btn2"/>').html('<a>添加同级</a>'), $btn2.find('>a').click(myclick);
 			$btn3 = $('<div class="btn3"/>').html('<a>删 除</a>'), $btn3.find('>a').click(myclick);
 			
-			//window.console.log("find btn1---"+$btn1.find('>a').length);
+			window.console.log("find btn1---"+$btn1.find('>a').length);
 			
 			$('<div class="ico"/>').append($btn1).append($btn2).append($btn3)
 				.appendTo($span1);

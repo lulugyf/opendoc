@@ -49,9 +49,13 @@ public class TaskController {
 		request.setAttribute("DBConnList", myBaseDao.queryForList("sdbconns.qryConns",new DBConn()));
 		TaskConf qry = new TaskConf();
 		
+		String pageNum = request.getParameter("pageNum").trim();
+		System.out.println("pageNum:" + pageNum);
+		qry.setPageNum(Integer.parseInt(pageNum));
+		
 	    String job_name = request.getParameter("job_name").trim();
 	    String job_mode = request.getParameter("job_mode").trim();
-	    String job_run_freq = request.getParameter("job_run_freq").trim();
+	    String job_run_freq = "0";
 	    String job_run_mode = request.getParameter("job_run_mode").trim();
 	    String job_enable = request.getParameter("job_enable").trim();
 	    String job_type = request.getParameter("job_type").trim();
@@ -71,13 +75,15 @@ public class TaskController {
 	    if(s_tab!=null && !"".equals(s_tab))qry.setS_tab(s_tab);
 	    if(d_tab!=null && !"".equals(d_tab))qry.setD_tab(d_tab);
 	    createRunTime(qry);
-	    List<TaskConf> tempList = myBaseDao.queryForList("taskconf.qryTaskConf", qry);
+	    List<TaskConf> tempList = myBaseDao.queryForPageList("taskconf.qryTaskConf", qry);
 	    List<TaskConf> taskList = new ArrayList<TaskConf>();
 	    for(TaskConf tc:tempList){
 	    	splitRunTime(tc);
 	    	taskList.add(tc);
 	    }
 		request.setAttribute("rlist", taskList);
+		splitRunTime(qry);
+		request.setAttribute("bo", qry);
 		return "rpt/task/task_list";
 	}
 	
@@ -201,6 +207,10 @@ public class TaskController {
 		
 		TaskResult qry = new TaskResult();
 		
+		String pageNum = request.getParameter("pageNum").trim();
+		System.out.println("pageNum:" + pageNum);
+		qry.setPageNum(Integer.parseInt(pageNum));
+		
 	    String job_id = request.getParameter("job_id").trim();
 	    String run_status = request.getParameter("run_status").trim();
 	    String start_time = request.getParameter("start_time").trim();
@@ -210,7 +220,8 @@ public class TaskController {
 	    if(run_status!=null && !"".equals(run_status))qry.setRun_status(run_status);
 	    if(start_time!=null && !"".equals(start_time))qry.setStart_time(start_time);
 	    if(end_time!=null && !"".equals(end_time))qry.setEnd_time(end_time);
-		request.setAttribute("rlist", myBaseDao.queryForList("taskconf.qryTaskResult", qry));
+		request.setAttribute("rlist", myBaseDao.queryForPageList("taskconf.qryTaskResult", qry));
+		request.setAttribute("bo", qry);
 		return "rpt/task/task_resultList";
 	}
 	

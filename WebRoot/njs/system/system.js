@@ -760,7 +760,7 @@ function showDialog_top(obj,text,flag,param,butText){
 		_document.body.appendChild(loadingDiv);
 	
 		bossTop.$("#loadingDiv"+flag).css("left",bossTop.$("body").width()/2 - bossTop.$("#loadingDiv"+flag).width()/2);
-		bossTop.$("#loadingDiv"+flag).css("top","200px");
+		bossTop.$("#loadingDiv"+flag).css("top","0px");
 		
 		if(_t_ret){
 			_t_ret.focus();
