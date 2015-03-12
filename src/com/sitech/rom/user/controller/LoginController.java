@@ -167,7 +167,8 @@ public class LoginController extends BaseController {
 	public String addLogin(HttpServletRequest request,
 			HttpServletResponse response, HttpSession session, ModelMap modelMap, @ModelAttribute("user") RomSysLogin user) {
 		
-		user.setLoginPwd(Constants.INIT_PWD); //初始密码
+		user.setLoginPwd(Constants.INIT_PWD); //初始密码 
+		user.setLoginFlg("0");
 		try{
 			if(loginSvc.queryRomSysLogin(user.getLoginNo())!=null){
 				modelMap.put("failAddObj", user);
