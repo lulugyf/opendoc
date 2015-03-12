@@ -41,6 +41,33 @@ function doSubmit(thisForm){
 	thisForm.submit();
 }
 
+function doSubmit_enter(thisForm){
+    var ev= window.event||e;
+    if(ev.keyCode == 13){
+	var loginNo = document.getElementById("loginNo").value;
+	var loginPwd = document.getElementById("loginPwd").value;
+	if(loginNo==""){
+		alert("请输入用户名！");
+		return false;
+	}
+	if(loginPwd==""){
+		alert("请输入登录密码！");
+		return false;
+	}
+	if(!haveSpe(loginNo)){
+		alert("请输入合法的用户名！");
+		return  false;
+	}
+	if(!haveSpe(loginPwd)){
+		alert("请输入合法的登录密码！");
+		return  false;
+	}
+	
+	thisForm.btn1.disabled=true;
+	thisForm.submit();
+	}
+}
+
 function haveSpe(str){
   var comp="\\/><\'\"&#";
   var aChar="";
@@ -67,7 +94,7 @@ function haveSpe(str){
         <span><input name="loginNo" id="loginNo" type="text" value="请输入用户名" onfocus="if (value =='请输入用户名'){value =''}" onblur="if (value ==''){value='请输入用户名'}"/></span>
       </li>
       <li class="pwd">
-        <span><input name="loginPwd" id="loginPwd" type="text" value="请输入登陆密码" onfocus="if (value =='请输入登陆密码'){value ='',type='password'}" onblur="if (value ==''){value='请输入登陆密码',type='text'}" /></span>
+        <span><input name="loginPwd" id="loginPwd" type="text" value="请输入登陆密码" onfocus="if (value =='请输入登陆密码'){value ='',type='password'}" onblur="if (value ==''){value='请输入登陆密码',type='text'}" onkeydown="doSubmit_enter(document.frm)" /></span>
       </li>
       <li class="sub">
         <input name="btn1" id="btn1" type="button" onclick="doSubmit(document.frm)" />

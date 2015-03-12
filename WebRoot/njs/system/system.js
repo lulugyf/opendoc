@@ -453,6 +453,10 @@ function showDialog(text,flag,param,butText){
 	showDialog_top(window,text,flag,param,butText);
 } 
 
+function showDialog_main(text,flag,param,butText){
+	showDialog_top_main(window,text,flag,param,butText);
+} 
+
 /*
  *根据不同参数,显示不同加载效果,从top页面弹出
  *obj：调用页面的window对象
@@ -781,6 +785,324 @@ function showDialog_top(obj,text,flag,param,butText){
      	} 
 		dragDialog("caption"+flag,bossTop,false,"loadingDiv"+flag);
 		return;
+}
+
+function showDialog_top_main(obj,text,flag,param,butText){
+	
+	var bossTop;
+	var _document;
+	
+	//客服并运行测试时添加代码，测试结束时可删除
+	try{
+		if(top && top.document.getElementById("topPanel"))
+		{
+			bossTop = top;
+			_document = top.document;
+		}else{
+			bossTop = window;
+			_document = document;
+		}
+	}catch(e)
+	{
+		try{
+			if(parent && parent.document.getElementById("topPanel")){
+				bossTop = parent;
+				_document = parent.document;
+			}else if(parent.parent && parent.parent.document.getElementById("topPanel")){
+				bossTop = parent.parent;
+				_document = parent.parent.document;
+			}else if(parent.parent.parent && parent.parent.parent.document.getElementById("topPanel")){
+				bossTop = parent.parent.parent;
+				_document = parent.parent.parent.document;
+			}else{
+				bossTop = window;
+				_document = document;
+			}
+		}catch(e){
+			bossTop = window;
+			_document = document;
+		}
+	}	 
+	//测试代码结束
+	
+	
+	/*	上边测试代码删除时可放开此段代码
+	try{
+		if(top.document.getElementById("topPanel"))
+		{
+			bossTop = top;
+			_document = top.document;
+		}else{
+			bossTop = window;
+			_document = document;
+		}
+	}catch(e)
+	{
+		bossTop = window;
+		_document = document;
+	}	
+	*/
+	showWinCover(bossTop,"showCover"+flag);
+
+	var arr_param =new Array();
+	if(param)
+	{
+		var arr_param_temp = param.split(";");
+		for(var i=0;i<arr_param_temp.length;i++)
+		{
+			var _key = arr_param_temp[i].substring(0,arr_param_temp[i].indexOf("="));
+			var _value=arr_param_temp[i].substring(arr_param_temp[i].indexOf("=")+1,arr_param_temp[i].length);
+			arr_param[_key] = _value;
+		}
+	}
+	
+	var arr_butText = new Array();
+	if(butText){
+		var arr_butText_temp = butText.split(";");
+		for(var i=0;i<arr_butText_temp.length;i++)
+		{
+			var _key = arr_butText_temp[i].substring(0,arr_butText_temp[i].indexOf("="));
+			var _value=arr_butText_temp[i].substring(arr_butText_temp[i].indexOf("=")+1,arr_butText_temp[i].length);
+			arr_butText[_key] = _value;
+		}
+	}
+	
+	var flagClass = "";
+	switch(flag)
+  {
+   case 0:
+     flagClass = " wrong";
+     break
+   case 1:
+     flagClass = " warning";
+     break
+   case 2:
+     flagClass = " right";
+     break
+   case 3:
+     flagClass = " questions";
+     break 
+   case 4:
+     flagClass = " questions";
+     break   
+   default:
+     flagClass=" loading";
+  }
+  
+  
+	if(_document.getElementById("loadingDiv"+flag))
+	_document.body.removeChild(_document.getElementById("loadingDiv"+flag));
+	
+	//create div
+	var loadingDiv =_document.createElement("div");
+	loadingDiv.setAttribute("id","loadingDiv"+flag);
+	loadingDiv.className="window";
+	loadingDiv.style.zIndex="12000";
+	
+	var caption =_document.createElement("div");
+	caption.className="caption";
+  	caption.setAttribute("id","caption"+flag);
+  	
+  	var span =_document.createElement("span");
+ 	 span.className="text";
+ 	 span.innerHTML=" 提 示 ";
+  
+ 	 var _a = _document.createElement("a");
+ 	 _a.setAttribute("href","#this");
+  
+ 	var _close = _document.createElement("div");
+	_close.className="close";
+	_close.onclick=function(){
+		if(arr_param["closeFunc"]){
+			bossTop.unLoadingShowDialog(bossTop,"loadingDiv"+flag);
+			obj.eval(arr_param["closeFunc"]);
+		}else{
+			bossTop.unLoadingShowDialog(bossTop,"loadingDiv"+flag);
+		}
+  }
+  
+  	var box=_document.createElement("div");
+	box.className="box "+flagClass;
+	
+	var pic=_document.createElement("div");
+	pic.className="pic";
+	
+	var tips=_document.createElement("div");
+	tips.className="tips";
+	tips.innerHTML=text;
+	
+	var but_bg = _document.createElement("div");
+	but_bg.className="but_bg";
+	
+	var detailDiv = _document.createElement("div");
+	detailDiv.setAttribute("id","detailDiv");
+	detailDiv.className="moreTips";
+	detailDiv.style.display="none";
+	detailDiv.onclick=function(){
+		detailDiv.style.display=="none"?detailDiv.style.display="block":detailDiv.style.display="none";
+	}
+	detailDiv.innerHTML=arr_param["detail"];
+	
+	_a.appendChild(_close);
+	caption.appendChild(span);
+	caption.appendChild(_a);
+	
+	box.appendChild(pic);		 
+	box.appendChild(tips);		 
+	 
+	if(flag=="0" && arr_param["detail"]){
+		
+		var _showDetail = _document.createElement("input");
+		_showDetail.type="button";
+		_showDetail.className="b_text";
+		_showDetail.value="更多";
+		_showDetail.onclick=function(){
+			detailDiv.style.display="block";
+	  }
+	 	var _t_close = _document.createElement("input");
+		_t_close.type="button";
+		_t_close.className="b_text";
+		_t_close.value="关闭";
+		_t_close.onclick=function(){
+			if(arr_param["closeFunc"]){
+				bossTop.unLoadingShowDialog(bossTop,"loadingDiv"+flag);
+				obj.eval(arr_param["closeFunc"]);
+			}else{
+				bossTop.unLoadingShowDialog(bossTop,"loadingDiv"+flag);
+			}
+	 	 }
+	  	but_bg.appendChild(_showDetail);
+		but_bg.appendChild(_t_close);
+		
+	
+	}else if(flag=="3"){
+		
+		var _t_retT = _document.createElement("input");
+		_t_retT.type="button";
+		_t_retT.className="b_text";
+		if(arr_butText["first"]){
+			_t_retT.value=arr_butText["first"];
+		}else{
+			_t_retT.value="确认";
+		}
+		_t_retT.onclick=function(){
+			_t_retT.disabled="true";
+			if(arr_param["retT"]){
+				bossTop.unLoadingShowDialog(bossTop,"loadingDiv"+flag);
+				obj.eval(arr_param["retT"]);
+			}else{
+				bossTop.unLoadingShowDialog(bossTop,"loadingDiv"+flag);
+			}
+	  }
+	  
+	  var _t_retF = _document.createElement("input");
+		_t_retF.type="button";
+		_t_retF.className="b_text";
+		if(arr_butText["second"]){
+			_t_retF.value=arr_butText["second"];
+		}else{
+			_t_retF.value="取消";
+		}
+		_t_retF.onclick=function(){
+			if(arr_param["retF"]){
+				bossTop.unLoadingShowDialog(bossTop,"loadingDiv"+flag);
+				obj.eval(arr_param["retF"]);
+			}else{
+				bossTop.unLoadingShowDialog(bossTop,"loadingDiv"+flag);
+			}
+	  }
+		but_bg.appendChild(_t_retT);
+		but_bg.appendChild(_t_retF);
+		
+	}else if(flag=="4"){
+		
+		var _t_retP= _document.createElement("input");
+		_t_retP.type="button";
+		_t_retP.className="b_text";
+		_t_retP.value="浏览";
+		_t_retP.onclick=function(){
+			if(arr_param["retP"]){
+				obj.eval(arr_param["retP"]);
+			}
+	  }
+		
+		var _t_retT = _document.createElement("input");
+		_t_retT.type="button";
+		_t_retT.className="b_text";
+		_t_retT.value="确认";
+		_t_retT.onclick=function(){
+			_t_retT.disabled="true";
+			if(arr_param["retT"]){
+				bossTop.unLoadingShowDialog(bossTop,"loadingDiv"+flag);
+				obj.eval(arr_param["retT"]);
+			}else{
+				bossTop.unLoadingShowDialog(bossTop,"loadingDiv"+flag);
+			}
+	  }
+	  
+	  var _t_retF = _document.createElement("input");
+		_t_retF.type="button";
+		_t_retF.className="b_text";
+		_t_retF.value="取消";
+		_t_retF.onclick=function(){
+			if(arr_param["retF"]){
+				bossTop.unLoadingShowDialog(bossTop,"loadingDiv"+flag);
+				obj.eval(arr_param["retF"]);
+			}else{
+				bossTop.unLoadingShowDialog(bossTop,"loadingDiv"+flag);
+			}
+	  }
+	  	but_bg.appendChild(_t_retP);
+			but_bg.appendChild(_t_retT);
+			but_bg.appendChild(_t_retF);
+		
+	}else{
+		
+		var _t_ret = _document.createElement("input"); 
+		_t_ret.type="button";
+		_t_ret.className="b_text";
+		_t_ret.value="确认";
+		_t_ret.onclick=function(){
+			if(arr_param["closeFunc"]){
+				bossTop.unLoadingShowDialog(bossTop,"loadingDiv"+flag);
+				obj.eval(arr_param["closeFunc"]);
+			}else{
+				bossTop.unLoadingShowDialog(bossTop,"loadingDiv"+flag);
+			}
+	  }
+		but_bg.appendChild(_t_ret);
+	
+	}
+	
+   loadingDiv.appendChild(caption);
+   loadingDiv.appendChild(box);
+   loadingDiv.appendChild(but_bg);
+   loadingDiv.appendChild(detailDiv);
+	
+	_document.body.appendChild(loadingDiv);
+
+	bossTop.$("#loadingDiv"+flag).css("left",bossTop.$("body").width()/2 - bossTop.$("#loadingDiv"+flag).width()/2);
+	bossTop.$("#loadingDiv"+flag).css("top","200px");
+	
+	if(_t_ret){
+		_t_ret.focus();
+	}
+	
+	if(_t_retT){
+		_t_retT.focus();
+	}
+	
+	if(_showDetail){
+		_showDetail.focus();
+	}
+	
+	if(document.documentElement && document.documentElement.scrollTop){  
+      document.documentElement.scrollTop=0; 
+ 	}else if(document.body){  
+      document.body.scrollTop=0; 
+ 	} 
+	dragDialog("caption"+flag,bossTop,false,"loadingDiv"+flag);
+	return;
 }
 
 

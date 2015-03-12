@@ -1,4 +1,4 @@
-ï»¿@import url('mztree.css');
+@import url('mztree.css');
 @import url('tabcss/tabStyle.css');
 @import url('common.css');
 @import url('block.css');
@@ -20,7 +20,7 @@ html {
 	border: none;
 }
 body {
-	font-family: Verdana,å®‹ä½“;
+	font-family: Verdana,ËÎÌå;
 	height: 100%;
 	border: none;
 	background: #fff;
@@ -1101,7 +1101,7 @@ div.dis {
 	color: #333;
 }
 #navPanel a:visited {
-	color: #333;
+	color: #333333;
 }
 #navPanel a:hover {
 	color: #ff6600;

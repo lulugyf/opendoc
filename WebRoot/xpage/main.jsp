@@ -6,11 +6,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>首页</title>
-<link rel="stylesheet" type="text/css" href="style/conf_style.css"/>
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript" src="js/menu_min.js"></script>
 
 <link href="<%=request.getContextPath()%>/nresources/UI/css/framework.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="style/conf_style.css"/>
 <script src="<%=request.getContextPath()%>/njs/system/system.js" type="text/javascript"></script>
 
 
@@ -70,7 +70,7 @@ $(function(){
 });
 
 function closeWindow(){
-	showDialog("确定要退出么？", 3, 'retT=closeWindow1();retF=void1();closeFunc=void1()');
+	showDialog_main("请确认是否要退出？", 3, 'retT=closeWindow1();retF=void1();closeFunc=void1()');
 }
 function void1(){}
 
