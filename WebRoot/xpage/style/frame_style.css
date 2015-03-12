@@ -220,33 +220,61 @@
 }
 
 .tabs-scroller-left {
-	background: #F7F2FF url('../images/tabs_icons.png') no-repeat 1px center;
+	background: url('../images/tabsub_left_off.png') no-repeat;
 	left: 0px;
 	position: absolute;
-	top: auto;
+	top: 8px;
 	bottom: 0;
 	width: 18px;
 	font-size: 1px;
 	display: none;
 	cursor: pointer;
-	border-width: 1px;
+	border-width: 0px;
 	border-style: solid;
-	border-color: #D0D0D0;
+}
+
+.tabs-scroller-left:hover {
+	background: url('../images/tabsub_left.png') no-repeat;
+	left: 0px;
+	position: absolute;
+	top: 8px;
+	bottom: 0;
+	width: 18px;
+	font-size: 1px;
+	display: none;
+	cursor: pointer;
+	border-width: 0px;
+	border-style: solid;
 }
 
 .tabs-scroller-right {
-	background: #F7F2FF url('../images/tabs_icons.png') no-repeat -15px center;
-	right: 0px;
+	background: url('../images/tabsub_right_off.png') no-repeat;
+	left: 18px;
 	position: absolute;
-	top: auto;
+	top: 8px;
 	bottom: 0;
 	width: 18px;
 	font-size: 1px;
 	display: none;
 	cursor: pointer;
-	border-width: 1px;
+	border-width: 0px;
 	border-style: solid;
-	border-color: #D0D0D0;
+	z-index:1000;
+}
+
+.tabs-scroller-right:hover {
+	background: url('../images/tabsub_right.png') no-repeat;
+	left: 18px;
+	position: absolute;
+	top: 8px;
+	bottom: 0;
+	width: 18px;
+	font-size: 1px;
+	display: none;
+	cursor: pointer;
+	border-width: 0px;
+	border-style: solid;
+	z-index:1000;
 }
 
 .tabs-wrap{
