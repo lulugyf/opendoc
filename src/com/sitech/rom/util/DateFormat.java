@@ -1,4 +1,4 @@
-﻿package com.sitech.rom.util;
+package com.sitech.rom.util;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;

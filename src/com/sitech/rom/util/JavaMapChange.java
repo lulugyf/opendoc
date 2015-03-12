@@ -15,11 +15,11 @@ public class JavaMapChange {
 	 * @Title:
 	 * @Description:
 	 * @param obj
-	 *            转换对象
+	 *            杞崲瀵硅薄
 	 * @param pre
-	 *            生成map的key前缀
+	 *            鐢熸垚map鐨刱ey鍓嶇紑
 	 * @param las
-	 *            生成map的key后缀
+	 *            鐢熸垚map鐨刱ey鍚庣紑
 	 * @return
 	 * @return Map<String,String> create by Administrator on 2011-5-9
 	 */

@@ -109,7 +109,7 @@ public class PersonService implements IPersonService{
 		return (HashMap) baseDao.queryForPagingList(mapId+".queryAll", p, offsize, limit);
 	}
 	
-	//ijdbc:²»´øÁ¬½Ó²ÎÊı
+	//ijdbc:ä¸å¸¦è¿æ¥å‚æ•°
 	public void allIjdbcNoExistConnectParaTest(){
 		String num="";
 		//jdbc
@@ -121,7 +121,7 @@ public class PersonService implements IPersonService{
 
 	}
 	
-	//ijdbc:´øÁ¬½Ó²ÎÊı
+	//ijdbc:å¸¦è¿æ¥å‚æ•°
 	public void allIjdbcExistConnectParaTest(){
 		String num="";
 		//jdbc
@@ -141,7 +141,7 @@ public class PersonService implements IPersonService{
 		this.queryAllPerson();
 	}
 	
-	//×éºÏÊ¹ÓÃ·½Ê½ibatis/jdbc/jdbc
+	//ç»„åˆä½¿ç”¨æ–¹å¼ibatis/jdbc/jdbc
 	public void mixJdbcIbatis1(){
 		String num="";
 		//ibatis
@@ -155,7 +155,7 @@ public class PersonService implements IPersonService{
 		System.out.println("======================list=");			
 	}
 	
-	//×éºÏÊ¹ÓÃ·½Ê½ibatis/jdbc/ibatis
+	//ç»„åˆä½¿ç”¨æ–¹å¼ibatis/jdbc/ibatis
 	public void mixJdbcIbatis2(){
 		String num="";
 		//ibatis
@@ -169,7 +169,7 @@ public class PersonService implements IPersonService{
 		this.queryAllPerson();			
 	}	
 
-	//×éºÏÊ¹ÓÃ·½Ê½jdbc/ibatis/ibatis
+	//ç»„åˆä½¿ç”¨æ–¹å¼jdbc/ibatis/ibatis
 	public void mixJdbcIbatis3(){
 		String num="";
 		//jdbc
@@ -182,7 +182,7 @@ public class PersonService implements IPersonService{
 		this.queryAllPerson();			
 	}	
 
-	//×éºÏÊ¹ÓÃ·½Ê½jdbc/ibatis/jdbc
+	//ç»„åˆä½¿ç”¨æ–¹å¼jdbc/ibatis/jdbc
 	public void mixJdbcIbatis4(){
 		String num="";
 		//jdbc
@@ -197,7 +197,7 @@ public class PersonService implements IPersonService{
 		System.out.println("======================list=");			
 	}	
 	
-	//×éºÏÊ¹ÓÃ·½Ê½ibatis/jdbc
+	//ç»„åˆä½¿ç”¨æ–¹å¼ibatis/jdbc
 	public void mixIbatisJdbcCommit(String para,String key,String value){
 		//ibatis:insert
 		Person p=new Person();
@@ -217,7 +217,7 @@ public class PersonService implements IPersonService{
 				
 	}
 	
-	//×éºÏÊ¹ÓÃ·½Ê½ibatis/jdbc
+	//ç»„åˆä½¿ç”¨æ–¹å¼ibatis/jdbc
 	public void mixIbatisJdbcRollcack(String para,String key,String value){
 		//ibatis:insert
 		Person p=new Person();
@@ -235,11 +235,11 @@ public class PersonService implements IPersonService{
 			e.printStackTrace();
 		}
 		
-		throw new BusiException("²âÊÔ»Ø¹ö£¡");	
+		throw new BusiException("æµ‹è¯•å›æ»šï¼");	
 		
 	}
 	
-	//ibatis·µ»ØÊı×é
+	//ibatisè¿”å›æ•°ç»„
 	public void returnArrays(){
 		System.out.println("======returnArrays test=====");
 		List l=baseDao.queryForList(mapId+".queryAllToArray");
@@ -268,7 +268,7 @@ public class PersonService implements IPersonService{
 		}
 	}
  
-	//Êı¾İ¿âÂ·ÓÉ
+	//æ•°æ®åº“è·¯ç”±
 	public void dbRoute(Person p, String key, String value){
 		//ibatis:insert
 		p.setName("testDbRoute");

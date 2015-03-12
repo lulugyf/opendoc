@@ -17,7 +17,7 @@ import org.jdom.Namespace;
 /**
  * 
  * <p>
- * Title: ×ª»»À´×ÔESBÇëÇóµÄsoap±¨ÎÄ
+ * Title: è½¬æ¢æ¥è‡ªESBè¯·æ±‚çš„soapæŠ¥æ–‡
  * </p>
  * <p>
  * Description:
@@ -37,7 +37,7 @@ public class RemoveNsConverter{
 			+ "	<soapenv:Header/>"
 			+ "	<soapenv:Body>"
 			+ "			<cu:sayHi_REQ>"
-			+ "				<!--ÇëÇóÍ·-->"
+			+ "				<!--è¯·æ±‚å¤´-->"
 			+ "				<cu:UNI_BSS_REQ_HEAD>"
 			+ "					<ODOMAIN_NO></ODOMAIN_NO>"
 			+ "					<ODUNS></ODUNS>"
