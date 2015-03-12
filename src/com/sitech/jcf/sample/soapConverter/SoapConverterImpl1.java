@@ -23,8 +23,8 @@ import com.sitech.jcf.ws.interceptors.SoapConverter;
 public class SoapConverterImpl1 implements SoapConverter{
 	private static final Log LOG = LogFactory.getLog(SoapConverterImpl1.class);
 	/**
-	 * ÒÔÈëÕ¾±¨ÎÄÎªÀı
-	 * ÕıÈ·µÄ±¨ÎÄÊÇ£º
+	 * ä»¥å…¥ç«™æŠ¥æ–‡ä¸ºä¾‹
+	 * æ­£ç¡®çš„æŠ¥æ–‡æ˜¯ï¼š
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.sample.jcf.sitech.com/">
    <soapenv:Header/>
    <soapenv:Body>
@@ -36,7 +36,7 @@ public class SoapConverterImpl1 implements SoapConverter{
       </ser:queryPersonById>
    </soapenv:Body>
 </soapenv:Envelope>
-	µ«ÊÇ¿Í»§¶Ë·¢ËÍµÄ±¨ÎÄ¸ñÊ½ÔÚÃ¿¸ö½ÚµãÇ°¶¼¼ÓÁËnamespace£ºser¡ª¡ª
+	ä½†æ˜¯å®¢æˆ·ç«¯å‘é€çš„æŠ¥æ–‡æ ¼å¼åœ¨æ¯ä¸ªèŠ‚ç‚¹å‰éƒ½åŠ äº†namespaceï¼šserâ€”â€”
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.sample.jcf.sitech.com/">
   <soapenv:Header />
   <soapenv:Body>
@@ -47,12 +47,12 @@ public class SoapConverterImpl1 implements SoapConverter{
     </ser:queryPersonById>
   </soapenv:Body>
 </soapenv:Envelope>	
-	ÎÒÃÇĞèÒªÈ¥µãperson¼°Æä×Ó½ÚµãµÄnamespace
-	Õâ¸ö¶¯×÷ÔÚÕâÀïÊµÏÖ
+	æˆ‘ä»¬éœ€è¦å»ç‚¹personåŠå…¶å­èŠ‚ç‚¹çš„namespace
+	è¿™ä¸ªåŠ¨ä½œåœ¨è¿™é‡Œå®ç°
 	 */
 	public CachedOutputStream convertIn(String src) {
 		if (LOG.isDebugEnabled())
-			LOG.debug("soap±¨ÎÄ×ª»»£¬ÈëÕ¾Ô­±¨ÎÄ--->>>>>>>>"+src);
+			LOG.debug("soapæŠ¥æ–‡è½¬æ¢ï¼Œå…¥ç«™åŸæŠ¥æ–‡--->>>>>>>>"+src);
 		CachedOutputStream cos = new CachedOutputStream();
 		SAXBuilder builder = new SAXBuilder();
 		Document doc;
@@ -63,17 +63,17 @@ public class SoapConverterImpl1 implements SoapConverter{
 			Element body = root.getChild("Body", soapNamespace);// Body
 			
 			Element req = (Element) body.getChildren().get(0);
-			//Ö»Õë¶ÔqueryPersonById½øĞĞ²âÊÔ
+			//åªé’ˆå¯¹queryPersonByIdè¿›è¡Œæµ‹è¯•
 			if(!req.getName().equals("queryPersonById")){
 				CachedOutputStream ccos = new CachedOutputStream();
-				//Èç¹û²»ÊÇqueryPersonByIdÕâ¸ö·½·¨£¬±¨ÎÄ²»×öĞŞ¸Ä
+				//å¦‚æœä¸æ˜¯queryPersonByIdè¿™ä¸ªæ–¹æ³•ï¼ŒæŠ¥æ–‡ä¸åšä¿®æ”¹
 				
 				IOUtils.copy(new ByteArrayInputStream(src.getBytes("UTF-8")), ccos);
 				return ccos;
 			}
 			Element arg = (Element) req.getChildren().get(0);
-			arg.setNamespace(null);//È¥µôperson½ÚµãµÄns
-			//È¥µôperson×Ó½ÚµãµÄns
+			arg.setNamespace(null);//å»æ‰personèŠ‚ç‚¹çš„ns
+			//å»æ‰personå­èŠ‚ç‚¹çš„ns
 			for(Object e:arg.getChildren()){
 				((Element)e).setNamespace(null);
 			}

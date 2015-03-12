@@ -1,4 +1,4 @@
-﻿package com.sitech.rom.rpt;
+package com.sitech.rom.rpt;
 
 import java.util.Date;
 import java.util.List;

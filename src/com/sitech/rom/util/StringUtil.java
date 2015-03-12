@@ -1,4 +1,4 @@
-﻿package com.sitech.rom.util;
+package com.sitech.rom.util;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
