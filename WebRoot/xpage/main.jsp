@@ -1,5 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ include file="/npage/include/public_title_name.jsp" %>
+<%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %>  
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -118,8 +120,8 @@ function resizeTabs(){
     <div class="topWiap">
       <ul>
         <li class="out"><a href="javascript:closeWindow()" title="退出">退出</a></li>
-        <li class="pwd"><a href="#">修改密码</a></li>
-        <li class="name">工号：<%=session.getAttribute("loginNo") %> &nbsp;&nbsp;&nbsp; 用户名：RedTree IT Solution</li>
+        <li class="pwd"><a href="#" onclick="update_pass()">修改密码</a></li>
+        <li class="name">工号：<%=session.getAttribute("loginNo") %>&nbsp;&nbsp;&nbsp;用户名：<%=session.getAttribute("loginName") %></li>
       </ul>
     </div>
 <div class="topSub f14">
@@ -140,6 +142,9 @@ function resizeTabs(){
   </div>
   <!--右边 end-->
 </div>
+<script type="text/javascript" src="<%=request.getContextPath()%>/njs/plugins/actb/common.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/njs/plugins/actb/myactb.js"></script>
+<script src="<%=request.getContextPath()%>/njs/system/system_main.js" type="text/javascript"></script>
 <script type="text/javascript">
 function tabs_left(self){
 	//window.console.log('===['+$('.tabs').css('marginLeft')+']');
@@ -194,6 +199,9 @@ function selTab(i1){
 	checkTabs();
 }
 
+function update_pass() {
+	openDivWin("<%=request.getContextPath()%>/gotoUpdatePass.do?proId=''&opCode=''","工号密码修改","800","300");
+}
 // 检查tab 标签的宽度是否超出显示区域， 需要显示出 < > 按钮来左右滚动
 function checkTabs() {
 
