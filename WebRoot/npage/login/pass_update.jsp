@@ -5,65 +5,92 @@
 <head>
 <title>工号密码管理</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="style/conf_style.css"/>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/menu_min.js"></script>
+<script>  
+//加载时适应浏览器高度
+$(document).ready(function() {
+    //模块尺寸  
+	$('.pz_menu').css('height', $(window).height() - 141); 
+	$('.pz_cont_wiap100').css('height', $(window).height() - 10); 
+})
+//改变窗体大小时适应浏览器高度
+$(window).resize(function() {
+    //模块尺寸
+	$('.pz_menu').css('height', $(window).height() - 141);
+	$('.pz_cont_wiap100').css('height', $(window).height() - 250);
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function (){ 
+  
+  $(".pz_menu_cont ul li").menu();
+  
+}); 
+</script>
 <% String loginNo = session.getAttribute("loginNo").toString(); %>
 </head>
 <body>
 
-<div id="operation">
-	<form method="post" name="frm" action="">
+<form method="post" name="frm" action="">
 		<input type=hidden name="opCode" id="opCode" value="<%=opCode%>">
 		<input type=hidden name="proId" id="proId" value="<%=proId%>">
-		  <div id="operation_table">
+		<div id="operation" class="bb_right_cont1">
+      		<div height="12"><table><tr height="12"></tr></table> </div>
 				<div class="title">
 					<div class="text">
-						工号密码修改
+						首次登陆，请修改密码：
 					</div>
 				</div>
 				<div class="input">
-					<table>
+					<table width="100%" border="0" cellspacing="2" cellpadding="0"  bgcolor="#FFFFFF">
 						<tr>
-							<th>*工号</th>
-							<td>
+							<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">工号：</td>
+							<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:10px;">
 								<%=loginNo %>
 							</td>
 						</tr>
 						<tr>
-							<th>*原始密码</th>
-							<td>
-								<input type="password" id="pre_login_password" name="pre_login_password" class="required isCharLengthOf" v_maxlength="64" v_minlength="6"/>
+							<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">*原始密码：</td>
+							<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:10px;">
+								<input type="password" id="pre_login_password" name="pre_login_password" v_maxlength="64" v_minlength="0" class="anc"/>
 								<span><font id="pre_login_password_msg" color="red"></font></span>
 							</td>
 						</tr>
 						<tr>
-							<th>*新密码</th>
-							<td>
-								<input type="password" id="login_password" name="login_password" class="required isCharLengthOf" v_maxlength="64" v_minlength="6"/>
+							<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">*新密码：</td>
+							<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:10px;">
+								<input type="password" id="login_password" name="login_password" v_maxlength="64" v_minlength="0" class="anc"/>
 								<span><font id="login_password_msg" color="red"></font></span>
 							</td>
 						</tr>
 						<tr>
-							<th>*确认密码</th>
-							<td>
-								<input type="password" id="cfm_login_password" name="cfm_login_password" class="required isCharLengthOf" v_maxlength="64" v_minlength="6"/>
+							<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">*确认密码：</td>
+							<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:10px;">
+								<input type="password" id="cfm_login_password" name="cfm_login_password" v_maxlength="64" v_minlength="0" class="anc"/>
 								<span><font id="cfm_login_password_msg" color="red"></font></span>
 							</td>
 						</tr>
+						<tr>
+				          <td height="32" align="center" class="blue" colspan="4">
+				            <input name="" type="button" class="bb_right_sub1" value="确  定" onclick="pwdModify()"/>&nbsp;&nbsp;&nbsp;
+				            <input name="" type="button" class="bb_right_sub1" value="重  置" onclick="exeReset()"/>
+							</td>
+				        </tr>
 					</table>
 				</div>
 			</div>
-			
-			<div id="operation_button">
-				<input type="button" value="确定" id="btnOK" name="btnOK" onclick="pwdModify()" class="b_foot_long"/>
-				<input type="button" value="重置" id="btnReset" name="btnReset" onclick="exeReset()" class="b_foot_long"/>
-				<!--  <input type="button" value="关闭" id="btnClose" name="btnClose" onclick="parent.removeDivWin('divWin');" class="b_foot_long"/> -->
-			</div>
-		</div>
+	</div>
 		<%@ include file="/npage/include/footer.jsp"%>
-	</form>
-</div>
+</form>
 					
 </body>
-<script type="text/javascript">
+<script type="text/javascript" src="<%=request.getContextPath()%>/njs/plugins/actb/common.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/njs/plugins/actb/myactb.js"></script>
+<script src="<%=request.getContextPath()%>/npage/rpt/task/task.js" type="text/javascript"></script>
+<script src="<%=request.getContextPath()%>/njs/system/system.js" type="text/javascript"></script>
+<script language="javascript" type="text/javascript">
 /**
  * 密码修改
  */
@@ -98,7 +125,7 @@ function pwdModifyBack(packet) {
 	var retCode = packet.data.findValueByName("retCode");
 	if(retCode == "1"){
 		//alert("密码修改成功");
-		document.location = 'npage/login/main1.jsp';
+		document.location = 'xpage/main.jsp';
 	}else if(retCode == "0"){
 		showDialog("工号不存在或工号密码不匹配！", 0);
 	}else if(retCode == "0"){
