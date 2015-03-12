@@ -846,7 +846,7 @@ showWinCover=function (bossTop,id){
 		    if(id.substring(0,id.length-1)=="showCover"){
 			    	iframe.style.zIndex="10005";
 			  }
-		    if(bossTop.document.getElementById(id)) bossTop.document.getElementById(id).src=globalPathRoot+"npage/public/blank_block.html";
+		    //if(bossTop.document.getElementById(id)) bossTop.document.getElementById(id).src=globalPathRoot+"npage/public/blank_block.html";
 		    iframe=null;
 		}else{
 			//隐藏select
@@ -889,7 +889,7 @@ showWinCover=function (bossTop,id){
 		    
 		    document.body.appendChild(iframe);
 		    if(document.getElementById(id)) 
-		    document.getElementById(id).src=globalPathRoot+"npage/public/blank_block.html";
+		    //document.getElementById(id).src=globalPathRoot+"npage/public/blank_block.html";
 		    iframe=null;
 		}
 	if (document.all)

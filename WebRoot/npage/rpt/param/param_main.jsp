@@ -146,7 +146,7 @@ var availableType = [
 </style>
 
 
-<script src="npage/rpt/param/param_main.js" type="text/javascript"></script>
+<script src="npage/rpt/param/param_main.js?<%=System.currentTimeMillis() %>" type="text/javascript"></script>
 
 
 </body>
