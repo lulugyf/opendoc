@@ -114,6 +114,7 @@ function addRoleSubmit(){
 		return false;
 	}
 	document.roleForm.action='<%=request.getContextPath()%>/addRole.do';
+	$('#proCode').attr('disabled','');
 	document.roleForm.submit();
 	
 }
