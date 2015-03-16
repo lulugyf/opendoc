@@ -4,6 +4,12 @@
 <%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %>  
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+<METAHTTP-EQUIV="Pragma"CONTENT="no-cache">
+
+<METAHTTP-EQUIV="Cache-Control"CONTENT="no-cache">
+
+<METAHTTP-EQUIV="Expires"CONTENT="0">
+
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>首页</title>
 <script type="text/javascript" src="js/jquery.min.js"></script>
@@ -229,7 +235,7 @@ function checkTabs() {
 	}
 	$('.tabs-scroller-left').show();
 	$('.tabs-scroller-right').show();
-	$('.tabs-wrap').css('margin-left', '20px').css('margin-right', '20px').css('width', w2-40);	
+	$('.tabs-wrap').css('margin-left', '2px').css('margin-right', '2px').css('width', w2-40);	
 }
 
 function closeTab(obj){

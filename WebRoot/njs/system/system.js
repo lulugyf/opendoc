@@ -104,7 +104,7 @@ core.ajax = {
 			}
   },
 
-  sendPacketHtml:function(packet, process ,aysncflag){
+  sendPacketHtml1:function(packet, process ,aysncflag){
      
      var sendUrl = packet.url;
 		 var sendData = packet.data.data;
