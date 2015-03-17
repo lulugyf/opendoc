@@ -9,7 +9,9 @@ $(function() {
         position: { top:0, right:0 },
 		//position: "center",
 		id: 'panel_i1',
-		//controls:      { buttons: 'none' },
+		controls: {
+	        buttons: 'none'
+	    },
 		content: function(){
 			var body = $('.content').html();
 			//console.log(body);
@@ -181,8 +183,9 @@ $(function(){
 			$('#'+pname).val(p.value);
 			//console.log(pname + "---" + p.value);
 		})
-		panel_sm1.smallify();
+		//panel_sm1.smallify();
 		//panel_sm1.minimize();
+		closePanel();
 		setTimeout(refresh_token_time, 1000);
 	});
 	

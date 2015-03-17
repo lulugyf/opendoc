@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
   <link href="<%=request.getContextPath()%>/njs/jqueryui/jquery-ui.css" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/style/conf_style.css"/>
+   
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript" src="js/menu_min.js"></script>
 <script>  
@@ -68,6 +68,47 @@ var paramcount = "${paramCount}";
 <link href="<%=request.getContextPath()%>/njs/jspanel/jquery.jspanel.css" rel="stylesheet" type="text/css">
 
 
+
+<style type="text/css">
+.drag {
+    width: 30px;
+    height: 20px;
+    border: 1px solid #0D0D0D;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+    position: relative;
+    position:absolute;
+}
+ 
+</style>
+
+<div id="drag1" class="drag" style="right:60px;top:0px;background-color:#022755;display:none ">
+  <a href="javascript:showPanel()" style="color:white">v</a>
+</div>
+
+<script>
+$(function() {
+  $(".drag").draggable({            
+      stack: ".drag"
+  });
+  
+});
+
+function closePanel(){
+	panel_sm1.minimize();
+	$('.drag').show();
+}
+function showPanel(){
+	panel_sm1.normalize();
+	$('.drag').hide();
+}
+</script>
+
+
+
+
+
 <div class=".panel-body"></div>
 
 <div  class="content" style="display:none">
@@ -115,7 +156,7 @@ var paramcount = "${paramCount}";
 			<input type="submit" class="bb_right_sub1" value="确定"/>&nbsp;&nbsp;&nbsp;
 		</td>
 		<td height="32" align="left" class="blue">
-			&nbsp;&nbsp;&nbsp;<input type="close" class="bb_right_sub1" value="关闭"/>
+			&nbsp;&nbsp;&nbsp;<input type="close" onclick="closePanel()" class="bb_right_sub1" value="关闭"/>
 		</td>
 	</tr>
 </table>
@@ -131,6 +172,26 @@ var paramcount = "${paramCount}";
 .ui-dialog {
 	z-index: 1000;
 }
+.bb_right_sub1{
+	width:69px;
+	height:27px;
+	overflow:hidden;
+	background:url(images/sub_bg.png) no-repeat;
+	text-align:center;
+	line-height:27px;
+	cursor:pointer;
+	border:0;
+	color:#636363;
+	font-family:"微软雅黑";
+}
+/* 白色 */
+.white{
+    color:#FFFFFF;
+}
+/* 14号字 */
+.f14{
+    font-size:14px;
+}
 </style>
 <div id="dialog-form" title="参数值选择">
   <label>过滤:</label>
@@ -140,7 +201,7 @@ var paramcount = "${paramCount}";
   <div id="tree"><ul></ul></div>
 </div>
 
-<script src="<%=request.getContextPath()%>/npage/rpt/rptdoc_main.js" type="text/javascript"></script>
+<script src="<%=request.getContextPath()%>/npage/rpt/rptdoc_main.js?<%=System.currentTimeMillis() %>" type="text/javascript"></script>
 
 
 </body>
