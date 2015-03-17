@@ -29,7 +29,7 @@ function resizebody(){
 	//var w1 = $('body').width();
 	//var w2 = $('#rptbody').width();
 	//var d = $(document);
-	var w = $(parent).width(), h = $(document).height()-30;
+	var w = $(parent).width(), h = $(document).height();
 	if(parent.panel_expanded){
 		w -= parent.panel_width;
 	}
