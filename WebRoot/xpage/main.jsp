@@ -235,7 +235,7 @@ function checkTabs() {
 	}
 	$('.tabs-scroller-left').show();
 	$('.tabs-scroller-right').show();
-	$('.tabs-wrap').css('margin-left', '2px').css('margin-right', '2px').css('width', w2-40);	
+	$('.tabs-wrap').css('margin-left', '20px').css('margin-right', '20px').css('width', w2-40);	
 }
 
 function closeTab(obj){
