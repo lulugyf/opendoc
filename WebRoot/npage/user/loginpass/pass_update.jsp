@@ -45,7 +45,7 @@ $(window).resize(function() {
 							</td>
 						</tr>
 						<tr>
-							<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">*原始密码：</td>
+							<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">*旧密码：</td>
 							<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:10px;">
 								<input type="password" id="pre_login_password" name="pre_login_password" v_maxlength="64" v_minlength="0" class="anc"/>
 								<span><font id="pre_login_password_msg" color="red"></font></span>

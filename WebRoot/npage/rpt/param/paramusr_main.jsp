@@ -71,7 +71,12 @@ font-family: "微软雅黑", Arial, Helvetica, sans-serif;
 		</tr>
 		
 		<tr>
-			<td colspan="2"> <br/> <b><font color="red">&nbsp;&nbsp;&nbsp;&nbsp;温馨提示：<br/>&nbsp;&nbsp;&nbsp;&nbsp;添加多个工号批量设定关联， 工号原有与本参数的关联数据将被忽<br/>&nbsp;&nbsp;&nbsp;&nbsp;略！</font> </b><br/><br/>
+			<td colspan="2"> <br/> <b><font color="red">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;温馨提示（批量工号操作）：<br/>&nbsp;&nbsp;&nbsp;&nbsp;
+			1.&nbsp;添加多个工号批量设定关联， 工号原有与本参数的关联数据将被清除<br/>&nbsp;&nbsp;&nbsp;&nbsp;
+			2.&nbsp;请从下面输入框中输入工号（模糊匹配），当出现目标工号提示时选中<br/>&nbsp;&nbsp;&nbsp;&nbsp;
+			3.&nbsp;选中后的工号将以列表形式出现在输入框下方<br/>&nbsp;&nbsp;&nbsp;&nbsp;
+			4.&nbsp;所列出的工号的操作与上方选择的工号的操作一模一样<br/>&nbsp;&nbsp;&nbsp;&nbsp;
+			</font> </b><br/><br/>
 		</tr>
 		<tr>
 			<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">请输入查找：</td> 

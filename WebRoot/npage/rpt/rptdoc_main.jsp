@@ -165,7 +165,7 @@ function showPanel(){
 			<input type="submit" class="bb_right_sub1" value="确定"/>&nbsp;&nbsp;&nbsp;
 		</td>
 		<td height="32" align="left" class="blue">
-			&nbsp;&nbsp;&nbsp;<input type="button" onclick="closePanel()" class="bb_right_sub1" value="关闭"/>
+			&nbsp;&nbsp;&nbsp;<input type="button" onclick="closePanel()" class="bb_right_sub1" value="关闭" />
 		</td>
 	</tr>
 </table>
