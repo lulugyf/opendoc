@@ -71,20 +71,29 @@ var paramcount = "${paramCount}";
 
 <style type="text/css">
 .drag {
-    width: 30px;
-    height: 20px;
+    width: 60px;
+    height: 27px;
+	background:url(images/sub_bg.png) no-repeat;
+	overflow:hidden;
     border: 1px solid #0D0D0D;
     cursor: pointer;
     border-radius: 5px;
     text-align: center;
     position: relative;
     position:absolute;
+    line-height:27px;
+	border:0;
+	color:#636363;
+	font-family:"微软雅黑";
+}
+.drag:hover {
+    text-decoration:underline;
 }
  
 </style>
 
-<div id="drag1" class="drag" style="right:60px;top:0px;background-color:#022755;display:none ">
-  <a href="javascript:showPanel()" style="color:white">v</a>
+<div id="drag1" class="drag" style="right:170px;top:4px;background-color:#5383C0;display:none ">
+  <a href="javascript:showPanel()" style="color:black;text-decoration:none;">条件筛选</a>
 </div>
 
 <script>
@@ -96,11 +105,11 @@ $(function() {
 });
 
 function closePanel(){
-	panel_sm1.minimize();
+	panel_sm1.hide();
 	$('.drag').show();
 }
 function showPanel(){
-	panel_sm1.normalize();
+	panel_sm1.show();
 	$('.drag').hide();
 }
 </script>
@@ -156,7 +165,7 @@ function showPanel(){
 			<input type="submit" class="bb_right_sub1" value="确定"/>&nbsp;&nbsp;&nbsp;
 		</td>
 		<td height="32" align="left" class="blue">
-			&nbsp;&nbsp;&nbsp;<input type="close" onclick="closePanel()" class="bb_right_sub1" value="关闭"/>
+			&nbsp;&nbsp;&nbsp;<input type="button" onclick="closePanel()" class="bb_right_sub1" value="关闭"/>
 		</td>
 	</tr>
 </table>
@@ -193,13 +202,7 @@ function showPanel(){
     font-size:14px;
 }
 </style>
-<div id="dialog-form" title="参数值选择">
-  <label>过滤:</label>
-    <input name="search" placeholder="Filter...">
-    <button id="btnResetSearch">&times;</button>
 
-  <div id="tree"><ul></ul></div>
-</div>
 
 <script src="<%=request.getContextPath()%>/npage/rpt/rptdoc_main.js?<%=System.currentTimeMillis() %>" type="text/javascript"></script>
 

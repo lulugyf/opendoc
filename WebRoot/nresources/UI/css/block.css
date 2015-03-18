@@ -1,10 +1,10 @@
-ï»¿/*  ====================================================  */
+/*  ====================================================  */
 /*  = BELOW CSS USED FOR SCREEN MEDIA ==================  */
 /*  ====================================================  */
 body {
 	margin: 0;
 	padding: 0;
-	font: 12px Verdana, Arial, Helvetica, sans-serif,"å®‹ä½“","é»‘ä½“";
+	font: 12px "Microsoft YaHei",Verdana, Arial, Helvetica, sans-serif,"ËÎÌå","ºÚÌå";
 	line-height: 1.8em;
 	text-align: left;
 	border: 0;
@@ -148,7 +148,7 @@ body {
 	cursor:pointer;
 	border:0;
 	color:#636363;
-	font-family:"å¾®è½¯é›…é»‘";
+	font-family:"Î¢ÈíÑÅºÚ";
 	margin: 0px 30px 30px 30px;
 }
 .loading {
