@@ -101,12 +101,9 @@ public class DocController {
 		String tm = docid+"-sersess_time";
 		String se = docid + "-sersess";
 		try{
-			
-			BOServer bo = new BOServer();
-			bo.setBoid(docid);
-			bo = (BOServer)dao.queryForObject("boserver.qryBOServer", bo); //获取BO配置，包括验证地址和用户名密码
 
-			
+			BOServer bo = (BOServer)dao.queryForObject("boserver.getBOServerByDocid", docid); //获取BO配置，包括验证地址和用户名密码
+
 			ServletContext ctx = session.getServletContext();
 			Object tt = ctx.getAttribute(tm);
 			

@@ -74,6 +74,11 @@
 		WHERE boid = #boid#
 	</delete>
 	
-	
+	<select id="getBOServerByDocid" parameterClass="BOServer" resultClass="java.lang.Integer">
+		select
+		  a.boid, a.boname, a.authaddr, a.username, a.password, a.opendocaddr, a.remarks
+		from t_boserver a, t_doc b
+		where b.docid=#docid# and a.boid=b.boid
+	</select>
 	
 </sqlMap>
