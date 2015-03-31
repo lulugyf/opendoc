@@ -210,3 +210,113 @@ function refresh_token_time(){
         }
 	})
 }
+
+//字符转换为UTF-8编码
+function EncodeUtf8(s1)
+{
+			var sa1=s1.split("");
+      var retV ="";
+      var ret ="";
+      for(var i = 0; i < sa1.length; i ++)
+      {
+      			var s = escape(sa1[i]);
+      			var sa = s.split("%");
+      			if(sa[0] != "")
+			      {
+			      	 retV += "%" + stringToHex(sa[0].substr(0,1));
+			      }
+			      for(var j = 1; j < sa.length; j ++)
+			      {
+			           if(sa[j].substring(0,1) == "u")
+			           {
+			               retV += Hex2Utf8(Str2Hex(sa[j].substring(1,5)));
+			           }
+			           else retV += "%" + sa[j];
+			      }
+      }
+      ret=retV.toUpperCase();
+      return ret;
+}
+function Str2Hex(s)
+{
+      var c = "";
+      var n;
+      var ss = "0123456789ABCDEF";
+      var digS = "";
+      for(var i = 0; i < s.length; i ++)
+      {
+         c = s.charAt(i);
+         n = ss.indexOf(c);
+         digS += Dec2Dig(eval(n));
+          
+      }
+      //return value;
+      return digS;
+}
+function Dec2Dig(n1)
+{
+      var s = "";
+      var n2 = 0;
+      for(var i = 0; i < 4; i++)
+      {
+         n2 = Math.pow(2,3 - i);
+         if(n1 >= n2)
+         {
+            s += '1';
+            n1 = n1 - n2;
+          }
+         else
+          s += '0';
+         
+      }
+      return s;
+     
+}
+function Dig2Dec(s)
+{
+      var retV = 0;
+      if(s.length == 4)
+      {
+          for(var i = 0; i < 4; i ++)
+          {
+              retV += eval(s.charAt(i)) * Math.pow(2, 3 - i);
+          }
+          return retV;
+      }
+      return -1;
+}
+function Hex2Utf8(s)
+{
+     var retS = "";
+     var tempS = "";
+     var ss = "";
+     if(s.length == 16)
+     {
+         tempS = "1110" + s.substring(0, 4);
+         tempS += "10" + s.substring(4, 10);
+         tempS += "10" + s.substring(10,16);
+         var sss = "0123456789ABCDEF";
+         for(var i = 0; i < 3; i ++)
+         {
+            retS += "%";
+            ss = tempS.substring(i * 8, (eval(i)+1)*8);
+           
+           
+           
+            retS += sss.charAt(Dig2Dec(ss.substring(0,4)));
+            retS += sss.charAt(Dig2Dec(ss.substring(4,8)));
+         }
+         return retS;
+     }
+     return "";
+} 
+function stringToHex(str){
+　　var val="";
+　　for(var i = 0; i < str.length; i++){
+　　　　if(val == "")
+　　　　　　val = str.charCodeAt(i).toString(16);
+　　　　else
+　　　　　　val += "," + str.charCodeAt(i).toString(16);
+　　}
+　　return val;
+}

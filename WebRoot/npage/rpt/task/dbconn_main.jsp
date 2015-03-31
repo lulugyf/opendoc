@@ -140,7 +140,7 @@ function doSrchReset(){
 }
 //增加关联模块，打开弹出窗口
 function addM(){
-	openDivWin("<%=request.getContextPath()%>/gotoAddDBConn.do?proId=<%=proId%>&opCode=<%=opCode%>","新增数据库配置","800","300");
+	openDivWin("<%=request.getContextPath()%>/gotoAddDBConn.do?proId=<%=proId%>&opCode=<%=opCode%>","新增数据库配置","800","305");
 	refreshByClose();
 }
 //list页面弹出窗口的关闭事件执行

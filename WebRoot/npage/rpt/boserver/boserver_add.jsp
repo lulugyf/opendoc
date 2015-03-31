@@ -53,21 +53,21 @@ $(document).ready(function (){
 						</td>
 					</tr>
 					<tr>
-						<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">用户名</td>
+						<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">用户名：</td>
 						<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:10px;">
 							<input type="text" name="username" id="username" v_maxlength="64" v_minlength="0" class="anc"/>
 						</td>
-						<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">密码</td>
+						<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">密码：</td>
 						<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:10px;">
 							<input type="password" name="password" id="password" v_maxlength="64" v_minlength="0" class="anc"/>							
 						</td>
 					</tr> 
 					<tr>
-						<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">文档访问地址</td>
+						<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">文档访问地址：</td>
 						<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:10px;">
 							<input type="text" name="opendocaddr" id="opendocaddr" v_maxlength="64" v_minlength="0" class="anc"/>
 						</td>
-						<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">备注</td>
+						<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">备注：</td>
 						<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:10px;">
 							<input type="text" name="remarks" id="remarks" v_maxlength="64" v_minlength="0" class="anc"/>							
 						</td>
@@ -89,6 +89,7 @@ $(document).ready(function (){
 	</div>
 </div>
 <%@ include file="/npage/include/footer.jsp"%>
+<script src="<%=request.getContextPath()%>/njs/system/system.js" type="text/javascript"></script>
 <script>
 $(document).ready(function () {
 	//关闭弹出页面后，刷新主页面数据--begin
@@ -100,10 +101,26 @@ $(document).ready(function () {
 	//--end
 });
 
+function trim(str){ //删除左右两端的空格
+	return str.replace(/(^\s*)|(\s*$)/g, "");
+}
+
 function addConfSubmit(){
     if(!checksubmit(frm)){
 		return false;
 	}
+	var boname=$("#boname").val();
+	var authaddr=$("#authaddr").val();
+	var username=$("#username").val();
+	var password=$("#password").val();
+	var opendocaddr=$("#opendocaddr").val();
+	var remarks=$("#remarks").val();
+	
+	if((boname==null||trim(boname)=="")&&(authaddr==null||trim(authaddr)=="")&&(remarks==null||trim(remarks)=="")&&(username==null||trim(username)=="")&&(password==null||trim(password)=="")&&(opendocaddr==null||trim(opendocaddr)=="")){
+		showDialog("所有字段均未填写，请填写后提交！", 1, '');
+		return false  ;
+	}
+	
 	document.frm.action='<%=request.getContextPath()%>/addBOServer.do';
 	document.frm.submit();
 	

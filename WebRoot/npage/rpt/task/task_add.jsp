@@ -46,7 +46,7 @@ $(document).ready(function (){
 					<tr>
 						<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">作业名称：</td>
 						<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:10px;"><input type="text" name="job_name" id="job_name" v_maxlength="64" v_minlength="0" class="anc"/></td>
-						<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">对应数据库：</td>
+						<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">*对应数据库：</td>
 						<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:0px;">
 							<select name="h_order_id" id="h_order_id" style="width:186px;height:24px">
 								<option value ="">--请选择--</option>
@@ -104,7 +104,7 @@ $(document).ready(function (){
 						    	<option value ="2">实时</option>
 						    </select>				
 						</td>
-						<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">运行频次：</td>
+						<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">*运行频次：</td>
 						<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:0px;">
 							<input type="text" name="job_run_freq" id="job_run_freq" v_maxlength="64" v_minlength="0" class="anc" onkeyup="value=value.replace(/[^\d]/g,'')"/>							
 						</td>
@@ -157,6 +157,7 @@ $(document).ready(function (){
 </div>
 <%@ include file="/npage/include/footer.jsp"%>
 <script src="<%=request.getContextPath()%>/npage/rpt/task/task.js" type="text/javascript"></script>
+<script src="<%=request.getContextPath()%>/njs/system/system.js" type="text/javascript"></script>
 <script>
 $(document).ready(function () {
 	//关闭弹出页面后，刷新主页面数据--begin
@@ -168,10 +169,28 @@ $(document).ready(function () {
 	//--end
 });
 
+function trim(str){ //删除左右两端的空格
+	return str.replace(/(^\s*)|(\s*$)/g, "");
+}
 function addDBConnSubmit(){
     if(!checksubmit(frm)){
 		return false;
 	}
+	var job_name=$("#job_name").val();
+	var h_order_id=$("#h_order_id").val();
+	var job_mode=$("#job_mode").val();
+	var job_run_mode=$("#job_run_mode").val();
+	var job_run_freq=$("#job_run_freq").val();
+	var job_enable=$("#job_enable").val();
+	var job_type=$("#job_type").val();
+	var s_tab=$("#s_tab").val();
+	var d_tab=$("#d_tab").val();
+	
+	if((h_order_id==null||trim(h_order_id)=="")&&(job_run_freq==null||trim(job_run_freq)=="")){
+		showDialog("<对应数据库>/<运行频次>为必填字段，请填写后提交！", 1, '');
+		return false  ;
+	}
+	
 	document.frm.action='<%=request.getContextPath()%>/addTask.do';
 	document.frm.submit();
 	

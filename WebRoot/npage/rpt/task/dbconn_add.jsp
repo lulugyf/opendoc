@@ -78,7 +78,7 @@ $(document).ready(function (){
 						</td>
 					</tr>
 					<tr>
-						<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">数据库端口：</td>
+						<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">*数据库端口：</td>
 						<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:10px;">
 							<input type="text" name="db_port" id="db_port" onkeyup="value=value.replace(/[^\d]/g,'')" v_maxlength="64" v_minlength="0" class="anc"/>
 						</td>
@@ -114,6 +114,7 @@ $(document).ready(function (){
 	</div>
 </div>
 <%@ include file="/npage/include/footer.jsp"%>
+<script src="<%=request.getContextPath()%>/njs/system/system.js" type="text/javascript"></script>
 <script>
 $(document).ready(function () {
 	//关闭弹出页面后，刷新主页面数据--begin
@@ -125,9 +126,19 @@ $(document).ready(function () {
 	//--end
 });
 
+function trim(str){ //删除左右两端的空格
+	return str.replace(/(^\s*)|(\s*$)/g, "");
+}
+
 function addDBConnSubmit(){
     if(!checksubmit(frm)){
 		return false;
+	}
+	var db_port=$("#db_port").val();
+	
+	if(db_port==null||trim(db_port)==""){
+		showDialog("<数据库端口>为必填字段，请填写后提交！", 1, '');
+		return false  ;
 	}
 	document.frm.action='<%=request.getContextPath()%>/addDBConn.do';
 	document.frm.submit();

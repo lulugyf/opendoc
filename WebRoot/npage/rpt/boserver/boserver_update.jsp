@@ -48,27 +48,27 @@ $(document).ready(function (){
 						<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:10px;">
 							<input type="text" name="boname" id="boname" v_maxlength="64" v_minlength="0" class="anc"/>
 						</td>
-						<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">验证服务地址</td>
+						<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">验证服务地址：</td>
 						<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:10px;">
 							<input type="text" name="authaddr" id="authaddr" v_maxlength="64" v_minlength="0" class="anc"/>
 						</td>
 					</tr>
 					<tr>
-						<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">用户名</td>
+						<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">用户名：</td>
 						<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:10px;">
 							<input type="text" name="username" id="username" v_maxlength="64" v_minlength="0" class="anc"/>
 						</td>
-						<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">密码</td>
+						<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">密码：</td>
 						<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:10px;">
 							<input type="password" name="password" id="password" v_maxlength="64" v_minlength="0" class="anc"/>							
 						</td>
 					</tr> 
 					<tr>
-						<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">文档访问地址</td>
+						<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">文档访问地址：</td>
 						<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:10px;">
 							<input type="text" name="opendocaddr" id="opendocaddr" v_maxlength="64" v_minlength="0" class="anc"/>
 						</td>
-						<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">备注</td>
+						<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">备注：</td>
 						<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:10px;">
 							<input type="text" name="remarks" id="remarks" v_maxlength="64" v_minlength="0" class="anc"/>							
 						</td>

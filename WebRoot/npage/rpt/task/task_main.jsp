@@ -175,7 +175,7 @@ function doSrchSubmit(){
 
 //增加关联模块，打开弹出窗口
 function addTask(){
-	openDivWin("<%=request.getContextPath()%>/gotoAddTask.do?proId=<%=proId%>&opCode=<%=opCode%>","新增任务配置","800","300");
+	openDivWin("<%=request.getContextPath()%>/gotoAddTask.do?proId=<%=proId%>&opCode=<%=opCode%>","新增任务配置","800","305");
 	refreshByClose();
 }
 //list页面弹出窗口的关闭事件执行
