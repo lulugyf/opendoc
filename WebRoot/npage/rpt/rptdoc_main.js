@@ -180,7 +180,9 @@ $(function(){
 	$('#formdoc').submit(function(e){
 		$.each($('.param'), function(index, p){
 			pname = p.id.substring(2);
+			alert(pname);
 			$('#'+pname).val(p.value);
+			alert($('#'+pname).val());
 			//console.log(pname + "---" + p.value);
 		})
 		//panel_sm1.smallify();

@@ -142,7 +142,7 @@ function showPanel(){
 			<td height="32" align="left" bgcolor="#f6f6f6" style="text-indent:10px;">${p.typename }</td>
 			<td height="32" align="left" bgcolor="#f6f6f6" style="text-indent:10px;">${p.default_value }</td>
 			<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:0px;">
-				<input type="text" id="P_${p.pnametype }${p.param }" value="${p.default_value }"  v_maxlength="64" v_minlength="0" class="anc"  <c:if test="${p.typeid > 0 }">readonly</c:if> />
+				<input class="param" type="text" id="P_${p.pnametype }${p.param }" value="${p.default_value }"  v_maxlength="64" v_minlength="0" class="anc"  <c:if test="${p.typeid > 0 }">readonly</c:if> />
 			  <button onclick="selParam('${p.pnametype }${p.param }', ${p.typeid}, ${p.filterflag })" class="b_foot">...</button>
 			</td>
 		</tr>
@@ -154,10 +154,10 @@ function showPanel(){
 
 <form method="post" id="formdoc" action="${doc.baseurl }" target="rptbody">
 <div style="display:none">
-<textarea type="hidden" name="serSes">${serSession }</textarea>
+<textarea type="hidden" name="serSes">${serSession}</textarea>
 </div>
 <c:forEach items="${paramlist }" var="p">
-	<input type="hidden" name="${p.pnametype }${p.param }" id="${p.pnametype }${p.param }" />
+	<input type="hidden" name="${p.pnametype }${p.param }" id="${p.pnametype }${p.param }"  />
 </c:forEach>
 <table style="border:false; width:100%">
 	<tr>
@@ -202,7 +202,13 @@ function showPanel(){
     font-size:14px;
 }
 </style>
+<div id="dialog-form" title="参数值选择">
+  <label>过滤:</label>
+    <input name="search" placeholder="Filter...">
+    <button id="btnResetSearch">&times;</button>
 
+  <div id="tree"><ul></ul></div>
+</div>
 
 <script src="<%=request.getContextPath()%>/npage/rpt/rptdoc_main.js?<%=System.currentTimeMillis() %>" type="text/javascript"></script>
 
