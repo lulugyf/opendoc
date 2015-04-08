@@ -262,13 +262,13 @@ span.fancytree-icon {
   background-position: 0px 0px;
 }
 .fancytree-has-children.fancytree-ico-cf span.fancytree-icon:hover {
-  background-position: -48px -16px;
+  background-position: 0px 0px;
 }
 .fancytree-ico-ef span.fancytree-icon {
   background-position: 0px 0px;
 }
 .fancytree-ico-ef span.fancytree-icon:hover {
-  background-position: -80px -16px;
+  background-position: 0px 0px;
 }
 .fancytree-loading span.fancytree-expander,
 .fancytree-loading span.fancytree-expander:hover,

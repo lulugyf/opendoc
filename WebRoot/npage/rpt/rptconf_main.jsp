@@ -13,6 +13,9 @@ font-size: 12px;
 color: #333;
 font-family: "微软雅黑", Arial, Helvetica, sans-serif;
 }
+ul.fancytree-container {
+  height:430px;
+}
 </style>
 
 <script type="text/javascript" src="<%=request.getContextPath()%>/nresources/table/js/jquery.js"></script>
@@ -65,11 +68,11 @@ $(function(){
 </div>
 
 <table style="border:0px; width:100%">
-<tr><td style="width:300px" valign="top" rowspan='3'>
-<div id="tree">
+<tr><td style="width:350px" valign="top" rowspan='3'>
+<div id="tree" style="width:350px;height:450px;overflow:auto;">
 	<ul></ul>	
 </div>
-<div style="width:300px" align="right">
+<div style="width:350px" align="right">
 
 <input type="button" class="bb_right_sub1" id="addGroup" value="添加分组">
 <input type="button" class="bb_right_sub1" id="modGroup" value="修改分组">
@@ -77,7 +80,7 @@ $(function(){
 <br/>
 <br/>
 <div id="gname" style="display:none" > <label for="groupname">分组名称:</label><input type="text" id="groupname" />
-<input type="button" onclick="editgroupname()" value="ok"/> </div>
+<input type="button" class="bb_right_sub1" onclick="editgroupname()" value="确定"/> </div>
 </div>
 
 </td><td valign="top">
@@ -209,12 +212,12 @@ $(function(){
 <input type="hidden" id="rownum" value=""/>
 		<table id="datatable" width="95%" border="0" cellSpacing="2" cellpadding="0" bgcolor="#FFFFFF">
 		<tr class="f14 white">
-          <td width="15%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">参数名称类型</td>
-          <td width="10%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">参数名称</td>
-          <td width="15%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">参数默认值</td>
-          <td width="15%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">参数类型</td>
-          <td width="10%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">是否过滤</td>
-          <td width="10%" height="32" align="left" bgcolor="#5772a4" style="text-indent:10px;">是否可改</td>
+          <td width="15%" height="32" align="center" bgcolor="#5772a4" style="text-indent:0px;">参数名称类型</td>
+          <td width="12%" height="32" align="center" bgcolor="#5772a4" style="text-indent:0px;">参数名称</td>
+          <td width="12%" height="32" align="center" bgcolor="#5772a4" style="text-indent:0px;">参数默认值</td>
+          <td width="12%" height="32" align="center" bgcolor="#5772a4" style="text-indent:0px;">参数类型</td>
+          <td width="12%" height="32" align="center" bgcolor="#5772a4" style="text-indent:0px;">是否过滤</td>
+          <td width="12%" height="32" align="center" bgcolor="#5772a4" style="text-indent:0px;">是否可改</td>
           <td>
           	<input type="button" class="bb_right_sub1" onclick="$('#docparam').show()" value="添加参数" />
           </td>
