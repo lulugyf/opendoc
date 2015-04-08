@@ -87,7 +87,7 @@ $(function(){
 
 <table width="95%" border="0" cellspacing="2" cellpadding="0"  bgcolor="#FFFFFF">
 <tr>
-	<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">报表名称：    </td>
+	<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">* 报表名称：    </td>
 	<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:0px;"> 
 		<input type="hidden" id="docid" value="0">
 		<input type="text" id="docname" style="width:300px;height:24px">
@@ -95,7 +95,7 @@ $(function(){
 </tr>
 <tr style="display:none"><th>URL： </th><td> <input type="text" size="60" id="baseurl"> </td></tr>
 <tr>
-	<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">文档ID： </td>
+	<td width="10%" height="32" bgcolor="#f6f6f6" align="right" style="text-indent:10px;">* 文档ID： </td>
 	<td width="22%" height="32" bgcolor="#f6f6f6" align="left" style="text-indent:0px;"> 
 		<input type="text" size="60" id="opendocid" style="width:300px;height:24px"> 
 	</td>

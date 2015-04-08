@@ -203,9 +203,9 @@ function showPanel(){
 }
 </style>
 <div id="dialog-form" title="参数值选择">
-  <label>过滤:</label>
-    <input name="search" placeholder="Filter...">
-    <button id="btnResetSearch">&times;</button>
+  <!--  <label type="hidden">过滤:</label>-->
+    <input type="hidden" name="search" placeholder="Filter...">
+    <button id="btnResetSearch" display:none;>&times;</button>
 
   <div id="tree"><ul></ul></div>
 </div>

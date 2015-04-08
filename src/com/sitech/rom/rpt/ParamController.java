@@ -477,7 +477,7 @@ public class ParamController {
 					call = String.format("openTab('%s', '%s', '%s', '%s')", 
 						j.getString("text"), j.getString("attr_proid"), 
 						j.getString("attr_opcode"), j.getString("attr_action"));
-				sb.append("<li class='leaf'><a href='#' onclick=\"").append(call).append("\"><em>")
+				sb.append("<li class='leaf'><a href='#' onclick=\"").append(call).append("\"><em title=\"").append(j.getString("text")).append("\">")
 					.append(j.getString("text")).append("</em></a>");
 			}
 			sb.append("</li>\n");

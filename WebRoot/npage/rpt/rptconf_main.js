@@ -370,6 +370,10 @@ $(function(){
 	///////////////////// doc operation
 	$('#addrpt').click(function(){
 		var node = $("#tree").fancytree("getActiveNode");
+		if(node == null) {
+			showmsg("请选择报表节点!");
+			return;
+		}
 		if(node.data.type == 'doc'){
 			group_func =  node.data.group_func;
 		}else{
@@ -381,8 +385,8 @@ $(function(){
 		var boid = $('#boid').val();
 		var opendocid = $('#opendocid').val();
 		var remarks = $('#remarks').val();
-		if(docname == '' || baseurl == ''){
-			showmsg("报表名称和URL都不能为空!");
+		if(docname == '' || opendocid == ''){
+			showmsg("<报表名称>和<文档ID>都不能为空!");
 			return;
 		}
 		 $.ajax({

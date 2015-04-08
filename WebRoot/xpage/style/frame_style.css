@@ -42,7 +42,9 @@
 }
 .leftMenu{
 	width:275px;
-	overflow:hidden;
+	height:540px;
+	overflow-x:hidden;
+	overflow-y:auto;
 }
 .leftMenu ul li {
 	display:block;
