@@ -68,19 +68,21 @@ $(function(){
 </div>
 
 <table style="border:0px; width:100%">
-<tr><td style="width:350px" valign="top" rowspan='3'>
-<div id="tree" style="width:350px;height:450px;overflow:auto;">
+<tr><td style="width:370px" valign="top" rowspan='3'>
+<div id="tree" style="width:370px;height:450px;overflow:auto;">
 	<ul></ul>	
 </div>
-<div style="width:350px" align="right">
+<div style="width:370px" align="right">
 
 <input type="button" class="bb_right_sub1" id="addGroup" value="添加分组">
 <input type="button" class="bb_right_sub1" id="modGroup" value="修改分组">
 <input type="button" class="bb_right_sub1" id="delGroup" value="删除分组">
 <br/>
 <br/>
-<div id="gname" style="display:none" > <label for="groupname">分组名称:</label><input type="text" id="groupname" />
-<input type="button" class="bb_right_sub1" onclick="editgroupname()" value="确定"/> </div>
+<div id="gname" style="display:none" > <label for="groupname">分组名称：    </label><input type="text" id="groupname" style="height:24px"/>
+<input type="button" class="bb_right_sub1" onclick="editgroupname()" value="确定"/> 
+<input type="button" class="bb_right_sub1" onclick="$('#gname').hide()" value="隐藏"/> 
+</div>
 </div>
 
 </td><td valign="top">
@@ -219,7 +221,7 @@ $(function(){
           <td width="12%" height="32" align="center" bgcolor="#5772a4" style="text-indent:0px;">是否过滤</td>
           <td width="12%" height="32" align="center" bgcolor="#5772a4" style="text-indent:0px;">是否可改</td>
           <td>
-          	<input type="button" class="bb_right_sub1" onclick="$('#docparam').show()" value="添加参数" />
+          	&nbsp;&nbsp;&nbsp;<input type="button" class="bb_right_sub1" onclick="$('#docparam').show()" value="添加参数" />
           </td>
          </tr>
 		</table>
